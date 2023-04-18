@@ -62,7 +62,7 @@ router.post("/products", (req,res)=>{
     }else if(req.body.title != undefined && req.body.description != undefined && req.body.code != undefined && req.body.price != undefined && req.body.stock != null && req.body.category != undefined){
         productsParse.push(newProduct)
         res.status(200).send(productsParse)
-        fs.writeFileSync("./products.json",JSON.stringify(productsParse))
+        fs.writeFileSync("./src/products.json",JSON.stringify(productsParse))
 
     }else {
         res.status(404).send("Incomplete field")
@@ -88,7 +88,7 @@ router.put("/products/:id",(req,res)=>{
 
         notUpdate.push(updated)
         res.status(200).send(notUpdate)
-        fs.writeFileSync("./products.json",JSON.stringify(notUpdate))
+        fs.writeFileSync("./src/products.json",JSON.stringify(notUpdate))
 
     } else{
         res.status(404)
@@ -108,7 +108,7 @@ router.delete("/products/:id",(req,res)=>{
         const withoutRemoved= productsParse.filter(prod=>{
             return prod.id != deleted.id
         })
-        fs.writeFileSync("./products.json",JSON.stringify(withoutRemoved))
+        fs.writeFileSync("./src/products.json",JSON.stringify(withoutRemoved))
         res.status(200).send(withoutRemoved)
     } else{
         res.status(404).send(`the product with the id:${req.params.id} does not exist in the database`)
