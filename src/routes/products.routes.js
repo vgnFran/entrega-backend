@@ -98,7 +98,6 @@ router.put("/products/:id",(req,res)=>{
 
 
 
-
 router.delete("/products/:id",(req,res)=>{
 
     const deleted= productsParse.find(prod=>{
