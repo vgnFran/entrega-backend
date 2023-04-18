@@ -3,7 +3,7 @@ const router= express.Router()
 const fs=require("fs")
 
 const products=[]
-const productsParse=JSON.parse(fs.readFileSync("./products.json"))
+const productsParse=JSON.parse(fs.readFileSync("./src/products.json"))
 
 
 router.get("/products", (req,res)=>{
@@ -26,9 +26,9 @@ router.get("/products/:id",(req,res)=>{
     })
 
     if (searchId){
-        res.send(searchId)
+        res.status(200).send(searchId)
     }else {
-        res.send ({
+        res.status(404).send ({
             id:req.params.id,
             product: `product ${req.params.id} does not exist in the database`
         })
@@ -58,7 +58,7 @@ router.post("/products", (req,res)=>{
     })
 
     if(repited){
-        res.send("The product already exists in the database")
+        res.status(404).send("The product already exists in the database")
     }else if(req.body.title != undefined && req.body.description != undefined && req.body.code != undefined && req.body.price != undefined && req.body.stock != null && req.body.category != undefined){
         productsParse.push(newProduct)
         res.status(200).send(productsParse)
@@ -97,6 +97,8 @@ router.put("/products/:id",(req,res)=>{
 })
 
 
+
+
 router.delete("/products/:id",(req,res)=>{
 
     const deleted= productsParse.find(prod=>{
@@ -108,9 +110,9 @@ router.delete("/products/:id",(req,res)=>{
             return prod.id != deleted.id
         })
         fs.writeFileSync("./products.json",JSON.stringify(withoutRemoved))
-        res.send(withoutRemoved)
+        res.status(200).send(withoutRemoved)
     } else{
-        res.send(`the product with the id:${req.params.id} does not exist in the database`)
+        res.status(404).send(`the product with the id:${req.params.id} does not exist in the database`)
     }
 
 })
