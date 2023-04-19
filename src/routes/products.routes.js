@@ -70,29 +70,28 @@ router.post("/products", (req,res)=>{
         
 })
 
-// primero buscamos el producto con el parametro, luego con un campo llamado key enviamos el campo que queremos modificar, y con otro campo llamado value enviamos el valor actualizado
 
 router.put("/products/:id",(req,res)=>{
+
     const updated=productsParse.find(prod =>{
         return prod.id == req.params.id
     })
-    const key= (req.body.key)
-    console.log(req.body.key)
-    const value=req.body.value
 
-    if(updated && key != undefined && value != null){
-        updated[key]=value
+
+    if(updated){
+
+        const updatedProduct= {...updated,...req.body}
 
         const notUpdate= productsParse.filter(prod=>{
             return prod.id != req.params.id
-        })
-
-        notUpdate.push(updated)
-        res.status(200).send(notUpdate)
+        })    
+        notUpdate.push(updatedProduct)
+        
         fs.writeFileSync("./src/products.json",JSON.stringify(notUpdate))
+        res.status(200).send(updatedProduct)
 
     } else{
-        res.status(404).send("f")
+        res.status(404).send(`the product ${req.params.id} does not exist`)
     }
     
 })
