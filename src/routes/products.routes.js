@@ -78,7 +78,7 @@ router.put("/products/:id",(req,res)=>{
     })
     const key= (req.body.key)
     console.log(req.body.key)
-    const value=parseInt(req.body.value)
+    const value=req.body.value
 
     if(updated && key != undefined && value != null){
         updated[key]=value
