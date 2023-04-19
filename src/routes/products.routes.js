@@ -76,7 +76,8 @@ router.put("/products/:id",(req,res)=>{
     const updated=productsParse.find(prod =>{
         return prod.id == req.params.id
     })
-    const key= req.body.key
+    const key= (req.body.key)
+    console.log(req.body.key)
     const value=parseInt(req.body.value)
 
     if(updated && key != undefined && value != null){
@@ -91,7 +92,7 @@ router.put("/products/:id",(req,res)=>{
         fs.writeFileSync("./src/products.json",JSON.stringify(notUpdate))
 
     } else{
-        res.status(404)
+        res.status(404).send("f")
     }
     
 })
