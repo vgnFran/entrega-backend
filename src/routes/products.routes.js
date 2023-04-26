@@ -1,7 +1,7 @@
-const express= require("express")
-const router= express.Router()
-const fs=require("fs")
+import { Router } from "express"
+import fs from "fs"
 
+const router= Router()
 const products=[]
 const productsParse=JSON.parse(fs.readFileSync("./src/products.json"))
 
@@ -117,4 +117,4 @@ router.delete("/products/:id",(req,res)=>{
 })
 
 
-module.exports= router;
+export default router

@@ -1,6 +1,6 @@
-const express= require("express")
-const router= express.Router()
-const fs=require("fs")
+import { Router } from "express"
+const router= Router()
+import fs from "fs"
 
 const carts=JSON.parse(fs.readFileSync("./src/carts.json"))
 
@@ -63,4 +63,4 @@ router.post("/carts/:cid/products/:pid",(req,res)=>{
 
 
 
-module.exports= router;
+export default router
