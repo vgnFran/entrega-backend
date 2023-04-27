@@ -1,0 +1,30 @@
+
+<div class="container-fluid">
+
+    <div class="row">
+        <header class="bg-success text-white p-3" style="height: 25vh;">
+            <h1><b>Todos los productos</b></h1>
+        </header>
+    </div>
+
+    <div class="row">
+        <ul>
+            {{#each productsParse}}
+            <li>producto: {{this.title}}, id: {{this.id}}</li>
+            {{/each}}
+        </ul>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+    <script>
+        const wsc= io("ws://localhost:8090")
+
+        wsc.emit("mensaje desde el cliente")
+
+        wsc.on("confirm",(data)=>{
+            console.log(data)
+        })
+
+        
+    </script>
+</div>

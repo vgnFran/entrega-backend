@@ -117,7 +117,7 @@ router.delete("/products/:id",(req,res)=>{
 
 
 router.get("/layout",(req,res)=>{
-    res.render("index",productsParse[7])
+    res.render("home",{productsParse})
 })
 
 
