@@ -15,7 +15,6 @@ router.get("/products", (req,res)=>{
     }else{
         res.status(200).send(productsParse)
     }
-
 })
 
 
@@ -116,5 +115,12 @@ router.delete("/products/:id",(req,res)=>{
 
 })
 
+
+router.get("/layout",(req,res)=>{
+    res.render("index",productsParse[7])
+})
+
+
+ 
 
 export default router
