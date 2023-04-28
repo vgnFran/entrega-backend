@@ -118,6 +118,13 @@ router.delete("/products/:id",(req,res)=>{
 
 router.get("/layout",(req,res)=>{
     res.render("home",{productsParse})
+    
+})
+
+
+
+router.get("/realtimeproducts",(req,res)=>{
+    res.render("realTimeProducts",{productsParse})
 })
 
 

@@ -29,14 +29,27 @@ server.set("view engine","handlebars")
 server.set("views","src/views")
 
 wss.on("connection",(socket)=>{
-    console.log("nuevo cliente conectado")
-    socket.emit("confirm","mensaje recibido")
+    console.log(`nuevo cliente conectado ${socket.id}`)
 
-    // socket.on("message",(data)=>{
-    //     console.log(data)
+    socket.on("message",(data)=>{
+        console.log(data)
 
-    // })
+    })
+
+    socket.on("disconnect",(reason)=>{
+        console.log("cliente desconectado")
+    })
+
+    socket.emit("confirm","mensaje desde el servidor")
+
+    socket.on("new",(data)=>{
+        console.log(data)
+    })
+
 })
+
+
+
 
 
 server.listen(port,()=>{console.log("server http on")}) 

@@ -1,9 +1,8 @@
-
 <div class="container-fluid">
 
     <div class="row">
         <header class="bg-success text-white p-3" style="height: 25vh;">
-            <h1 class="text-center "><b>Todos los productos</b></h1>
+            <h1 class="text-center "><b>Productos en tiempo real</b></h1>
         </header>
     </div>
 
@@ -12,6 +11,7 @@
             {{#each productsParse}}
             <li class="mb-2"> <span class="me-1 fw-bold">Producto:</span> {{this.title }}, <span class="ms-2 fw-bold">Id:</span> {{this.id}}</li>
             {{/each}}
+            <input type="text" id="inputProduct">
         </ul>
     </div>
 
@@ -19,16 +19,19 @@
     <script>
         const wsc= io("ws://localhost:8090")
 
-        wsc.emit("message","mensaje desde el cliente")
+        wsc.emit("message","mensaje desde el cliente realtime")
 
-        wsc.on("confirm",(data)=>{
-            console.log(data)
+        const newProduct= document.getElementById("inputProduct")
+
+        
+
+        newProduct.addEventListener("keyup",evt=>{
+            if(evt.key==="Enter"){
+                wsc.emit("new",{id:1,title:newProduct.value})
+                newProduct.value=""
+            }
         })
 
 
-
-        
-
-        
     </script>
 </div>
