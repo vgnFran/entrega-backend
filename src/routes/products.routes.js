@@ -124,7 +124,7 @@ const productsRoutes=(io)=>{
     })
     
     
-    router.get("/realtimeproducts",(req,res)=>{
+    router.post("/realtimeproducts",(req,res)=>{
         res.render("realTimeProducts",{productsParse})
         io.emit("newProduct",req.body)
     })
@@ -137,4 +137,4 @@ export default productsRoutes
 
  
 
-// export default router
+
