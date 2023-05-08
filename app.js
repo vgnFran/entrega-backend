@@ -1,5 +1,5 @@
 import express from "express";
-import router from "./src/routes/products.routes.js";
+import productsRoutes from "./src/routes/products.routes.js";
 import routerCart from "./src/routes/carts.routes.js"
 import { __dirname } from "./utils.js";
 import { engine } from "express-handlebars";
@@ -10,9 +10,11 @@ const port= 8080;
 const wsPort= 8090;
 const server= express();
 const httpServer= server.listen(wsPort,()=>{console.log("server socket.io on")})
-const wss= new Server(httpServer, {
+const io= new Server(httpServer, {
     cors: {
-        origin: "http://localhost:8080"
+        origin: "http://localhost:8080",
+        methods: ["PUT", "GET", "POST", "DELETE", "OPTIONS"],
+        credentials:false
     }
 })
 
@@ -20,7 +22,7 @@ server.use(express.json());
 server.use(express.urlencoded({extended:true}));
 
 
-server.use("/api",router)
+server.use("/api",productsRoutes(io))
 server.use("/api",routerCart)
 server.use("/public", express.static(`${__dirname}/src/public`))
 
@@ -28,11 +30,12 @@ server.engine("handlebars",engine())
 server.set("view engine","handlebars")
 server.set("views","src/views")
 
-wss.on("connection",(socket)=>{
+io.on("connection",(socket)=>{
     console.log(`nuevo cliente conectado ${socket.id}`)
 
     socket.on("message",(data)=>{
         console.log(data)
+        // recibimos y distribuimos con io.emit ("messrecib", (data))
 
     })
 
@@ -41,10 +44,6 @@ wss.on("connection",(socket)=>{
     })
 
     socket.emit("confirm","mensaje desde el servidor")
-
-    socket.on("new",(data)=>{
-        console.log(data)
-    })
 
 })
 

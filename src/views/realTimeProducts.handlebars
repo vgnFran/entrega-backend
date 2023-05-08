@@ -7,31 +7,27 @@
     </div>
 
     <div class="row">
-        <ul>
+        <ul id="bodyProducts">
             {{#each productsParse}}
             <li class="mb-2"> <span class="me-1 fw-bold">Producto:</span> {{this.title }}, <span class="ms-2 fw-bold">Id:</span> {{this.id}}</li>
             {{/each}}
-            <input type="text" id="inputProduct">
         </ul>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
     <script>
-        const wsc= io("ws://localhost:8090")
 
-        wsc.emit("message","mensaje desde el cliente realtime")
-
-        const newProduct= document.getElementById("inputProduct")
-
+        const socket= io("ws://localhost:8090")
         
+        const bodyProducts=document.getElementById("bodyProducts")
 
-        newProduct.addEventListener("keyup",evt=>{
-            if(evt.key==="Enter"){
-                wsc.emit("new",{id:1,title:newProduct.value})
-                newProduct.value=""
-            }
+        socket.on("connect",(data)=>{
+            socket.emit("message","mensaje desde el cliente realtime")
         })
 
+        socket.on("newProduct",(data)=>{
+                bodyProducts.innerHTML= `${bodyProducts.innerHTML} <li class="mb-2"> <span class="me-1 fw-bold">Producto:</span> ${data.title}, <span class="ms-2 fw-bold">Id:</span>${data.id}</li>`
+            })    
 
     </script>
 </div>
