@@ -118,6 +118,7 @@ const productsRoutes=(io)=>{
     
     })
     
+    //endpoints handlebars
     
     router.get("/home",(req,res)=>{
         res.render("home",{productsParse})
