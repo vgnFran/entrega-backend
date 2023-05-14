@@ -1,5 +1,5 @@
 import { Router } from "express"
-import ProductsManager from "../managers/productManagerFS.js"
+import ProductsManager from "../dao/productManagerFS.js"
 
 
 const productsRoutes=(io)=>{
@@ -83,19 +83,7 @@ const productsRoutes=(io)=>{
         }
     
     })
-    
-    //endpoints handlebars
-    
-    router.get("/home",(req,res)=>{
-        res.render("home",{productsParse})
-    })
-    
-    
-    router.post("/realtimeproducts",(req,res)=>{
-        res.render("realTimeProducts",{productsParse})
-        io.emit("newProduct",req.body)
-    })
-    
+
     return router
 }
 

@@ -1,6 +1,7 @@
 import express from "express";
 import productsRoutes from "./src/routes/products.routes.js";
 import routerCart from "./src/routes/carts.routes.js"
+import viewsRouter from "./src/routes/views.js";
 import { __dirname } from "./utils.js";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
@@ -24,7 +25,9 @@ server.use(express.urlencoded({extended:true}));
 
 server.use("/api",productsRoutes(io))
 server.use("/api",routerCart)
+server.use(viewsRouter(io))
 server.use("/public", express.static(`${__dirname}/src/public`))
+
 
 server.engine("handlebars",engine())
 server.set("view engine","handlebars")

@@ -1,5 +1,5 @@
 import { Router } from "express"
-import CartManager from "../managers/cartsManagerFS.js"
+import CartManager from "../dao/cartsManagerFS.js"
 
 
 const router= Router()
@@ -21,8 +21,7 @@ router.get("/carts/:id",(req,res)=>{
 })
 
 router.post("/carts/:cid/products/:pid",(req,res)=>{
-    
-    
+
     res.status(200).send(manager.cartsInCart(req.params.cid,req.params.pid))           
 })
 
