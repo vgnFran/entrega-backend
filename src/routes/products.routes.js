@@ -1,13 +1,10 @@
 import { Router } from "express"
-import fs from "fs"
 import ProductsManager from "../managers/productManagerFS.js"
 
 
 const productsRoutes=(io)=>{
 
     const router= Router()
-    const products=[]
-    const productsParse=JSON.parse(fs.readFileSync("./src/products.json"))
     const manager=new ProductsManager("./src/products.json")
 
 
