@@ -1,4 +1,5 @@
 
+import mongoose from "mongoose";
 import productModel from "./models/products.model.js";
 
 class ProductsManagerDB{
@@ -62,8 +63,20 @@ class ProductsManagerDB{
 
     }
 
-    updateProduct= async () =>{
-        
+    updateProduct= async (id,data) =>{
+        try{
+            return await productModel.updateOne({"_id":new mongoose.Types.ObjectId(id)},data)     
+        }catch(err){
+            return `product id: ${id} does not exist in the database` 
+        }
+    }
+
+    deleteProduct= async(id)=>{
+        try{
+            return await productModel.deleteOne({"_id":new mongoose.Types.ObjectId(id)})
+        }catch(err){
+            return `product id: ${id} does not exist in the database` 
+        }
     }
 
 }
