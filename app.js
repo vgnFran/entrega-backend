@@ -3,6 +3,7 @@ import productsRoutes from "./src/routes/products.routes.FS.js";
 import routerCart from "./src/routes/carts.routes.FS.js"
 import viewsRouter from "./src/routes/views.js";
 import productRoutesDB from "./src/routes/product.routes.DB.js";
+import cartsRoutesDB from "./src/routes/carts.routes.DB.js";
 import { __dirname } from "./utils.js";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
@@ -29,6 +30,7 @@ server.use(express.urlencoded({extended:true}));
 server.use("/api",productsRoutes())
 server.use("/api",routerCart)
 server.use("/api",productRoutesDB)
+server.use("/api",cartsRoutesDB)
 server.use(viewsRouter(io))
 server.use("/public", express.static(`${__dirname}/src/public`))
 
