@@ -1,11 +1,14 @@
 import express from "express";
-import productsRoutes from "./src/routes/products.routes.js";
-import routerCart from "./src/routes/carts.routes.js"
+import productsRoutes from "./src/routes/products.routes.FS.js";
+import routerCart from "./src/routes/carts.routes.FS.js"
 import viewsRouter from "./src/routes/views.js";
+import productRoutesDB from "./src/routes/product.routes.DB.js";
 import { __dirname } from "./utils.js";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
+import mongoose from "mongoose";
 
+import {} from 'dotenv/config'
 
 const port= 8080;
 const wsPort= 8090;
@@ -23,11 +26,13 @@ server.use(express.json());
 server.use(express.urlencoded({extended:true}));
 
 
-server.use("/api",productsRoutes(io))
+server.use("/api",productsRoutes())
 server.use("/api",routerCart)
+server.use("/api",productRoutesDB)
 server.use(viewsRouter(io))
 server.use("/public", express.static(`${__dirname}/src/public`))
 
+const moongose_url = process.env.MONGOOSE_URL;
 
 server.engine("handlebars",engine())
 server.set("view engine","handlebars")
@@ -50,8 +55,15 @@ io.on("connection",(socket)=>{
 
 })
 
+try{
+    await mongoose.connect(moongose_url)
+    server.listen(port,()=>{
+        console.log("server http on")
+    }) 
+}catch(err){
+    console.log("no se puede conectar a la bbdd")
+
+}
 
 
 
-
-server.listen(port,()=>{console.log("server http on")}) 
