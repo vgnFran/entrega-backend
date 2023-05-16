@@ -44,13 +44,7 @@ server.set("views","src/views")
 
 io.on("connection",(socket)=>{
     console.log(`nuevo cliente conectado ${socket.id}`)
-
-    socket.on("message",(data)=>{
-        console.log(data)
-        // recibimos y distribuimos con io.emit ("messrecib", (data))
-
-    })
-
+    
     socket.on("disconnect",(reason)=>{
         console.log("cliente desconectado")
     })
