@@ -42,14 +42,14 @@ class cartsManagerDB{
 
 
         try{
-            await cartModel.findByIdAndUpdate({"_id":new mongoose.Types.ObjectId(cid)},
+           return await cartModel.findByIdAndUpdate({"_id":new mongoose.Types.ObjectId(cid)},
             {
                 products:[{"_id":new mongoose.Types.ObjectId(pid), quantity:10}]
             }
 
             )
         }catch(err){
-            console.log("no")
+            return await this.newCart()
         }
 
 
