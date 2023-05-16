@@ -8,9 +8,7 @@ const chatRouter= (io)=>{
     const router=Router()
 
     router.get("/chat", async (req,res)=>{
-        res.send(await chatModel.find())
         res.render("chat")
-
     })
 
     io.on("connection",(socket)=>{
