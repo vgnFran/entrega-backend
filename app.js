@@ -4,6 +4,7 @@ import routerCart from "./src/routes/carts.routes.FS.js"
 import viewsRouter from "./src/routes/views.js";
 import productRoutesDB from "./src/routes/product.routes.DB.js";
 import cartsRoutesDB from "./src/routes/carts.routes.DB.js";
+import chatRouter from "./src/chat/chat.js";
 import { __dirname } from "./utils.js";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
@@ -32,6 +33,7 @@ server.use("/api",routerCart)
 server.use("/api",productRoutesDB)
 server.use("/api",cartsRoutesDB)
 server.use(viewsRouter(io))
+server.use(chatRouter(io))
 server.use("/public", express.static(`${__dirname}/src/public`))
 
 const moongose_url = process.env.MONGOOSE_URL;
@@ -56,6 +58,7 @@ io.on("connection",(socket)=>{
     socket.emit("confirm","mensaje desde el servidor")
 
 })
+
 
 try{
     await mongoose.connect(moongose_url)

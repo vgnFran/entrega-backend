@@ -1,0 +1,61 @@
+<div class="row"> 
+    <header class="bg-success text-white p-2" style="height: 20vh;">
+    <h1 class="text-center">Chat Websockets / Handlebars</h1>
+</header>
+</div>
+
+
+<main class="row">
+    <section class="chat-container">
+
+        <div class="msg-box">
+            <p id="msg-recived" ></p>
+        </div>
+
+        <div class="container-input">
+            <input type="text" name="" id="input-msg">
+        </div>
+
+    </section>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+    <script>
+
+    const socket= io("ws://localhost:8090")
+    const msgBox= document.getElementById("msg-recived")
+    const msgInput= document.getElementById("input-msg")
+
+    let user=""
+
+    Swal.fire({
+        title:"Bienvenido a Nuestro Chat",
+        text:"Ingrese su email",
+        input:"text",
+        inputValidator: (value)=>{
+            return !value && "Por favor ingrese su Email"
+        },
+        allowOutsideClick:false,
+    }).then(data=>{
+        user=data.value
+        console.log(user)
+    })
+
+    msgInput.addEventListener("keydown",e=>{
+        if(e.key=="Enter" && msgInput.value.trim().length>1){
+            socket.emit("newMsg",{user:user, message:msgInput.value.trim()})
+            msgInput.value=""
+        }
+    })
+
+    socket.on("msgRecived",(data)=>{
+        msgBox.innerHTML= `${msgBox.innerHTML} <br>(${data.user}) ${data.message}`
+        console.log(data)
+    })
+
+
+    
+    
+
+    </script>
+
+</main>
