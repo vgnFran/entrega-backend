@@ -1,16 +1,38 @@
 import { Router } from "express";
 import ProductsManagerDB from "../dao/productManagerDB.js";
+import productModel from "../dao/models/products.model.js";
 
 const router= Router()
 const manager=new ProductsManagerDB
 
 
 
+        //"/products/:limit?/:page?/:query?/:sort?/query?filtro=busqueda"
 
-    router.get("/products",async (req,res)=>{
+
+    router.get("/products/:id",async (req,res)=>{    
+        res.status(200).send(await manager.getProductsById(req.params.id))
+    })
+    
+        // CON EL ENDPOINT /PRODUCTS TRAEMOS TODOS LOS PRODUCTOS
+        // CON EL ENDPOINT /PRODUCTS/ID TRAEMOS SOLO EL PRODUCTO CON ESE ID 
+        // CON EL ENDPOINT /PRODUCTS?QUERY=QUERY TRAEMOS LOS PRODUCTOS FILTRADOS CON LA CATEGORIA PASADA POR QUERY, POR EJEMPLO: /PRODUCTS?QUERY=NOTEBOOK TRAEMOS SOLO LAS NOTEBOOKS
+        //EJ: http://localhost:8080/api/products?category=notebook&limit=1&page=2&sort=-1 FILTRAMOS POR NOTEBOOK, LIMITE DE 1 PRODUCTO, PAGINA 2 Y PRECIO DESCENDENTE
+
+
+    router.get("/products?",async (req,res)=>{
+            
         try{
-            const products= await manager.getProducts()
-            res.status(200).send(products)
+
+            if(req.query){
+
+                const process= await productModel.paginate( {category:req.query.category},{page:req.query.page, limit:req.query.limit, sort:{price:req.query.sort}})
+                res.send(process)
+            }else{
+                res.send(await manager.getProducts())
+            }
+            
+            
         }catch(err){
             console.log(err)
             res.status(400).send("error")
@@ -18,10 +40,6 @@ const manager=new ProductsManagerDB
     })
 
 
-    router.get("/products/:id",async (req,res)=>{
-        
-        res.status(200).send(await manager.getProductsById(req.params.id))
-    })
 
 
     router.post("/products", async (req,res)=>{
