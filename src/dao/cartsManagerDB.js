@@ -41,17 +41,18 @@ class cartsManagerDB{
         const id= this.id
 
 
-        try{
-           return await cartModel.findByIdAndUpdate({"_id":new mongoose.Types.ObjectId(cid)},
-            {
-                products:[{"_id":new mongoose.Types.ObjectId(pid), quantity:10}]
-            }
+        // try{
+        //    return await cartModel.findByIdAndUpdate({"_id":new mongoose.Types.ObjectId(cid)},
+        //     {
+        //         products:[{"_id":new mongoose.Types.ObjectId(pid), quantity:10}]
+        //     }
 
-            )
-        }catch(err){
-            return await this.newCart()
-        }
+        //     )
+        // }catch(err){
+        //     return await this.newCart()
+        // }
 
+        
 
     }
 

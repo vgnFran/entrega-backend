@@ -30,12 +30,59 @@ router.get("/carts/:id", async (req,res)=>{
     }
 })
 
+
+// router.post("/carts/:id", async (req,res)=>{
+//     try{
+//         const product= await manager.cartProducts(req.params.id)
+        
+//         res.send(await cartModel.findByIdAndUpdate({_id:"64681e23601a46e9e95bfb94"},{products:{quantity:20}}))
+        
+        
+//     }catch{
+//         res.status(400).send(err)
+//     }
+// })
+
+
+
+
 router.post("/carts/:cid/products/:pid", async (req,res)=>{
 
-    res.send(await manager.cartsInCart(req.params.cid,req.params.pid))
+
+    try{
+        const finded= await cartModel.findOneAndUpdate(
+            {_id:req.params.cid, "products._id":req.params.pid },
+            {$inc: {"products.$.quantity": 1}},
+            {new: true}            
+        )
+        
+        if(finded){
+            res.status(200).send(finded)
+        }
+
+    }catch{
+            
+        const newProduct= {quantity:18}
+        const updateCart= await cartModel.findOneAndUpdate(
+            {_id:req.params.cid},
+            {$push: {products: newProduct} },
+            {new: true}
+        )
+        res.status(200).send(updateCart)
+    } 
+       
+})        
+      
+     
 
     
-})
+    
+
+    
+
+
+
+
 
 
 
