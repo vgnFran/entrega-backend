@@ -62,7 +62,7 @@ router.post("/carts/:cid/products/:pid", async (req,res)=>{
 
     }catch{
             
-        const newProduct= {quantity:18}
+        const newProduct= {quantity:1}
         const updateCart= await cartModel.findOneAndUpdate(
             {_id:req.params.cid},
             {$push: {products: newProduct} },
@@ -71,7 +71,52 @@ router.post("/carts/:cid/products/:pid", async (req,res)=>{
         res.status(200).send(updateCart)
     } 
        
-})        
+})
+
+router.delete("/carts/:cid/products/:pid", async (req,res)=>{
+    
+    try{
+        const deleteProduct= await cartModel.findOneAndUpdate(
+            {_id:req.params.cid},
+            {$pull: {products: {_id:req.params.pid}}},
+            {new: true}
+        )
+        res.status(200).send(deleteProduct)
+    }catch(err){
+        res.status(400).send("Cart o product incorrecto")
+    }
+    
+    
+})
+
+router.put("/carts/:cid/products/:pid", async (req,res)=>{
+
+    try{
+        const updateQuantity= await cartModel.findOneAndUpdate(
+            {_id:req.params.cid, "products._id":req.params.pid },
+            {$set: {"products.$.quantity": req.body.quantity}},
+            {new:true}
+        )
+        res.status(200).send(updateQuantity)
+    }catch{
+        res.status(400).send("Cart o product incorrecto")
+    }
+    
+})
+
+
+router.delete("/carts/:cid", async (req,res)=>{
+    try{
+        const deleteProducts= await cartModel.findOneAndUpdate(
+            {_id:req.params.cid},
+            {$set: {products:[]}},
+            {new: true}
+        ) 
+        res.send(deleteProducts)
+    }catch{
+        res.send("no")
+    }
+})
       
      
 
