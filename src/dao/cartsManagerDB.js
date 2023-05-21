@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import cartModel from "./models/cart.model.js";
+import productModel from "./models/products.model.js";
 
 class cartsManagerDB{
 
@@ -9,7 +10,7 @@ class cartsManagerDB{
 
     getCarts= async()=>{
         try{
-            return await cartModel.find()
+            return await cartModel.find().populate({path:"products", model:productModel})
         }catch(err){
             return err
         }
