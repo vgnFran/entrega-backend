@@ -33,14 +33,23 @@ const manager=new ProductsManagerDB
         }
     })
 
-    router.get("/productsViews",async (req,res)=>{
+    router.get("/productsViews?",async (req,res)=>{
+
         try{
-            const products= await manager.getProducts()
-            res.render("products",{products})
+            if(req.query.category != undefined){
 
-        }catch{
-
+                const docs= await productModel.paginate( {category:req.query.category},{page:req.query.page, limit:req.query.limit || 10, sort:{price:req.query.sort},lean:true})
+                const products= docs.docs
+                res.render("products",{products})
+            }
+            else{
+                const products= await manager.getProducts()            
+                res.render("products",{products})
+            }  
+        }catch(err){
+            res.send(err)
         }
+        
     })
 
 
