@@ -1,0 +1,31 @@
+
+<div class="container-fluid">
+
+    <div class="row">
+        <header class="bg-success text-white p-3" style="height: 15vh;">
+            <h1 class="text-center "><b>Todos los productos</b></h1>
+        </header>
+    </div>
+
+    <div class="row container-products d-flex flex-row ">
+        {{!-- <ul>
+            {{#each products}}
+            <li class="mb-2"> <span class="me-1 fw-bold">Producto:</span> {{this.title }}, <span class="ms-2 fw-bold">Id:</span> {{this.id}}</li>
+            {{/each}}
+        </ul> --}}
+    {{#each products}}
+
+        <div class="product w-25 p-3 d-flex flex-column align-items-center">
+            <h3>{{this.title}}</h2>
+            <h4>{{this.description}}</h4>
+            <h5>Codigo: {{this.code}}</h5>
+            <h5>Precio: ${{this.price}}</h5>
+            <button class="btn btn-outline-primary">Agregar al Carrito</button>
+        </div>
+
+    {{/each}}
+
+
+    </div>
+
+</div>

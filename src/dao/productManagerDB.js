@@ -7,7 +7,7 @@ class ProductsManagerDB{
     getProducts= async ()=>{
 
         try{
-            const products= await productModel.find()
+            const products= await productModel.find().lean()
             return  products
         }catch{
             console.log("error")

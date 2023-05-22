@@ -6,10 +6,6 @@ const router= Router()
 const manager=new ProductsManagerDB
 
 
-
-        //"/products/:limit?/:page?/:query?/:sort?/query?filtro=busqueda"
-
-
     router.get("/products/:id",async (req,res)=>{    
         res.status(200).send(await manager.getProductsById(req.params.id))
     })
@@ -22,24 +18,30 @@ const manager=new ProductsManagerDB
 
     router.get("/products?",async (req,res)=>{
             
-        try{
+        try{        
+            if(req.query.category != undefined){
 
-            if(req.query){
-
-                const process= await productModel.paginate( {category:req.query.category},{page:req.query.page, limit:req.query.limit, sort:{price:req.query.sort}})
-                res.send(process)
-            }else{
-                res.send(await manager.getProducts())
+                const process= await productModel.paginate( {category:req.query.category},{page:req.query.page, limit:req.query.limit || 10, sort:{price:req.query.sort}})
+                res.status(200).send(process)
             }
-            
-            
+            else{            
+                res.status(200).send(await manager.getProducts())
+            }                       
         }catch(err){
             console.log(err)
-            res.status(400).send("error")
+
         }
     })
 
+    router.get("/productsViews",async (req,res)=>{
+        try{
+            const products= await manager.getProducts()
+            res.render("products",{products})
 
+        }catch{
+
+        }
+    })
 
 
     router.post("/products", async (req,res)=>{
