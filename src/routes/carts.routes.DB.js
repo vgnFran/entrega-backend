@@ -50,14 +50,15 @@ router.post("/carts/:cid/products/:pid", async (req,res)=>{
 
 
     try{
-        const finded= await cartModel.findOneAndUpdate(
+        const found= await cartModel.findOneAndUpdate(
             {_id:req.params.cid, "products._id":req.params.pid },
             {$inc: {"products.$.quantity": 1}},
-            {new: true}            
+            {new: true}
+                        
         )
         
-        if(finded){
-            res.status(200).send(finded)
+        if(found){
+            res.status(200).send(found)
         }
 
     }catch{

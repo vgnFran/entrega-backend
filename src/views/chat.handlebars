@@ -41,7 +41,7 @@
     })
 
     msgInput.addEventListener("keydown",e=>{
-        if(e.key=="Enter" && msgInput.value.trim().length>1){
+        if(e.key=="Enter" && msgInput.value.trim().length>0){
             socket.emit("newMsg",{user:user, message:msgInput.value.trim()})
             msgInput.value=""
         }
