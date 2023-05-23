@@ -127,9 +127,8 @@ router.get("/cartsViews/:cid", async (req,res)=>{
         const carts= await cartModel.findOne({_id:req.params.cid}).lean()
         const cart=carts.products
         res.render("carts",{cart})
-        console.log(cart)
-    }catch{
-        res.send("no")
+    }catch(err){
+        res.status.send(err)
     }
 })
       
