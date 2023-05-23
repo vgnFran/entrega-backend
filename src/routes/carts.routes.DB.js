@@ -114,6 +114,20 @@ router.delete("/carts/:cid", async (req,res)=>{
             {new: true}
         ) 
         res.send(deleteProducts)
+    }catch(err){
+        res.status(400).send(err)
+    }
+})
+
+
+
+
+router.get("/cartsViews/:cid", async (req,res)=>{
+    try{
+        const carts= await cartModel.findOne({_id:req.params.cid}).lean()
+        const cart=carts.products
+        res.render("carts",{cart})
+        console.log(cart)
     }catch{
         res.send("no")
     }

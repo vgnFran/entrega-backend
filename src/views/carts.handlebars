@@ -1,0 +1,24 @@
+
+<div class="container-fluid">
+
+    <div class="row">
+        <header class="bg-success text-white p-3" style="height: 15vh;">
+            <h1 class="text-center "><b>Carrito</b></h1>
+        </header>
+    </div>
+
+    <div class="row container-products d-flex flex-row ">
+      
+    {{#each cart}}
+
+        <div class="product w-25 p-3 d-flex flex-column align-items-center">
+            <h3>{{this._id}}</h2>
+            <h5>Cantidad agregada: {{this.quantity}}</h5>
+        </div>
+
+    {{/each}}
+
+
+    </div>
+
+</div>
