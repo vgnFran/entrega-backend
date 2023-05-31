@@ -10,7 +10,7 @@ import { engine } from "express-handlebars";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
 import session from "express-session";
-import  FileStore  from "session-file-store";
+// import  FileStore  from "session-file-store";
 import MongoStore from "connect-mongo";
 import usersRoutes from "./src/routes/users.routes.js";
 
@@ -32,6 +32,7 @@ const io= new Server(httpServer, {
 server.use(express.json());
 server.use(express.urlencoded({extended:true}));
 
+const moongose_url = process.env.MONGOOSE_URL;
 
 server.use("/api",productsRoutes())
 server.use("/api",routerCart)
@@ -42,8 +43,9 @@ server.use(chatRouter(io))
 server.use("/public", express.static(`${__dirname}/src/public`))
 
 
-const fileStorage = new FileStore(session);
-const store = new fileStorage({ path: `${__dirname}/sessions/`, ttl: 30, reapInterval: 300, retries: 0 });
+// const fileStorage = new FileStore(session);
+// const store = new fileStorage({ path: `${__dirname}/sessions/`, ttl: 30, reapInterval: 300, retries: 0 });
+const store= MongoStore.create({mongoUrl: moongose_url, mongoOptions: {}, ttl:30})
 server.use(session({
     store: store,
     secret: "abcdef123456",
@@ -54,7 +56,7 @@ server.use(session({
 
 server.use("/", usersRoutes(store))
 
-const moongose_url = process.env.MONGOOSE_URL;
+
 
 server.engine("handlebars",engine())
 server.set("view engine","handlebars")

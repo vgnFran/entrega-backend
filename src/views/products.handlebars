@@ -1,3 +1,13 @@
+<style>
+    .w-5{
+        width: 100px;
+        margin-left: auto;
+        margin-right: 100px;
+        margin-top: 14px;
+        margin-bottom: 14px;
+    }
+</style>
+
 
 <div class="container-fluid">
 
@@ -7,12 +17,12 @@
         </header>
     </div>
 
+    <div class="row d-flex flex-row justify-content-end w-5">
+        <a href="http://localhost:8080/logout" class="btn btn-success">Salir</a>
+    </div>
+
     <div class="row container-products d-flex flex-row ">
-        {{!-- <ul>
-            {{#each products}}
-            <li class="mb-2"> <span class="me-1 fw-bold">Producto:</span> {{this.title }}, <span class="ms-2 fw-bold">Id:</span> {{this.id}}</li>
-            {{/each}}
-        </ul> --}}
+    
     {{#each products}}
 
         <div class="product w-25 p-3 d-flex flex-column align-items-center">
