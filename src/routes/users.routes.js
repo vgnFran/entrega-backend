@@ -47,10 +47,9 @@ const usersRoutes=()=>{
         }else{
             req.session.userValidated=true
             req.session.errorMessage = req.sessionStore.errorMessage = '';
-       
         }
 
-        res.redirect("http://localhost:8080")
+        res.redirect(`http://localhost:8080`)
         
     })
 

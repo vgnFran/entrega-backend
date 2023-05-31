@@ -12,7 +12,7 @@ class Users {
         try{
             return await userModel.findOne({userName:user, password:pass})
         }catch(err){
-            console.log("no esta en la bbdd")
+            console.log(err)
         }
     }
 

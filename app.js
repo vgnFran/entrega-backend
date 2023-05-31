@@ -11,6 +11,7 @@ import { Server } from "socket.io";
 import mongoose from "mongoose";
 import session from "express-session";
 import  FileStore  from "session-file-store";
+import MongoStore from "connect-mongo";
 import usersRoutes from "./src/routes/users.routes.js";
 
 import {} from 'dotenv/config'
@@ -45,7 +46,7 @@ const fileStorage = new FileStore(session);
 const store = new fileStorage({ path: `${__dirname}/sessions/`, ttl: 30, reapInterval: 300, retries: 0 });
 server.use(session({
     store: store,
-    secret: "abc123",
+    secret: "abcdef123456",
     resave: false,
     saveUninitialized: false,
     // cookie: { maxAge: 30 * 1000 }, // la sesión expira luego de 30 segundos de INACTIVIDAD
