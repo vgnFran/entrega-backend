@@ -9,9 +9,13 @@ import { __dirname } from "./utils.js";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
+import session from "express-session";
+import  FileStore  from "session-file-store";
+import usersRoutes from "./src/routes/users.routes.js";
 
 import {} from 'dotenv/config'
 
+const session_secret= "abc123"
 const port= 8080;
 const wsPort= 8090;
 const server= express();
@@ -35,6 +39,19 @@ server.use("/api",cartsRoutesDB)
 server.use(viewsRouter(io))
 server.use(chatRouter(io))
 server.use("/public", express.static(`${__dirname}/src/public`))
+
+
+const fileStorage = new FileStore(session);
+const store = new fileStorage({ path: `${__dirname}/sessions/`, ttl: 30, reapInterval: 300, retries: 0 });
+server.use(session({
+    store: store,
+    secret: "abc123",
+    resave: false,
+    saveUninitialized: false,
+    // cookie: { maxAge: 30 * 1000 }, // la sesión expira luego de 30 segundos de INACTIVIDAD
+}));
+
+server.use("/", usersRoutes(store))
 
 const moongose_url = process.env.MONGOOSE_URL;
 
