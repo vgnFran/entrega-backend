@@ -16,12 +16,13 @@ const usersRoutes=()=>{
 
         const products= await manager.getProducts()
 
-        if(req.session.userValidated == true){
+
+        if(req.sessionStore.userValidated == true){
 
             res.render("products",{products:products})
         }else{
             res.render("login",{
-                sessionInfo: req.session
+                sessionInfo: req.sessionStore
             })
         }
         
@@ -29,7 +30,7 @@ const usersRoutes=()=>{
 
 
     router.get("/logout",async (req,res)=>{
-        req.session.userValidated=false
+        req.sessionStore.userValidated=false
         req.session.destroy()
         res.redirect(`http://localhost:8080`)
     })
@@ -41,12 +42,12 @@ const usersRoutes=()=>{
         const user= await users.validate(login_email,login_password)
 
         if(user === null){
-            req.session.userValidated= false
-            req.session.errorMessage = req.sessionStore.errorMessage = 'Usuario o clave no válidos';
+            req.sessionStore.userValidated= false
+            req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'Usuario o clave no válidos';
 
         }else{
-            req.session.userValidated=true
-            req.session.errorMessage = req.sessionStore.errorMessage = '';
+            req.sessionStore.userValidated=true
+            req.sessionStore.errorMessage = req.sessionStore.errorMessage = '';
         }
 
         res.redirect(`http://localhost:8080`)
