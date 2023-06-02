@@ -6,6 +6,10 @@
         margin-top: 14px;
         margin-bottom: 14px;
     }
+    .welcome{
+        margin-left: 100px;
+        margin-right: 100px;
+    }
 </style>
 
 
@@ -19,6 +23,12 @@
 
     <div class="row d-flex flex-row justify-content-end w-5">
         <a href="http://localhost:8080/logout" class="btn btn-success">Salir</a>
+    </div>
+
+
+    <div class="welcome d-flex justify-content-between">
+        <h4>Bienvenido, {{user.name}}</h4>
+        <h4>Rol: {{user.rol}}</h4>
     </div>
 
     <div class="row container-products d-flex flex-row ">
