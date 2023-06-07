@@ -3,6 +3,7 @@ import { __dirname } from "../../utils.js";
 import ProductsManagerDB from "../dao/productManagerDB.js";
 import Users from "../dao/usersManager.js";
 import userModel from "../dao/models/users.model.js";
+import { hashing, compareHash } from "../../utils.js";
 
 
 const manager= new ProductsManagerDB()
@@ -38,20 +39,32 @@ const usersRoutes=()=>{
     router.post("/login", async (req,res)=>{
         const {login_email, login_password} = req.body
         const user= await users.validate(login_email,login_password)
+
+
+
         const { userName, password, name, rol } = user
         const dataUser= {userName:userName, password:password, name:name, rol:rol}
         
     
         if(user === null){
             req.sessionStore.userValidated= false
-            req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'Usuario o clave no válidos';
+            req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'Ingrese Usuario y Clave';
         }else{
-            req.sessionStore.userValidated=true
-            req.sessionStore.errorMessage = req.sessionStore.errorMessage = '';
-            req.sessionStore.user= dataUser    
+
+                if(compareHash(user,login_password)){
+                    req.sessionStore.userValidated=true
+                    req.sessionStore.errorMessage = req.sessionStore.errorMessage = '';
+                    req.sessionStore.user= dataUser    
+                }else{
+                    req.sessionStore.userValidated= false
+                    req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'Usuario o Clave no validos';
+                }
+
         }
         
         res.redirect(`http://localhost:8080`)
+
+        // console.log(compareHash(user,login_password))
         
     })
 
@@ -63,7 +76,7 @@ const usersRoutes=()=>{
 
     router.post("/register", async (req,res)=>{
         const {name,surName, userName, password} = req.body
-        const newUser= {name:name, userName: userName,surName: surName, password:password, rol:"usuario"}
+        const newUser= {name:name, userName: userName,surName: surName, password: hashing(password), rol:"usuario"}
         console.log(newUser)
         await userModel.create(newUser)
         if (name != undefined && userName != undefined && password != undefined){
