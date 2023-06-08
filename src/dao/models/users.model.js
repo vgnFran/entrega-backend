@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+mongoose.pluralize(null);
+
 const collection= "users"
 
 const schema= new mongoose.Schema({

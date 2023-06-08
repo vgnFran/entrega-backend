@@ -3,8 +3,11 @@ import { __dirname } from "../../utils.js";
 import ProductsManagerDB from "../dao/productManagerDB.js";
 import Users from "../dao/usersManager.js";
 import userModel from "../dao/models/users.model.js";
-import { hashing, compareHash } from "../../utils.js";
+import { hashing, compareHash, validate } from "../../utils.js";
+import passport from "../config/passport.config.js"
+import initializePassport from "../config/passportGithub.config.js";
 
+initializePassport()
 
 const manager= new ProductsManagerDB()
 
@@ -19,7 +22,11 @@ const usersRoutes=()=>{
         if(req.sessionStore.userValidated == true){
             const products=  await manager.getProducts()
             res.render("products",{products:products, user:req.sessionStore.user})
-        }else{
+        }else if(req.session.user){
+            res.render("homeGIT",{data: req.session.user})
+        }
+        
+        else{
             res.render("login",{
                 sessionInfo: req.sessionStore
             })
@@ -64,8 +71,6 @@ const usersRoutes=()=>{
         
         res.redirect(`http://localhost:8080`)
 
-        // console.log(compareHash(user,login_password))
-        
     })
 
 
@@ -74,7 +79,7 @@ const usersRoutes=()=>{
     })
 
 
-    router.post("/register", async (req,res)=>{
+    router.post("/register", passport.authenticate('authRegister', { failureRedirect: '/regfail' }) ,async (req,res)=>{
         const {name,surName, userName, password} = req.body
         const newUser= {name:name, userName: userName,surName: surName, password: hashing(password), rol:"usuario"}
         console.log(newUser)
@@ -84,6 +89,21 @@ const usersRoutes=()=>{
             req.sessionStore.user= newUser
             res.redirect("/")
         }
+    })
+
+
+    router.get("/regfail", async (req,res)=>{
+        res.render('registerError');
+    })
+
+
+    router.get("/github", passport.authenticate("github", {scope:["user:email"]}), async(req,res)=>{
+
+    })
+
+    router.get("/githubcallback", passport.authenticate("github",{failureRedirect:"/login"}), async(req,res)=>{
+        req.session.user= req.user
+        res.redirect("/")
     })
 
 

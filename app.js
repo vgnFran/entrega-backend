@@ -13,6 +13,7 @@ import session from "express-session";
 // import  FileStore  from "session-file-store";
 import MongoStore from "connect-mongo";
 import usersRoutes from "./src/routes/users.routes.js";
+import passport from "./src/config/passport.config.js"
 
 import {} from 'dotenv/config'
 
@@ -53,8 +54,12 @@ server.use(session({
     saveUninitialized: false,
     // cookie: { maxAge: 30 * 1000 }, // la sesión expira luego de 30 segundos de INACTIVIDAD
 }));
-
 server.use("/", usersRoutes(store))
+
+server.use(passport.initialize())
+server.use(passport.session())
+
+
 
 
 

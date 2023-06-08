@@ -13,6 +13,14 @@ const compareHash= (user,pass)=>{
 }
 
 
+const validate =async (req,res,next)=>{
+    // if(req.sessionStore.userValidated){
+    //     next()
+    // }else{
+    //     res.status(401).send("Debe autenticarse para ingresar")
+    // }
+    
 
+}
 
-export { __filename, __dirname, hashing, compareHash }; 
+export { __filename, __dirname, hashing, compareHash, validate }; 
