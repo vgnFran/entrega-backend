@@ -12,27 +12,26 @@ const initializePassport= ()=>{
 
 
     const verifyAuthGithub= async(accesToken, refreshToken, profile, done)=>{
-        try{
-            const user= await userModel.findOne({userName: profile._json.email})
+        try {
+            // console.log(profile);
+            const user = await userModel.findOne({ userName: profile._json.email });
 
             if(!user){
                 const newUser={
                     userName: profile._json.email,
                     password:"",
-                    name: profile._json.name,
+                    name: profile._json.login,
                     rol:"user"
                 }
                 const result= await userModel.create(newUser)
-                console.log("hola")
+                // console.log(result)
                 done(null,result)
-
-            }else{
-                done(null, user)
-                console.log(user)
+            } else {
+                done(null, user);
             }
-
-        }catch(err){
-            return done(err)
+        } catch (err) {
+            
+            return done(err.message);
         }
     }
 

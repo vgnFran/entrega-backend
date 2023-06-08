@@ -17,7 +17,7 @@ const manager=new ProductsManagerDB
         //EJ: http://localhost:8080/api/products?category=notebook&limit=1&page=2&sort=-1 FILTRAMOS POR NOTEBOOK, LIMITE DE 1 PRODUCTO, PAGINA 2 Y PRECIO DESCENDENTE
 
 
-    router.get("/products?",validate, async (req,res)=>{
+    router.get("/products?", async (req,res)=>{
             
         try{        
             if(req.query.category != undefined){

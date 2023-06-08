@@ -23,9 +23,10 @@ const usersRoutes=()=>{
             const products=  await manager.getProducts()
             res.render("products",{products:products, user:req.sessionStore.user})
         }else if(req.session.user){
-            res.render("homeGIT",{data: req.session.user})
-        }
-        
+            req.session.userValidated=true
+            const products=  await manager.getProducts()
+            res.render("products",{products: products, user: req.session.user })
+        }        
         else{
             res.render("login",{
                 sessionInfo: req.sessionStore
@@ -96,16 +97,14 @@ const usersRoutes=()=>{
         res.render('registerError');
     })
 
+    router.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => {
+    });
 
-    router.get("/github", passport.authenticate("github", {scope:["user:email"]}), async(req,res)=>{
-
-    })
-
-    router.get("/githubcallback", passport.authenticate("github",{failureRedirect:"/login"}), async(req,res)=>{
-        req.session.user= req.user
-        res.redirect("/")
-    })
-
+    router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), async (req, res) => {
+        req.session.user = req.user;
+        res.redirect('/');
+    });
+   
 
 
 
