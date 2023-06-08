@@ -11,7 +11,7 @@ const initializePassport= ()=>{
     }
 
 
-    const verifyAuthGithub= async(accesToken, refreshToken, profile, done)=>{
+    const authGitHub= async(accesToken, refreshToken, profile, done)=>{
         try {
             // console.log(profile);
             const user = await userModel.findOne({ userName: profile._json.email });
@@ -35,7 +35,7 @@ const initializePassport= ()=>{
         }
     }
 
-    passport.use("github", new GithubStrategy(githubData, verifyAuthGithub))
+    passport.use("github", new GithubStrategy(githubData, authGitHub))
 
     passport.serializeUser((user, done) => {
         done(null, user._id);
