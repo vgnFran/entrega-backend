@@ -5,9 +5,10 @@ mongoose.pluralize(null);
 const collection= "users"
 
 const schema= new mongoose.Schema({
-    userName:{type:String, required:true},
+    email:{type:String, required:true},
+    surName: {type:String, required:true},
+    name: {type:String, required:true},
     password:{type:String},
-    name: String,
     rol: String
 })
 

@@ -2,10 +2,10 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import userModel from "../dao/models/users.model.js";
 
-const authRegist= async (userName,password, done)=>{
+const authRegist= async (email,password, done)=>{
     try{
 
-        const user= await userModel.findOne({userName:userName})
+        const user= await userModel.findOne({userName:email})
 
         if (user === null) {
             return done(null, { _id: 0 });
@@ -19,7 +19,7 @@ const authRegist= async (userName,password, done)=>{
 }
  
 
-passport.use("authRegister", new LocalStrategy({ usernameField: "userName", passwordField: "password"}, authRegist))
+passport.use("authRegister", new LocalStrategy({ usernameField: "email", passwordField: "password"}, authRegist))
 
 passport.serializeUser((user, done)=>{
     done(null, user._id)

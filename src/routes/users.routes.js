@@ -6,6 +6,7 @@ import userModel from "../dao/models/users.model.js";
 import { hashing, compareHash, validate } from "../../utils.js";
 import passport from "../config/passport.config.js"
 import initializePassport from "../config/passportGithub.config.js";
+import newToken from "../config/jwt.config.js";
 
 initializePassport()
 
@@ -62,7 +63,7 @@ const usersRoutes=()=>{
                 if(compareHash(user,login_password)){
                     req.sessionStore.userValidated=true
                     req.sessionStore.errorMessage = req.sessionStore.errorMessage = '';
-                    req.sessionStore.user= dataUser    
+                    req.sessionStore.user= dataUser 
                 }else{
                     req.sessionStore.userValidated= false
                     req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'Usuario o Clave no validos';
@@ -81,11 +82,11 @@ const usersRoutes=()=>{
 
 
     router.post("/register", passport.authenticate('authRegister', { failureRedirect: '/regfail' }) ,async (req,res)=>{
-        const {name,surName, userName, password} = req.body
-        const newUser= {name:name, userName: userName,surName: surName, password: hashing(password), rol:"usuario"}
+        const {name,surName, password, email} = req.body
+        const newUser= {name:name, email: email,surName: surName, password: hashing(password), rol:"usuario"}
         console.log(newUser)
         await userModel.create(newUser)
-        if (name != undefined && userName != undefined && password != undefined){
+        if (name != undefined && email != undefined && password != undefined){
             req.sessionStore.userValidated=true
             req.sessionStore.user= newUser
             res.redirect("/")
@@ -105,7 +106,7 @@ const usersRoutes=()=>{
         res.redirect('/');
     });
    
-
+    
 
 
     return router

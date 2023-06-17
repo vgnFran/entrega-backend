@@ -14,6 +14,7 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import usersRoutes from "./src/routes/users.routes.js";
 import passport from "./src/config/passport.config.js"
+import newToken from "./src/config/jwt.config.js";
 
 import {} from 'dotenv/config'
 
