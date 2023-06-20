@@ -5,7 +5,7 @@ import userModel from "../dao/models/users.model.js";
 const authRegist= async (email,password, done)=>{
     try{
 
-        const user= await userModel.findOne({userName:email})
+        const user= await userModel.findOne({email:email})
 
         if (user === null) {
             return done(null, { _id: 0 });

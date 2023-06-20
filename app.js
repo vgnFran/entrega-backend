@@ -13,12 +13,14 @@ import session from "express-session";
 // import  FileStore  from "session-file-store";
 import MongoStore from "connect-mongo";
 import usersRoutes from "./src/routes/users.routes.js";
-import passport from "./src/config/passport.config.js"
-import newToken from "./src/config/jwt.config.js";
+
+import passport from "passport"
+import cookieParser from "cookie-parser";
+import { initPassport } from "./src/config/passport.jwt.config.js";
 
 import {} from 'dotenv/config'
 
-const session_secret= "abc123"
+const session_secret= "abcdfgh12345678"
 const port= 8080;
 const wsPort= 8090;
 const server= express();
@@ -30,6 +32,9 @@ const io= new Server(httpServer, {
         credentials:false
     }
 })
+
+
+
 
 server.use(express.json());
 server.use(express.urlencoded({extended:true}));
@@ -45,6 +50,7 @@ server.use(chatRouter(io))
 server.use("/public", express.static(`${__dirname}/src/public`))
 
 
+
 // const fileStorage = new FileStore(session);
 // const store = new fileStorage({ path: `${__dirname}/sessions/`, ttl: 30, reapInterval: 300, retries: 0 });
 const store= MongoStore.create({mongoUrl: moongose_url, mongoOptions: {}, ttl:30})
@@ -57,9 +63,14 @@ server.use(session({
 }));
 server.use("/", usersRoutes(store))
 
+
+server.use(cookieParser("abcdfgh12345678"))
+initPassport()
+server.use(passport.initialize())
+
+
 server.use(passport.initialize())
 server.use(passport.session())
-
 
 
 

@@ -10,7 +10,7 @@ class Users {
 
     validate= async (user,pass)=>{
         try{
-            return await userModel.findOne({userName:user})
+            return await userModel.findOne({email:user})
         }catch(err){
             console.log(err)
         }

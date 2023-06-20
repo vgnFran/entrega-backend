@@ -6,7 +6,7 @@ import userModel from "../dao/models/users.model.js";
 import { hashing, compareHash, validate } from "../../utils.js";
 import passport from "../config/passport.config.js"
 import initializePassport from "../config/passportGithub.config.js";
-import newToken from "../config/jwt.config.js";
+import { newToken, authToken } from "../config/jwt.config.js";
 
 initializePassport()
 
@@ -19,7 +19,6 @@ const usersRoutes=()=>{
     
 
     router.get("/", async (req,res)=>{
-
         if(req.sessionStore.userValidated == true){
             const products=  await manager.getProducts()
             res.render("products",{products:products, user:req.sessionStore.user})
@@ -40,8 +39,10 @@ const usersRoutes=()=>{
     router.get("/logout",async (req,res)=>{
         req.sessionStore.userValidated=false
         req.session.destroy()
+        res.clearCookie("cookie")
         res.redirect(`http://localhost:8080`)
-    })
+        
+    }) 
 
 
 
@@ -53,7 +54,7 @@ const usersRoutes=()=>{
 
         const { userName, password, name, rol } = user
         const dataUser= {userName:userName, password:password, name:name, rol:rol}
-        
+        console.log()
     
         if(user === null){
             req.sessionStore.userValidated= false
@@ -84,14 +85,24 @@ const usersRoutes=()=>{
     router.post("/register", passport.authenticate('authRegister', { failureRedirect: '/regfail' }) ,async (req,res)=>{
         const {name,surName, password, email} = req.body
         const newUser= {name:name, email: email,surName: surName, password: hashing(password), rol:"usuario"}
-        console.log(newUser)
-        await userModel.create(newUser)
+        // await userModel.create(newUser)
         if (name != undefined && email != undefined && password != undefined){
             req.sessionStore.userValidated=true
             req.sessionStore.user= newUser
+            const token= newToken(newUser,"24h")
             res.redirect("/")
+
         }
+
+
+        
+
     })
+
+    router.get("/current", async (req,res)=>{
+        res.status(200).send({user:req.sessionStore.user})
+    })
+
 
 
     router.get("/regfail", async (req,res)=>{

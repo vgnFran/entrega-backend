@@ -4,12 +4,24 @@ const key= "abc123"
 
 const newToken=(user,time)=>{
     return jwt.sign(user,key,{expiresIn: time})
+    
 }
 
-const validateToken=(req,res,next)=>{
-    const authHeader= req.headers.autorization
+const authToken = (req, res, next) => {
 
-    console.log(authHeader)
+    const authHeader = req.headers.authorization; 
+
+    if (!authHeader) return res.status(403).send({ err: 'Se requiere autenticación' });
+
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, PRIVATE_KEY, (err, credentials) => {
+        if (err) return res.status(403).send({ err: 'Se requiere autenticación' });
+
+        req.user = credentials.user;
+        next();
+    });
 }
 
-export default newToken
+
+
+export {newToken, authToken}
