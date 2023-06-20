@@ -84,11 +84,13 @@ const usersRoutes=()=>{
 
 
     router.post("/register", passport.authenticate('authRegister', { failureRedirect: '/regfail' }) ,async (req,res)=>{
-        const {name,surName, password, email} = req.body
-        const newUser= {name:name, email: email,surName: surName, password: hashing(password), rol:"usuario"}
+        const {name,surName, password, email, age} = req.body
+        const newUser= {name:name, email: email,surName: surName, password: hashing(password), rol:"usuario", age:age}
         await userModel.create(newUser)
+        console.log(newUser)
         if (name != undefined && email != undefined && password != undefined){
             req.sessionStore.userValidated=true
+            delete newUser.password
             req.sessionStore.user= newUser
             const token= newToken(newUser,"24h")
             req.headers.authorization=token
