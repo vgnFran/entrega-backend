@@ -19,6 +19,7 @@ const usersRoutes=()=>{
     
 
     router.get("/", async (req,res)=>{
+
         if(req.sessionStore.userValidated == true){
             const products=  await manager.getProducts()
             res.render("products",{products:products, user:req.sessionStore.user})
@@ -39,7 +40,7 @@ const usersRoutes=()=>{
     router.get("/logout",async (req,res)=>{
         req.sessionStore.userValidated=false
         req.session.destroy()
-        res.clearCookie("cookie")
+        res.clearCookie("cookie1")
         res.redirect(`http://localhost:8080`)
         
     }) 
@@ -85,22 +86,26 @@ const usersRoutes=()=>{
     router.post("/register", passport.authenticate('authRegister', { failureRedirect: '/regfail' }) ,async (req,res)=>{
         const {name,surName, password, email} = req.body
         const newUser= {name:name, email: email,surName: surName, password: hashing(password), rol:"usuario"}
-        // await userModel.create(newUser)
+        await userModel.create(newUser)
         if (name != undefined && email != undefined && password != undefined){
             req.sessionStore.userValidated=true
             req.sessionStore.user= newUser
             const token= newToken(newUser,"24h")
+            req.headers.authorization=token
             res.redirect("/")
 
-        }
+        }   
 
+    })
 
-        
+    router.get("/private",authToken, async (req,res)=>{
+        res.send("auth ok")
 
     })
 
     router.get("/current", async (req,res)=>{
         res.status(200).send({user:req.sessionStore.user})
+
     })
 
 
