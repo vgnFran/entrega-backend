@@ -53,6 +53,11 @@ server.use(session({
     saveUninitialized: false,
     // cookie: { maxAge: 30 * 1000 }, // la sesión expira luego de 30 segundos de INACTIVIDAD
 }));
+
+server.use(cookieParser('abc123'))
+initPassport()
+server.use(passport.initialize())
+
 server.use("/", usersRoutes(store))
 server.use("/api",productsRoutes())
 server.use("/api",routerCart)
@@ -63,9 +68,7 @@ server.use(chatRouter(io))
 server.use("/public", express.static(`${__dirname}/src/public`))
 
 
-server.use(cookieParser("abcdfgh12345678"))
-initPassport()
-server.use(passport.initialize())
+
 
 
 server.use(passport.initialize())

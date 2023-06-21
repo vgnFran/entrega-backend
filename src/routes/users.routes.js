@@ -7,6 +7,8 @@ import { hashing, compareHash, validate } from "../../utils.js";
 import passport from "../config/passport.config.js"
 import initializePassport from "../config/passportGithub.config.js";
 import { newToken, authToken } from "../config/jwt.config.js";
+import {  initPassport } from "../config/passport.jwt.config.js";
+import jwt from 'passport-jwt';
 
 initializePassport()
 
@@ -40,7 +42,7 @@ const usersRoutes=()=>{
     router.get("/logout",async (req,res)=>{
         req.sessionStore.userValidated=false
         req.session.destroy()
-        res.clearCookie("cookie1")
+        res.clearCookie("cookie")
         res.redirect(`http://localhost:8080`)
         
     }) 
@@ -68,6 +70,13 @@ const usersRoutes=()=>{
                     delete dataUser.password
                     req.sessionStore.user= dataUser 
                     req.session.user=dataUser
+                    const token= newToken(dataUser,"24h")
+                    res.cookie("cookie",token,{
+                        httpOnly:true,
+                        secure:false
+                    })
+
+
                     
                 }else{
                     req.sessionStore.userValidated= false
@@ -89,7 +98,7 @@ const usersRoutes=()=>{
     router.post("/register", passport.authenticate('authRegister', { failureRedirect: '/regfail' }) ,async (req,res)=>{
         const {name,surName, password, email, age} = req.body
         const newUser= {name:name, email: email,surName: surName, password: hashing(password), rol:"usuario", age:age}
-        await userModel.create(newUser)
+        // await userModel.create(newUser)
         console.log(newUser)
         if (name != undefined && email != undefined && password != undefined){
             req.sessionStore.userValidated=true
@@ -97,7 +106,13 @@ const usersRoutes=()=>{
             req.sessionStore.user= newUser
             console.log(req.session)
             const token= newToken(newUser,"24h")
+
             req.headers.authorization=token
+
+            res.cookie("cookie",token,{
+                httpOnly:true,
+                secure:false
+            }).send()
             
             res.redirect("/")
 
@@ -110,8 +125,9 @@ const usersRoutes=()=>{
 
     })
 
-    router.get("/current", async (req,res)=>{
-        res.status(200).send({user:req.sessionStore.user})
+    router.get("/current", passport.authenticate('jwtAuth', { session: false }), async (req,res)=>{
+        res.status(200).send(req.user)
+        
 
     })
 
