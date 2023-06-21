@@ -112,9 +112,9 @@ const usersRoutes=()=>{
             res.cookie("cookie",token,{
                 httpOnly:true,
                 secure:false
-            }).send()
+            }).redirect("/")
             
-            res.redirect("/")
+            
 
         }   
 
