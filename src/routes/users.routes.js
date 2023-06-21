@@ -65,7 +65,10 @@ const usersRoutes=()=>{
                 if(compareHash(user,login_password)){
                     req.sessionStore.userValidated=true
                     req.sessionStore.errorMessage = req.sessionStore.errorMessage = '';
+                    delete dataUser.password
                     req.sessionStore.user= dataUser 
+                    req.session.user=dataUser
+                    
                 }else{
                     req.sessionStore.userValidated= false
                     req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'Usuario o Clave no validos';
@@ -92,8 +95,10 @@ const usersRoutes=()=>{
             req.sessionStore.userValidated=true
             delete newUser.password
             req.sessionStore.user= newUser
+            console.log(req.session)
             const token= newToken(newUser,"24h")
             req.headers.authorization=token
+            
             res.redirect("/")
 
         }   

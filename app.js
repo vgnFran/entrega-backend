@@ -41,14 +41,6 @@ server.use(express.urlencoded({extended:true}));
 
 const moongose_url = process.env.MONGOOSE_URL;
 
-server.use("/api",productsRoutes())
-server.use("/api",routerCart)
-server.use("/api",productRoutesDB)
-server.use("/api",cartsRoutesDB)
-server.use(viewsRouter(io))
-server.use(chatRouter(io))
-server.use("/public", express.static(`${__dirname}/src/public`))
-
 
 
 // const fileStorage = new FileStore(session);
@@ -62,6 +54,13 @@ server.use(session({
     // cookie: { maxAge: 30 * 1000 }, // la sesión expira luego de 30 segundos de INACTIVIDAD
 }));
 server.use("/", usersRoutes(store))
+server.use("/api",productsRoutes())
+server.use("/api",routerCart)
+server.use("/api",productRoutesDB)
+server.use("/api",cartsRoutesDB)
+server.use(viewsRouter(io))
+server.use(chatRouter(io))
+server.use("/public", express.static(`${__dirname}/src/public`))
 
 
 server.use(cookieParser("abcdfgh12345678"))
