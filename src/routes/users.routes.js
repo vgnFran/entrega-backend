@@ -104,11 +104,8 @@ const usersRoutes=()=>{
             req.sessionStore.userValidated=true
             delete newUser.password
             req.sessionStore.user= newUser
-            console.log(req.session)
             const token= newToken(newUser,"24h")
-
             req.headers.authorization=token
-
             res.cookie("cookie",token,{
                 httpOnly:true,
                 secure:false
@@ -121,12 +118,13 @@ const usersRoutes=()=>{
     })
 
     router.get("/private",authToken, async (req,res)=>{
-        res.send("auth ok")
+        res.send(req.user)
 
     })
 
     router.get("/current", passport.authenticate('jwtAuth', { session: false }), async (req,res)=>{
         res.status(200).send(req.user)
+        
         
 
     })
