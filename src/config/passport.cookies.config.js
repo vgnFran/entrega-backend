@@ -1,7 +1,6 @@
 import passport from 'passport';
 import jwt from 'passport-jwt';
 
-// Estrategia JWT
 const JWTStrategy = jwt.Strategy;
 const JWTExtractor = jwt.ExtractJwt;
 
@@ -14,7 +13,6 @@ const cookieExtractor = (req) => {
 }
 
 const jwtData = {
-    // El token se recupera desde las cookies
     jwtFromRequest: JWTExtractor.fromExtractors([cookieExtractor]),
     secretOrKey: 'abc123' // misma que en app.js
 }

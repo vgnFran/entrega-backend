@@ -6,8 +6,9 @@ import userModel from "../dao/models/users.model.js";
 import { hashing, compareHash, validate } from "../../utils.js";
 import passport from "../config/passport.config.js"
 import initializePassport from "../config/passportGithub.config.js";
-import { newToken, authToken } from "../config/jwt.config.js";
-import {  initPassport } from "../config/passport.jwt.config.js";
+import { newToken, authToken} from "../config/jwt.config.js";
+import { initPassportJwt } from "../config/passport.jwtStrategy.config.js";
+import {  initPassport } from "../config/passport.cookies.config.js";
 import jwt from 'passport-jwt';
 
 initializePassport()
@@ -105,31 +106,32 @@ const usersRoutes=()=>{
             delete newUser.password
             req.sessionStore.user= newUser
             const token= newToken(newUser,"24h")
-            req.headers.authorization=token
+            console.log(token)
             res.cookie("cookie",token,{
                 httpOnly:true,
                 secure:false
             }).redirect("/")
-            
-            
-
         }   
 
     })
-
-    router.get("/private",authToken, async (req,res)=>{
+    //endpoints para validar usuario con jwt y headers
+    router.get("/private", authToken, async (req,res)=>{
         res.send(req.user)
 
     })
 
-    router.get("/current", passport.authenticate('jwtAuth', { session: false }), async (req,res)=>{
+    router.get("/current1", passport.authenticate('tokenAuth', { session: false }), async (req,res)=>{
+        console.log("validacion por token ok")
         res.status(200).send(req.user)
-        
-        
-
+    
     })
 
-
+    //endpoint para validar usuario por cookies
+    router.get("/current", passport.authenticate('jwtAuth', { session: false }), async (req,res)=>{
+        console.log("validacion por cookies ok")
+        res.status(200).send(req.user)
+    
+    })
 
     router.get("/regfail", async (req,res)=>{
         res.render('registerError');

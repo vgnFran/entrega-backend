@@ -16,7 +16,9 @@ import usersRoutes from "./src/routes/users.routes.js";
 
 import passport from "passport"
 import cookieParser from "cookie-parser";
-import { initPassport } from "./src/config/passport.jwt.config.js";
+import { initPassport } from "./src/config/passport.cookies.config.js";
+import { initPassportJwt } from "./src/config/passport.jwtStrategy.config.js";
+import cors from "cors"
 
 import {} from 'dotenv/config'
 
@@ -53,9 +55,11 @@ server.use(session({
     saveUninitialized: false,
     // cookie: { maxAge: 30 * 1000 }, // la sesión expira luego de 30 segundos de INACTIVIDAD
 }));
-
+server.use(cors())
+//habilitar para validar jwt con cookies
 server.use(cookieParser('abc123'))
 initPassport()
+initPassportJwt()
 server.use(passport.initialize())
 
 server.use("/", usersRoutes(store))
