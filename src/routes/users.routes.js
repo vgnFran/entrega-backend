@@ -51,6 +51,7 @@ const usersRoutes=()=>{
         const {login_email, login_password} = req.body
         const user= await users.validate(login_email,login_password)
 
+        console.log(user)
         const { userName, password, name, rol } = user
         const dataUser= {userName:userName, password:password, name:name, rol:rol}
         console.log()

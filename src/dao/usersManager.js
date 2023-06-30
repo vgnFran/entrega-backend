@@ -8,9 +8,9 @@ class Users {
         this.users=[]
     }
 
-    validate= async (user,pass)=>{
+    validate= async (userMail,pass)=>{
         try{
-            return await user.findOne({email:user})
+            return await user.findOne({email:userMail})
         }catch(err){
             console.log(err)
         }
