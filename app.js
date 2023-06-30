@@ -19,14 +19,15 @@ import cookieParser from "cookie-parser";
 import { initPassport } from "./src/config/passport.cookies.config.js";
 import { initPassportJwt } from "./src/config/passport.jwtStrategy.config.js";
 import cors from "cors"
-
 import {} from 'dotenv/config'
 
+
+//CONGIF PRINCIPAL DEL SERVER
 const session_secret= "abcdfgh12345678"
 const port= 8080;
 const wsPort= 8090;
-const server= express();
-const httpServer= server.listen(wsPort,()=>{console.log("server socket.io on")})
+const app= express();
+const httpServer= app.listen(wsPort,()=>{console.log("server socket.io on")})
 const io= new Server(httpServer, {
     cors: {
         origin: "http://localhost:8080",
@@ -34,56 +35,49 @@ const io= new Server(httpServer, {
         credentials:false
     }
 })
-
-
-
-
-server.use(express.json());
-server.use(express.urlencoded({extended:true}));
-
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 const moongose_url = process.env.MONGOOSE_URL;
 
 
-
+//CONFIG dependencias
 // const fileStorage = new FileStore(session);
 // const store = new fileStorage({ path: `${__dirname}/sessions/`, ttl: 30, reapInterval: 300, retries: 0 });
 const store= MongoStore.create({mongoUrl: moongose_url, mongoOptions: {}, ttl:30})
-server.use(session({
+app.use(session({
     store: store,
     secret: "abcdef123456",
     resave: false,
     saveUninitialized: false,
-    // cookie: { maxAge: 30 * 1000 }, // la sesión expira luego de 30 segundos de INACTIVIDAD
 }));
-server.use(cors())
+app.use(cors())
+app.engine("handlebars",engine())
+app.set("view engine","handlebars")
+app.set("views","src/views")
+
 //habilitar para validar jwt con cookies
 // server.use(cookieParser('abc123'))
 initPassport()
 initPassportJwt()
-server.use(passport.initialize())
-
-server.use("/", usersRoutes(store))
-server.use("/api",productsRoutes())
-server.use("/api",routerCart)
-server.use("/api",productRoutesDB)
-server.use("/api",cartsRoutesDB)
-server.use(viewsRouter(io))
-server.use(chatRouter(io))
-server.use("/public", express.static(`${__dirname}/src/public`))
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 
 
+//ROUTES
+app.use("/", usersRoutes(store))
+app.use("/api",productsRoutes())
+app.use("/api",routerCart)
+app.use("/api",productRoutesDB)
+app.use("/api",cartsRoutesDB)
+app.use(viewsRouter(io))
+app.use(chatRouter(io))
+app.use("/public", express.static(`${__dirname}/src/public`))
 
-server.use(passport.initialize())
-server.use(passport.session())
 
 
 
-
-server.engine("handlebars",engine())
-server.set("view engine","handlebars")
-server.set("views","src/views")
 
 io.on("connection",(socket)=>{
     console.log(`nuevo cliente conectado ${socket.id}`)
@@ -99,7 +93,7 @@ io.on("connection",(socket)=>{
 
 try{
     await mongoose.connect(moongose_url)
-    server.listen(port,()=>{
+    app.listen(port,()=>{
         console.log("server http on")
     }) 
 }catch(err){
