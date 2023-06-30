@@ -57,7 +57,7 @@ server.use(session({
 }));
 server.use(cors())
 //habilitar para validar jwt con cookies
-server.use(cookieParser('abc123'))
+// server.use(cookieParser('abc123'))
 initPassport()
 initPassportJwt()
 server.use(passport.initialize())

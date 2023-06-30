@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import mongoose from 'mongoose';
-import userModel from './models/users.model.js';
+import user from './models/users.model.js';
 
 class Users {
 
@@ -10,7 +10,7 @@ class Users {
 
     validate= async (user,pass)=>{
         try{
-            return await userModel.findOne({email:user})
+            return await user.findOne({email:user})
         }catch(err){
             console.log(err)
         }

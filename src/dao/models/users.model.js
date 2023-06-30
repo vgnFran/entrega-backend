@@ -1,10 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 mongoose.pluralize(null);
 
-const collection= "users"
 
-const schema= new mongoose.Schema({
+const schema= new Schema({
     email:{type:String, required:true},
     surName: {type:String, required:true},
     name: {type:String, required:true},
@@ -12,7 +11,6 @@ const schema= new mongoose.Schema({
     age:{type:Number},
     rol: String
 })
+const user= mongoose.model("users",schema)
 
-const userModel= mongoose.model(collection,schema)
-
-export default userModel
+export default user

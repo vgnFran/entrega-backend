@@ -1,13 +1,11 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 
-const collection= "messages"
-
-const schema= new mongoose.Schema({
+const schema= new Schema({
     user:String,
     message:String
 })
 
-const chatModel= mongoose.model(collection,schema)
+const chatModel= mongoose.model("messages",schema)
 
 export default chatModel

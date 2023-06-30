@@ -2,14 +2,11 @@ import { Router } from "express";
 import { __dirname } from "../../utils.js";
 import ProductsManagerDB from "../dao/productManagerDB.js";
 import Users from "../dao/usersManager.js";
-import userModel from "../dao/models/users.model.js";
+import user from "../dao/models/users.model.js";
 import { hashing, compareHash, validate } from "../../utils.js";
 import passport from "../config/passport.config.js"
 import initializePassport from "../config/passportGithub.config.js";
 import { newToken, authToken} from "../config/jwt.config.js";
-import { initPassportJwt } from "../config/passport.jwtStrategy.config.js";
-import {  initPassport } from "../config/passport.cookies.config.js";
-import jwt from 'passport-jwt';
 
 initializePassport()
 
@@ -99,7 +96,7 @@ const usersRoutes=()=>{
     router.post("/register", passport.authenticate('authRegister', { failureRedirect: '/regfail' }) ,async (req,res)=>{
         const {name,surName, password, email, age} = req.body
         const newUser= {name:name, email: email,surName: surName, password: hashing(password), rol:"usuario", age:age}
-        // await userModel.create(newUser)
+        await user.create(newUser)
         console.log(newUser)
         if (name != undefined && email != undefined && password != undefined){
             req.sessionStore.userValidated=true

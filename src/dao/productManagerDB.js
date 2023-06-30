@@ -2,6 +2,7 @@
 import mongoose from "mongoose";
 import productModel from "./models/products.model.js";
 
+
 class ProductsManagerDB{
 
     getProducts= async ()=>{

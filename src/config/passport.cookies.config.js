@@ -14,7 +14,7 @@ const cookieExtractor = (req) => {
 
 const jwtData = {
     jwtFromRequest: JWTExtractor.fromExtractors([cookieExtractor]),
-    secretOrKey: 'abc123' // misma que en app.js
+    secretOrKey: 'abc123' 
 }
 
 const verify = async (jwt_payload, done) => {
