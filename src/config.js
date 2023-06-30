@@ -8,7 +8,7 @@ program
     .parse(process.argv);
 const options = program.opts();
 
-dotenv.config({ path: options.mode == 'DEVEL' ? './.env.development': './.env.production' });
+dotenv.config({ path: options.mode == 'DEV' ? './.env.development': './.env.production' });
 
 const config = {
     VERSION: process.env.VERSION,

@@ -28,7 +28,7 @@ const session_secret= "abcdfgh12345678"
 const port= 8080;
 const wsPort= 8090;
 const app= express();
-const httpServer= app.listen(wsPort,()=>{console.log("server socket.io on")})
+const httpServer= app.listen(wsPort,()=>{console.log("Server socket.io on")})
 const io= new Server(httpServer, {
     cors: {
         origin: "http://localhost:8080",
@@ -38,7 +38,7 @@ const io= new Server(httpServer, {
 })
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-const moongose_url = process.env.MONGOOSE_URL;
+const moongose_url = config.MONGOOSE_URL;
 
 
 //CONFIG dependencias
@@ -81,13 +81,13 @@ app.use("/public", express.static(`${__dirname}/src/public`))
 
 
 io.on("connection",(socket)=>{
-    console.log(`nuevo cliente conectado ${socket.id}`)
+    console.log(`new client connected ${socket.id}`)
     
     socket.on("disconnect",(reason)=>{
-        console.log("cliente desconectado")
+        console.log("client disconect")
     })
 
-    socket.emit("confirm","mensaje desde el servidor")
+    socket.emit("confirm","server message")
 
 })
 
@@ -95,10 +95,10 @@ io.on("connection",(socket)=>{
 try{
     await mongoose.connect(moongose_url)
     app.listen(config.SERVER_PORT,()=>{
-        console.log(`Servidor HTTP iniciado en ${config.SERVER_PORT}`)
+        console.log(`Servidor HTTP started on port ${config.SERVER_PORT}`)
     }) 
 }catch(err){
-    console.log("no se puede conectar a la bbdd")
+    console.log("Cannot connect to the DDBB")
 
 }
 
