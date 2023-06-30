@@ -20,6 +20,7 @@ import { initPassport } from "./src/config/passport.cookies.config.js";
 import { initPassportJwt } from "./src/config/passport.jwtStrategy.config.js";
 import cors from "cors"
 import {} from 'dotenv/config'
+import config from "./src/config.js";
 
 
 //CONGIF PRINCIPAL DEL SERVER
@@ -93,8 +94,8 @@ io.on("connection",(socket)=>{
 
 try{
     await mongoose.connect(moongose_url)
-    app.listen(port,()=>{
-        console.log("server http on")
+    app.listen(config.SERVER_PORT,()=>{
+        console.log(`Servidor HTTP iniciado en ${config.SERVER_PORT}`)
     }) 
 }catch(err){
     console.log("no se puede conectar a la bbdd")
