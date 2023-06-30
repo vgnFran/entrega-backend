@@ -95,7 +95,7 @@ io.on("connection",(socket)=>{
 try{
     await mongoose.connect(moongose_url)
     app.listen(config.SERVER_PORT,()=>{
-        console.log(`Servidor HTTP started on port ${config.SERVER_PORT}`)
+        console.log(`Server HTTP started on port ${config.SERVER_PORT}`)
     }) 
 }catch(err){
     console.log("Cannot connect to the DDBB")
