@@ -11,10 +11,10 @@ const schema= new Schema({
   products: [{
         product: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "products"
+          ref: "products",
         },
         quantity: {
-          type: Number,
+        type:Number,required:[true,"quantity is required"]
         }
       }]
 
