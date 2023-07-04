@@ -1,15 +1,12 @@
 import { Router } from "express";
 import { __dirname } from "../../utils.js";
-// import ProductsManagerDB from "../dao/productManagerDB.js";
 import ProductsManagerDB from "../services/productManagerDB.js";
-// import Users from "../dao/usersManager.js";
 import Users from "../services/usersManager.js";
-// import user from "../dao/models/users.model.js";
 import user from "../models/dao/models/users.model.js"
 import { hashing, compareHash, validate } from "../../utils.js";
-import passport from "../config/passport.config.js"
-import initializePassport from "../config/passportGithub.config.js";
-import { newToken, authToken} from "../config/jwt.config.js";
+import passport from "../auth/passport.config.js"
+import initializePassport from "../auth/passportGithub.config.js";
+import { newToken, authToken} from "../auth/jwt.config.js";
 
 initializePassport()
 

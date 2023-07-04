@@ -1,6 +1,6 @@
 import express from "express";
 // import productsRoutes from "./src/routes/products.routes.FS.js";
-import routerCart from "./src/routes/carts.routes.FS.js"
+// import routerCart from "./src/routes/carts.routes.FS.js"
 // import viewsRouter from "./src/routes/views.js";
 import productRoutesDB from "./src/routes/products.routes.js";
 import cartsRoutesDB from "./src/routes/carts.routes.js";
@@ -16,8 +16,8 @@ import usersRoutes from "./src/routes/users.routes.js";
 
 import passport from "passport"
 import cookieParser from "cookie-parser";
-import { initPassport } from "./src/config/passport.cookies.config.js";
-import { initPassportJwt } from "./src/config/passport.jwtStrategy.config.js";
+import { initPassport } from "./src/auth/passport.cookies.config.js";
+import { initPassportJwt } from "./src/auth/passport.jwtStrategy.config.js";
 import cors from "cors"
 import {} from 'dotenv/config'
 import config from "./src/config/config.js"
@@ -69,7 +69,7 @@ app.use(passport.initialize())
 //ROUTES
 app.use("/", usersRoutes(store))
 // app.use("/api",productsRoutes())
-app.use("/api",routerCart)
+// app.use("/api",routerCart)
 app.use("/api",productRoutesDB)
 app.use("/api",cartsRoutesDB)
 // app.use(viewsRouter(io))
