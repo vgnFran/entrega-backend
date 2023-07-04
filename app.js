@@ -3,7 +3,7 @@ import express from "express";
 import routerCart from "./src/routes/carts.routes.FS.js"
 // import viewsRouter from "./src/routes/views.js";
 import productRoutesDB from "./src/routes/products.routes.js";
-import cartsRoutesDB from "./src/routes/carts.routes.DB.js";
+import cartsRoutesDB from "./src/routes/carts.routes.js";
 import chatRouter from "./src/chat/chat.js";
 import { __dirname } from "./utils.js";
 import { engine } from "express-handlebars";

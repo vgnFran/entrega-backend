@@ -1,7 +1,7 @@
 import fs from "fs";
 
 
-class CartManager{
+export default class Carts{
 
     constructor(path){
         this.path=path
@@ -32,7 +32,7 @@ class CartManager{
         }  
     }
 
-    cartsInCart=(Cid,Pid)=>{
+    productInCart=(Cid,Pid)=>{
         const cartId= this.getCarts().find((prod)=>{
             return prod.id == Cid
         })
@@ -71,4 +71,3 @@ class CartManager{
 
 }
 
-export default CartManager
