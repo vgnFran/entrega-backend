@@ -1,8 +1,8 @@
 import express from "express";
-import productsRoutes from "./src/routes/products.routes.FS.js";
+// import productsRoutes from "./src/routes/products.routes.FS.js";
 import routerCart from "./src/routes/carts.routes.FS.js"
-import viewsRouter from "./src/routes/views.js";
-import productRoutesDB from "./src/routes/product.routes.DB.js";
+// import viewsRouter from "./src/routes/views.js";
+import productRoutesDB from "./src/routes/products.routes.js";
 import cartsRoutesDB from "./src/routes/carts.routes.DB.js";
 import chatRouter from "./src/chat/chat.js";
 import { __dirname } from "./utils.js";
@@ -68,11 +68,11 @@ app.use(passport.initialize())
 
 //ROUTES
 app.use("/", usersRoutes(store))
-app.use("/api",productsRoutes())
+// app.use("/api",productsRoutes())
 app.use("/api",routerCart)
 app.use("/api",productRoutesDB)
 app.use("/api",cartsRoutesDB)
-app.use(viewsRouter(io))
+// app.use(viewsRouter(io))
 app.use(chatRouter(io))
 app.use("/public", express.static(`${__dirname}/src/public`))
 

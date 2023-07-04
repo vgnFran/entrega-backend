@@ -1,6 +1,9 @@
 import Product from "../services/productManagerDB.js";
 import productModel from "../models/dao/models/products.model.js";
 
+//importar para usar FS en vez de DB
+// import Product from "../services/productManagerFS.js";
+
 
 const product= new Product
 

@@ -1,21 +1,21 @@
 import fs from "fs"
 
-class ProductsManager{
+export default class Product{
     static id= 0
-    constructor(path){
-        this.path=path
+    constructor(){
+        this.path="./src/products.json"
         this.products=[]
     }
 
     
 
-    fsProducts= ()=>{
+    getProducts= ()=>{
         return JSON.parse(fs.readFileSync(this.path,"utf-8"))
     }
 
 
     getProductsById=(id)=>{
-        const filtered= this.fsProducts().find(prod=>{
+        const filtered= this.getProducts().find(prod=>{
             return prod.id == id
         })
         return filtered
@@ -24,7 +24,7 @@ class ProductsManager{
 
     createProduct=(data)=>{
 
-        const newId= prod1.fsProducts().pop().id+1
+        const newId= prod1.getProducts().pop().id+1
 
         const newProduct={
             id:newId,
@@ -45,7 +45,7 @@ class ProductsManager{
     updatePoduct=(update,data)=>{
 
             const updatedProduct= {...update,...data}
-            const notUpdate= this.fsProducts().filter(prod=>{
+            const notUpdate= this.getProducts().filter(prod=>{
                 return prod.id !=  update.id
             })
              
@@ -55,20 +55,20 @@ class ProductsManager{
        
     }
 
-    deleteProduct=(deleted)=>{
-
-        if(deleted){
-            const withoutRemoved= productsParse.filter(prod=>{
-                return prod.id != deleted.id
-            })
-            fs.writeFileSync("./src/products.json",JSON.stringify(withoutRemoved))
-        }
+    deleteProduct=(id)=>{
+       
+        const withoutRemoved= this.getProducts().filter(prod=>{
+            return prod.id != id
+        })
+        
+        fs.writeFileSync("./src/products.json",JSON.stringify(withoutRemoved))
+        return withoutRemoved
     }
 
 
 }
 
-export default ProductsManager
+
 
 
 
