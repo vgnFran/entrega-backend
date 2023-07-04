@@ -1,10 +1,7 @@
 import Product from "../services/productManagerDB.js";
 import user from "../models/dao/models/users.model.js";
 import Users from "../services/usersManager.js";
-import { hashing, compareHash } from "../../utils.js";
 
-const products= new Product()
-const usersModel= new user() // modelo
 const User= new Users() //clase
 
 export const checkUser= async (req,res)=>{

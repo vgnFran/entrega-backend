@@ -1,9 +1,5 @@
 import { Router } from "express";
 import { __dirname } from "../../utils.js";
-import ProductsManagerDB from "../services/productManagerDB.js";
-import Users from "../services/usersManager.js";
-import user from "../models/dao/models/users.model.js"
-import { hashing, compareHash,  } from "../../utils.js";
 import passport from "../auth/passport.config.js"
 import initializePassport from "../auth/passportGithub.config.js";
 import { newToken, authToken} from "../auth/jwt.config.js";
@@ -15,7 +11,7 @@ initializePassport()
 const usersRoutes=()=>{
     const router=Router()
 
-    
+
     router.get("/", checkUser)
 
     router.get("/logout",logout)
