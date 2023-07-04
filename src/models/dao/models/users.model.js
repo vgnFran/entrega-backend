@@ -8,7 +8,7 @@ const schema= new Schema({
     surName: {type:String, required:[true,"surname is required"]},
     name: {type:String, required:[true,"name is required"]},
     password:{type:String, required:[true,"password is required"]},
-    age:{type:Number},
+    age: Number,
     rol: String
 })
 const user= mongoose.model("users",schema)

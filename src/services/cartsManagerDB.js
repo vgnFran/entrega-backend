@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import cartModel from "./models/cart.model.js";
-import productModel from "./models/products.model.js";
+import cartModel from "../models/dao/models/cart.model.js";
+import productModel from "../models/dao/models/products.model.js";
 
 class cartsManagerDB{
 

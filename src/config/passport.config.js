@@ -1,6 +1,7 @@
 import passport from "passport";
 import LocalStrategy from "passport-local";
-import userModel from "../dao/models/users.model.js";
+// import userModel from "../dao/models/users.model.js";
+import userModel from "../models/dao/models/users.model.js"
 
 const authRegist= async (email,password, done)=>{
     try{
@@ -32,6 +33,7 @@ passport.deserializeUser(async (id,done)=>{
         done(null, user) 
 
     }catch(err){
+        console.log("aca")
         done(err.message)
     }
 })

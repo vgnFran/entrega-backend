@@ -1,6 +1,8 @@
 import { Router } from "express"
-import cartsManagerDB from "../dao/cartsManagerDB.js"
-import cartModel from "../dao/models/cart.model.js"
+// import cartsManagerDB from "../dao/cartsManagerDB.js"
+import cartsManagerDB from "../services/cartsManagerDB.js"
+// import cartModel from "../dao/models/cart.model.js"
+import cartModel from "../models/dao/models/cart.model.js"
 import mongoose from "mongoose"
 
 const router= Router()

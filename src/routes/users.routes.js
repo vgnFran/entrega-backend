@@ -1,8 +1,11 @@
 import { Router } from "express";
 import { __dirname } from "../../utils.js";
-import ProductsManagerDB from "../dao/productManagerDB.js";
-import Users from "../dao/usersManager.js";
-import user from "../dao/models/users.model.js";
+// import ProductsManagerDB from "../dao/productManagerDB.js";
+import ProductsManagerDB from "../services/productManagerDB.js";
+// import Users from "../dao/usersManager.js";
+import Users from "../services/usersManager.js";
+// import user from "../dao/models/users.model.js";
+import user from "../models/dao/models/users.model.js"
 import { hashing, compareHash, validate } from "../../utils.js";
 import passport from "../config/passport.config.js"
 import initializePassport from "../config/passportGithub.config.js";
@@ -95,7 +98,7 @@ const usersRoutes=()=>{
     router.post("/register", passport.authenticate('authRegister', { failureRedirect: '/regfail' }) ,async (req,res)=>{
         const {name,surName, password, email, age} = req.body
         const newUser= {name:name, email: email,surName: surName, password: hashing(password), rol:"usuario", age:age}
-        await user.create(newUser)
+        // await user.create(newUser)
         console.log(newUser)
         if (name != undefined && email != undefined && password != undefined){
             req.sessionStore.userValidated=true
@@ -122,7 +125,7 @@ const usersRoutes=()=>{
     
     })
 
-    //endpoint para validar usuario por cookies
+    //endpoint para validar usuario por cookies (habilitar cookieparser)
     router.get("/current", passport.authenticate('jwtAuth', { session: false }), async (req,res)=>{
         console.log("validacion por cookies ok")
         res.status(200).send(req.user)

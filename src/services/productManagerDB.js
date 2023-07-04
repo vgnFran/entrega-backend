@@ -1,9 +1,14 @@
 
 import mongoose from "mongoose";
-import productModel from "./models/products.model.js";
+// import productModel from "./models/products.model.js";
+import productModel from "../models/dao/models/products.model.js";
 
 
-class ProductsManagerDB{
+export default class Product{
+
+    constructor(){
+        this.products=[]
+    }
 
     getProducts= async ()=>{
 
@@ -66,6 +71,7 @@ class ProductsManagerDB{
 
     updateProduct= async (id,data) =>{
         try{
+            console.log(id)
             return await productModel.updateOne({"_id":new mongoose.Types.ObjectId(id)},data)     
         }catch(err){
             return `product id: ${id} does not exist in the database` 
@@ -82,4 +88,3 @@ class ProductsManagerDB{
 
 }
 
-export default ProductsManagerDB

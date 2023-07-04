@@ -1,6 +1,8 @@
 import { Router } from "express"
-import ProductsManager from "../dao/productManagerFS.js"
-import ProductsManagerDB from "../dao/productManagerDB.js"
+// import ProductsManager from "../dao/productManagerFS.js"
+import ProductsManager from "../services/productManagerFS.js"
+// import ProductsManagerDB from "../dao/productManagerDB.js"
+import ProductsManagerDB from "../services/productManagerDB.js"
 
 
 const productsRoutes=(io)=>{

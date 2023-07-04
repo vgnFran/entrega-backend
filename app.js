@@ -20,7 +20,7 @@ import { initPassport } from "./src/config/passport.cookies.config.js";
 import { initPassportJwt } from "./src/config/passport.jwtStrategy.config.js";
 import cors from "cors"
 import {} from 'dotenv/config'
-import config from "./src/config.js";
+import config from "./src/config/config.js"
 
 
 //CONGIF PRINCIPAL DEL SERVER
@@ -57,11 +57,11 @@ app.set("view engine","handlebars")
 app.set("views","src/views")
 
 //habilitar para validar jwt con cookies
-// server.use(cookieParser('abc123'))
+// app.use(cookieParser('abc123'))
 initPassport()
 initPassportJwt()
 app.use(passport.initialize())
-app.use(passport.session())
+// app.use(passport.session())
 
 
 

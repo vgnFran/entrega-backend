@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import mongoose from 'mongoose';
-import user from './models/users.model.js';
+// import user from './models/users.model.js';
+import user from "../models/dao/models/users.model.js"
 
 class Users {
 
