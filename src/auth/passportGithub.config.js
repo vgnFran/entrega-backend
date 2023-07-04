@@ -1,6 +1,5 @@
 import passport from "passport";
 import GithubStrategy from "passport-github2"
-// import userModel from "../dao/models/users.model.js";
 import userModel from "../models/dao/models/users.model.js"
 
 const initializePassport= ()=>{
