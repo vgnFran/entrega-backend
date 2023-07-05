@@ -22,10 +22,10 @@ class Users {
         
         console.log(newUser)
         if (name != undefined && email != undefined && password != undefined){
-            //await user.create(newUser)
-            // req.sessionStore.userValidated=true
-            // delete newUser.password
-            // req.sessionStore.user= newUser
+            await user.create(newUser)
+            req.sessionStore.userValidated=true
+            delete newUser.password
+            req.sessionStore.user= newUser
             const token= newToken(newUser,"24h")
             console.log(token)
             return newUser

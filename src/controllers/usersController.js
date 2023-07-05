@@ -10,7 +10,6 @@ export const checkUser= async (req,res)=>{
             const data= await User.checkUser(req,res)
             res.render("products",{products:data.products, user: data.user})
         }else{
-            console.log(req.sessionStore)
             res.render("login",{sessionInfo: req.sessionStore})
         }
 
