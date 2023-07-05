@@ -46,7 +46,7 @@ class Users {
         if(newUser === null){
             req.sessionStore.userValidated= false
             req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'Ingrese Usuario y Clave';
-            return "no ingreso nada"
+            return null
         }else{
             if(compareHash(newUser,login_password)){
                 req.sessionStore.userValidated=true
