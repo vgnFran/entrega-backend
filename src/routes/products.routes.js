@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getProductsById, getProducts, productsViews, createProduct, updateProduct, deleteProduct } from "../controllers/productController.js";
+import { isAdmin } from "../controllers/usersController.js";
 
 const router= Router()
 
@@ -12,20 +13,22 @@ const router= Router()
 
 
 
-    router.get("/products?",getProducts)    
+    router.get("/products?", getProducts)    
    
    
     // CON EL ENDPOINT /productsViews renderizamos una plantilla con todos los productos, agrengando params podemos filtrar, ej: productsViews?category=iphone&limit=5&page=1&sort=-1, veremos solamente los productos categoria iphone, limite de 5, su primera pagina y ordenados por precio
     router.get("/productsViews?",productsViews)
 
-
-    router.post("/products", createProduct)
-
-
-    router.put("/products/:id", updateProduct)
+    //con el middleware isAdmin verificamos si un usuario iniciado sesion es administrador, si no hay una sesion iniciada de administrador entonces no podra ingresar al endpoint
+    router.post("/products",isAdmin, createProduct)
 
 
-    router.delete("/products/:id", deleteProduct)
+    router.put("/products/:id",isAdmin, updateProduct)
+
+
+    router.delete("/products/:id",isAdmin, deleteProduct)
+
+   
 
 
 

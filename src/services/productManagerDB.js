@@ -84,6 +84,13 @@ export default class Product{
             return `product id: ${id} does not exist in the database` 
         }
     }
-
+    
+    isAdmin= async(req)=>{
+        try{
+            
+        }catch(err){
+            return err
+        }
+    }
 }
 

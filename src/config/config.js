@@ -13,7 +13,8 @@ dotenv.config({ path: options.mode == 'DEV' ? './.env.development': './.env.prod
 const config = {
     VERSION: process.env.VERSION,
     SERVER_PORT: process.env.SERVER_PORT,
-    MONGOOSE_URL: process.env.MONGOOSE_URL
+    MONGOOSE_URL: process.env.MONGOOSE_URL,
+    GOOGLEAPP: process.env.GOOGLEAPP
 }
 
 export default config;

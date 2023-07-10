@@ -92,3 +92,12 @@ export const regFail= async (req,res)=>{
     }
 }
 
+export const isAdmin= async (req,res, next)=>{
+    try{
+        if(await User.isAdmin(req) == "usuario"){
+            next()
+        }
+    }catch(err){    
+        res.status(400).send(err)
+    }
+}
