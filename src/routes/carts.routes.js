@@ -2,6 +2,7 @@ import { Router } from "express"
 import cartsManagerDB from "../services/cartsManagerDB.js"
 import cartModel from "../models/dao/models/cart.model.js"
 import { cartProducts, cartViews, deleteProductInCart, deleteProducts, getCarts, newCart, productsInCart, updateQuantity } from "../controllers/cartsController.js"
+import { isUser } from "../controllers/usersController.js"
 
 const router= Router()
 const manager= new cartsManagerDB
@@ -19,7 +20,7 @@ router.get("/carts/:id",cartProducts)
 
 
 
-router.post("/carts/:cid/products/:pid", productsInCart)
+router.post("/carts/:cid/products/:pid",isUser, productsInCart)
 
 
 

@@ -94,6 +94,13 @@ class Users {
         }
     }
 
+    isUser= async(req,res)=>{
+        const user= req.session.user
+        if(user){            
+            return user.rol
+        }
+    }
+
 
 }
 
