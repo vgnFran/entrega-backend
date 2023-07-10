@@ -4,6 +4,8 @@ import passport from "../auth/passport.config.js"
 import initializePassport from "../auth/passportGithub.config.js";
 import { newToken, authToken} from "../auth/jwt.config.js";
 import { checkUser, login, logout, passportValidateCookies, passportValidateToken, regFail, register, registerRender, validateToken, isAdmin } from "../controllers/usersController.js";
+import Ticket from "../services/ticketManager.js";
+
 
 import nodemailer from "nodemailer"
 import twilio from "twilio"
@@ -103,7 +105,10 @@ const usersRoutes=()=>{
     //     res.send(result)
     // })
     
-
+    const ticket= new Ticket
+    router.get("/ticket",async (req,res)=>{
+        res.send(await ticket.getTickets())
+    })
 
     return router
 
