@@ -12,6 +12,7 @@ const schema= new Schema({
 
 
 
+
 const ticketModel= mongoose.model("tickets",schema)
 
 export default ticketModel

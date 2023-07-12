@@ -11,7 +11,7 @@ class Users {
 
     validate= async (userMail,pass)=>{
         try{
-            return await user.findOne({email:userMail})
+            return await user.findOne({email:userMail}).populate("cart")
         }catch(err){
             console.log(err)
         }
@@ -31,7 +31,6 @@ class Users {
             return newUser
         }
     }
-
     logout= async(req,res)=>{
         req.sessionStore.userValidated=false
         req.session.destroy()
@@ -41,8 +40,9 @@ class Users {
     login= async (login_email, login_password,req,res)=>{
         req.sessionStore.errorMessage = req.sessionStore.errorMessage = '';
         const newUser= await this.validate(login_email, login_password)
-        const { userName, password, name, rol, email } = newUser
-        const dataUser= {userName:email, password:password, name:name, rol:rol}
+        const { userName, password, name, rol, email, cart } = newUser
+        const dataUser= {userName:email, password:password, name:name, rol:rol, cart:cart}
+        console.log(dataUser)
         if(newUser === null){
             req.sessionStore.userValidated= false
             req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'Ingrese Usuario y Clave';

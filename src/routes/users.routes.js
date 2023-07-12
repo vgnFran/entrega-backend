@@ -10,7 +10,9 @@ import Ticket from "../services/ticketManager.js";
 import nodemailer from "nodemailer"
 import twilio from "twilio"
 import config from "../config/config.js"
-
+import cartModel from "../models/dao/models/cart.model.js";
+import productModel from "../models/dao/models/products.model.js";
+import Carts from "../services/cartsManagerDB.js";
 
 
 
@@ -61,12 +63,6 @@ const usersRoutes=()=>{
     });
 
 
-
-
-    router.get("/req", isAdmin )
-
-
-
     // const trasport= nodemailer.createTransport({
     //     service:"gmail",
     //     port:587,
@@ -105,10 +101,27 @@ const usersRoutes=()=>{
     //     res.send(result)
     // })
     
-    const ticket= new Ticket
+    // const ticket= new Ticket
+    // router.get("/ticket",async (req,res)=>{
+    //     res.send(await ticket.getTickets())
+    // })
+
     router.get("/ticket",async (req,res)=>{
-        res.send(await ticket.getTickets())
+
+       
+        const idCart= req.session.user.cart._id
+        
+
+        res.send({
+            user: req.session.user.userName,
+            cart: await cartModel.findById(idCart).populate("products._id")
+
+        })
+        
+
     })
+
+    
 
     return router
 

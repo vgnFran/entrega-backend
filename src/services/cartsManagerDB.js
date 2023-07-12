@@ -8,13 +8,16 @@ export default class Carts{
         this.id= 1
     }
 
-    getCarts= async()=>{
-        try{
-            return await cartModel.find().populate({path:"products", model:productModel})
-        }catch(err){
-            return err
+    getCarts = async () => {
+        try {
+          return await cartModel
+            .find()
+            .populate("products");
+        } catch (err) {
+          return err;
         }
-    }
+      };
+      
 
     newCart= async ()=>{
         try{

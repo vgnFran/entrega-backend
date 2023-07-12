@@ -9,7 +9,8 @@ const schema= new Schema({
     name: {type:String, required:[true,"name is required"]},
     password:{type:String, required:[true,"password is required"]},
     age: Number,
-    rol: String
+    rol: String,
+    cart: {type: Schema.Types.ObjectId, ref:"carts"},
 })
 const user= mongoose.model("users",schema)
 
