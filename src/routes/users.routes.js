@@ -5,6 +5,7 @@ import initializePassport from "../auth/passportGithub.config.js";
 import { newToken, authToken} from "../auth/jwt.config.js";
 import { checkUser, login, logout, passportValidateCookies, passportValidateToken, regFail, register, registerRender, validateToken, isAdmin } from "../controllers/usersController.js";
 import Ticket from "../services/ticketManager.js";
+import { newPurchase } from "../controllers/ticketController.js";
 
 
 import nodemailer from "nodemailer"
@@ -13,6 +14,7 @@ import config from "../config/config.js"
 import cartModel from "../models/dao/models/cart.model.js";
 import productModel from "../models/dao/models/products.model.js";
 import Carts from "../services/cartsManagerDB.js";
+import ticketModel from "../models/dao/models/tickets.model.js";
 
 
 
@@ -63,6 +65,7 @@ const usersRoutes=()=>{
     });
 
 
+    
     // const trasport= nodemailer.createTransport({
     //     service:"gmail",
     //     port:587,
@@ -94,32 +97,15 @@ const usersRoutes=()=>{
 
     // router.get("/sms", async (req,res)=>{
     //     let result= await client.messages.create({
-    //         body:"hola profe probando",
+    //         body:"hola  probando",
     //         from:"+12058807562",
-    //         to: "+5493492522778"     
+    //         to: "+12058807562"   
     //     })
     //     res.send(result)
     // })
     
-    // const ticket= new Ticket
-    // router.get("/ticket",async (req,res)=>{
-    //     res.send(await ticket.getTickets())
-    // })
 
-    router.get("/ticket",async (req,res)=>{
-
-       
-        const idCart= req.session.user.cart._id
-        
-
-        res.send({
-            user: req.session.user.userName,
-            cart: await cartModel.findById(idCart).populate("products._id")
-
-        })
-        
-
-    })
+    router.get("/purchase",newPurchase)
 
     
 
