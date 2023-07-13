@@ -65,32 +65,40 @@ const usersRoutes=()=>{
     });
 
 
+
     
-    // const trasport= nodemailer.createTransport({
-    //     service:"gmail",
-    //     port:587,
-    //     auth:{
-    //         user:"vgnfran.dev@gmail.com",
-    //         pass:config.GOOGLEAPP
-    //     }
-    // })
+    // ingresar al endpoint /purchase 
+    router.get("/purchase",newPurchase)
+
+
+
+
+    
+    const trasport= nodemailer.createTransport({
+        service:"gmail",
+        port:587,
+        auth:{
+            user:"vgnfran.dev@gmail.com",
+            pass:config.GOOGLEAPP
+        }
+    })
    
-    // router.get("/mail", async (req,res)=>{
-    //     const result= await trasport.sendMail({
-    //         from:"Test <vgnfran.dev@gmail.com>",
-    //         to:"zkay3600@gmail.com",
-    //         subject:"to: maurito",
-    //         html:`
-    //         <h1>Test mail desde endpoint </h1>
-    //         <p>Hola gordo te estoy mandando desde mi backend jujuu </p>
-    //         <img src="cid:coder" style= "width:200px"/>
-    //         `,
-    //         attachments:[{
-    //             filename:"coder.jpg", path:`${__dirname}/src/images/coder.png`, cid:"coder" 
-    //         }]
-    //     })
-    //     res.send(result)
-    // })
+    router.get("/mail", async (req,res)=>{
+        const result= await trasport.sendMail({
+            from:"Test <vgnfran.dev@gmail.com>",
+            to:"vgnfran.dev@gmail.com",
+            subject:"to: me",
+            html:`
+            <h1>Test mail desde endpoint </h1>
+            <p>mail desde backend </p>
+            <img src="cid:coder" style= "width:200px"/>
+            `,
+            attachments:[{
+                filename:"coder.jpg", path:`${__dirname}/src/images/coder.png`, cid:"coder" 
+            }]
+        })
+        res.send(result)
+    })
 
     // const client= twilio("ACc907d0aeb1f86cf1d08376c3cabb011e","7039bd387ac0412dbd40d584e9799a7c")
 
@@ -103,10 +111,6 @@ const usersRoutes=()=>{
     //     })
     //     res.send(result)
     // })
-    
-
-    router.get("/purchase",newPurchase)
-
     
 
     return router
