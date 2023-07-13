@@ -52,11 +52,11 @@ export const newPurchase = async (req,res)=>{
                 {$inc: {stock: -prod.quantity}},
                 {new: true})
             })
-            await cartModel.findByIdAndUpdate(
-                {_id:idCart},
-                {$set: {products: []}},
-                {new: true}
-              );
+            // await cartModel.findByIdAndUpdate(
+            //     {_id:idCart},
+            //     {$set: {products: []}},
+            //     {new: true}
+            //   );
             ticket.message= "Todos los productos han sido comprados con exito"
             res.send(await ticketModel.create(ticket))
         }else if(inStock){
@@ -66,11 +66,11 @@ export const newPurchase = async (req,res)=>{
                 {$inc: {stock: -prod.quantity}},
                 {new: true})
             })
-            await cartModel.findByIdAndUpdate(
-                {_id:idCart},
-                {$set: {products: nostock}},
-                {new: true}
-              );
+            // await cartModel.findByIdAndUpdate(
+            //     {_id:idCart},
+            //     {$set: {products: nostock}},
+            //     {new: true}
+            //   );
             ticket.message=  `compra realizada, el producto ${nostock[0].product.description}, no a podido ser comprado ya que su cantidad de compra (${nostock[0].quantity}), excede la cantidad en stock (${nostock[0].product.stock})`
             res.send(await ticketModel.create(ticket)) 
         }else{
