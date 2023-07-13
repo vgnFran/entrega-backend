@@ -67,13 +67,13 @@ const usersRoutes=()=>{
 
 
     
-    // ingresar al endpoint /purchase 
+    // ingresar al endpoint /purchase (con un usuario ya logeado) y se realizara la compra 
     router.get("/purchase",newPurchase)
 
 
 
 
-    
+
     const trasport= nodemailer.createTransport({
         service:"gmail",
         port:587,
