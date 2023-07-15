@@ -20,7 +20,7 @@ router.get("/carts/:id",cartProducts)
 
 
 
-router.post("/carts/:cid/products/:pid",isUser, productsInCart)
+router.post("/carts/:cid/products/:pid", productsInCart)
 
 
 

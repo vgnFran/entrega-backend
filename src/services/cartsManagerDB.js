@@ -12,7 +12,7 @@ export default class Carts{
         try {
           return await cartModel
             .find()
-            .populate("products");
+            .populate({path: "products.product"})
         } catch (err) {
           return err;
         }
@@ -41,28 +41,30 @@ export default class Carts{
     }
 
 
-    productsInCart= async ()=>{
+    productsInCart= async (cid,pid)=>{
         try{
             const found= await cartModel.findOneAndUpdate(
-                {_id:req.params.cid, "products._id":req.params.pid },
+                {_id:cid, "products._id":pid },
                 {$inc: {"products.$.quantity": 1}},
-                {new: true}
-                            
+                {new: true}           
             )
-            
             if(found){
                 return found
-            }
-    
-        }catch{
+            }else{
                 
-            const newProduct= {quantity:1}
-            const updateCart= await cartModel.findOneAndUpdate(
-                {_id:req.params.cid},
-                {$push: {products: newProduct} },
-                {new: true}
-            )
-            return updateCart
+                const product= pid
+                product.toString()
+                const newProduct= {quantity:1, product:product}
+                const updateCart= await cartModel.findOneAndUpdate(
+                    {_id:cid},
+                    {$push: {products: newProduct} },
+                    {new: true}
+                )
+                return updateCart
+            }
+
+        }catch(err){
+            return err
         } 
     }
 

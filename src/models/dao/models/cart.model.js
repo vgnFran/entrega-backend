@@ -8,9 +8,12 @@ mongoose.pluralize(null);
 const schema= new Schema({
     
   products: [{
-      product: {type: Schema.Types.ObjectId, ref:"products"},
-      quantity: {type: Number, default:1}
+      pid: {type: Schema.Types.ObjectId, ref:"products"},
+      quantity: {type: Number, default:1},
+      product: {type: String, ref: "products"},
+      
   }]
+  
 });
 
 schema.plugin(mongoosePaginate);

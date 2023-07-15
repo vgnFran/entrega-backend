@@ -79,7 +79,8 @@ export const newPurchase = async (req,res)=>{
         }
     
     } catch(err){
-        res.status(400).send("usuario no logeado")
+        console.log(Error)
+        res.status(400).send(err)
     }
     
         
