@@ -1,6 +1,8 @@
 import cartModel from "../models/dao/models/cart.model.js";
 import ticketModel from "../models/dao/models/tickets.model.js";
 import productModel from "../models/dao/models/products.model.js";
+import errorManager from "../services/errorManager.js";
+import { dictionary } from "../utils/dictionary.js";
 
 export const newPurchase = async (req,res)=>{
 
@@ -79,8 +81,7 @@ export const newPurchase = async (req,res)=>{
         }
     
     } catch(err){
-        console.log(Error)
-        res.status(400).send(err)
+        throw new errorManager(dictionary.notFound)
     }
     
         

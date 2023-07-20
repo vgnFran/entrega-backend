@@ -1,6 +1,8 @@
 
 import mongoose from "mongoose";
 import productModel from "../models/dao/models/products.model.js";
+import errorManager from "./errorManager.js";
+import { dictionary } from "../utils/dictionary.js";
 
 
 export default class Product{
@@ -15,7 +17,7 @@ export default class Product{
             const products= await productModel.find().lean()
             return  products
         }catch{
-            console.log("error")
+            throw new errorManager(dictionary.notFound)
         }
         
     }
@@ -27,7 +29,7 @@ export default class Product{
         const product= await productModel.findById(id)
         return product
        }catch(err){
-        return `product id: ${id} does not exist in the database`      
+        throw new errorManager(dictionary.nonExistent)
        }
         
     }
@@ -58,9 +60,9 @@ export default class Product{
         })
 
         if(completeImputs.includes(true)){
-            return "incomplete field"
+            throw new errorManager(dictionary.incompleteField)
         }else if(repited){
-            return "the product alredy exists in the database"
+            throw new errorManager(dictionary.alreadyExists)
         }else{
             await productModel.create(newProduct)
 
@@ -73,7 +75,7 @@ export default class Product{
             console.log(id)
             return await productModel.updateOne({"_id":new mongoose.Types.ObjectId(id)},data)     
         }catch(err){
-            return `product id: ${id} does not exist in the database` 
+            throw new errorManager(dictionary.nonExistent)
         }
     }
 
@@ -81,16 +83,10 @@ export default class Product{
         try{
             return await productModel.deleteOne({"_id":new mongoose.Types.ObjectId(id)})
         }catch(err){
-            return `product id: ${id} does not exist in the database` 
+            throw new errorManager(dictionary.nonExistent)
         }
     }
     
-    isAdmin= async(req)=>{
-        try{
-            
-        }catch(err){
-            return err
-        }
-    }
+    
 }
 

@@ -2,6 +2,8 @@ import user from "../models/dao/models/users.model.js"
 import { hashing, compareHash } from "../utils/utils.js"
 import { newToken, authToken } from "../auth/jwt.config.js"
 import productModel from "../models/dao/models/products.model.js"
+import errorManager from "./errorManager.js"
+import { dictionary } from "../utils/dictionary.js"
 
 class Users {
 
@@ -13,7 +15,7 @@ class Users {
         try{
             return await user.findOne({email:userMail}).populate("cart")
         }catch(err){
-            console.log(err)
+            throw new errorManager(dictionary.notFound)
         }
     }
 
@@ -29,6 +31,8 @@ class Users {
             const token= newToken(newUser,"24h")
             console.log(token)
             return newUser
+        }else{
+            throw new errorManager(dictionary.notFound)
         }
     }
     logout= async(req,res)=>{
@@ -91,6 +95,8 @@ class Users {
         const user= req.session.user
         if(user){            
             return user.rol
+        }else{
+            throw new errorManager(dictionary.unauthorized)
         }
     }
 
@@ -98,6 +104,8 @@ class Users {
         const user= req.session.user
         if(user){            
             return user.rol
+        }else{
+            throw new errorManager(dictionary.unauthorized)
         }
     }
 

@@ -14,7 +14,7 @@ export const checkUser= async (req,res)=>{
         }
 
     }catch(err){
-        res.status(400).send(err)
+        next(err)
     }
 }
     
@@ -25,7 +25,7 @@ export const login= async (req,res)=>{
         const userLogg= await User.login(login_email, login_password,req,res)
         res.redirect(`http://localhost:8080`)
     }catch(err){
-        res.send(err)
+        next(err)
     }
     
 }
@@ -35,7 +35,7 @@ export const logout= async (req,res)=>{
         User.logout(req,res)
         res.redirect(`http://localhost:8080`)
     }catch(err){
-        res.status(400).send(err)
+        next(err)
     }
 }
 
@@ -43,7 +43,7 @@ export const registerRender= async (req,res)=>{
     try{
         res.render("register")
     }catch(err){
-        res.status(400).send(err)
+        next(err)
     }
 }
 
@@ -54,7 +54,7 @@ export const register= async (req,res)=>{
         console.log(newUser)
         res.send(newUser)
     }catch(err){
-        res.send(err)
+        next(err)
     }
 }
 
@@ -62,7 +62,7 @@ export const validateToken= async (req,res)=>{
     try{
         res.status(200).send(req.user)
     }catch(err){
-        res.status(400).send(err)
+        next(err)
     }
 }
 
@@ -71,7 +71,7 @@ export const passportValidateToken= async (req,res)=>{
         console.log("validacion por token ok")
         res.status(200).send(req.user)
     }catch(err){
-        res.status(400).send(err)
+        next(err)
     }
 }
 
@@ -80,7 +80,7 @@ export const passportValidateCookies= async(req,res)=>{
         console.log("validacion por cookies ok")
         res.status(200).send(req.user)
     }catch(err){
-        res.status(400).send(err)
+        next(err)
     }
 }
 
@@ -88,7 +88,7 @@ export const regFail= async (req,res)=>{
     try{
         res.render('registerError');
     }catch(err){
-        res.status(400).send(err)
+        next(err)
     }
 }
 
@@ -98,7 +98,7 @@ export const isAdmin= async (req,res, next)=>{
             next()
         }
     }catch(err){    
-        res.status(400).send(err)
+        next(err)
     }
 }
 
@@ -108,6 +108,6 @@ export const isUser= async (req,res, next)=>{
             next()
         }
     }catch(err){    
-        res.status(400).send(err)
+        next(err)
     }
 }

@@ -83,8 +83,8 @@ app.all("*",(req,res)=>{
 })
 
 app.use((err,req,res,next)=>{
-    const code= err.statusCode || 500
-    res.status(code).send(err.message)
+    const statusCode= err.statusCode || 400
+    res.status(statusCode).send(err.message)
 })
 
 

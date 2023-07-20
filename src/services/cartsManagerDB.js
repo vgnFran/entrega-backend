@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import cartModel from "../models/dao/models/cart.model.js";
 import productModel from "../models/dao/models/products.model.js";
+import errorManager from "./errorManager.js";
+import { dictionary } from "../utils/dictionary.js";
 
 export default class Carts{
 
@@ -14,7 +16,7 @@ export default class Carts{
             .find()
             .populate({path: "products.product"})
         } catch (err) {
-          return err;
+            throw new errorManager(dictionary.notFound)
         }
       };
       
@@ -27,7 +29,7 @@ export default class Carts{
             return await cartModel.create({oneCart}) 
 
         }catch(err){
-            return err
+            throw new errorManager(dictionary.notFound)
         }
     }
 
@@ -36,7 +38,7 @@ export default class Carts{
             const search= await cartModel.findById(id)
             return search.products
         }catch(err){
-            return err
+           throw new errorManager(dictionary.nonExistent)
         }
     }
 
@@ -64,7 +66,7 @@ export default class Carts{
             }
 
         }catch(err){
-            return err
+            throw new errorManager(dictionary.notFound)
         } 
     }
 
@@ -77,7 +79,7 @@ export default class Carts{
             )
             return deleteProduct
         }catch(err){
-            return err
+            throw new errorManager(dictionary.nonExistent)
         }
         
     }
@@ -91,7 +93,7 @@ export default class Carts{
             )
             return updateQuantity
         }catch(err){
-            return err
+            throw new errorManager(dictionary.nonExistent)
         }
     }
 
@@ -105,7 +107,7 @@ export default class Carts{
             ) 
             return deleteProducts
         }catch(err){
-            return err
+            throw new errorManager(dictionary.nonExistent)
         }
     }
 
@@ -115,7 +117,7 @@ export default class Carts{
             const cart=carts.products
             return cart
         }catch(err){
-           return err
+            throw new errorManager(dictionary.nonExistent)
         }
     }
 
