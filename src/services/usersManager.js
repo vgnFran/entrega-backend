@@ -1,5 +1,5 @@
 import user from "../models/dao/models/users.model.js"
-import { hashing, compareHash } from "../../utils.js"
+import { hashing, compareHash } from "../utils/utils.js"
 import { newToken, authToken } from "../auth/jwt.config.js"
 import productModel from "../models/dao/models/products.model.js"
 

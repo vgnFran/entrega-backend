@@ -1,4 +1,6 @@
 import { Faker, en } from "@faker-js/faker"
+import errorManager from "./errorManager.js"
+import { dictionary } from "../utils/dictionary.js"
 
 const faker= new Faker({ locale:[en] })
 
@@ -9,6 +11,10 @@ export default class MockProduct{
     }
 
     generateProduct= (number )=>{
+
+        if(isNaN(number)){
+            throw new errorManager(dictionary.invalidType)
+        }
 
         const products=[]
 

@@ -5,7 +5,7 @@ import express from "express";
 import productRoutesDB from "./src/routes/products.routes.js";
 import cartsRoutesDB from "./src/routes/carts.routes.js";
 import chatRouter from "./src/chat/chat.js";
-import { __dirname } from "./utils.js";
+import { __dirname } from "./src/utils/utils.js";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
@@ -21,6 +21,8 @@ import { initPassportJwt } from "./src/auth/passport.jwtStrategy.config.js";
 import cors from "cors"
 import {} from 'dotenv/config'
 import config from "./src/config/config.js"
+import errorManager from "./src/services/errorManager.js";
+import { dictionary } from "./src/utils/dictionary.js";
 
 
 //CONGIF PRINCIPAL DEL SERVER
@@ -76,6 +78,14 @@ app.use("/api",cartsRoutesDB)
 app.use(chatRouter(io))
 app.use("/public", express.static(`${__dirname}/src/public`))
 
+app.all("*",(req,res)=>{
+    throw new errorManager(dictionary.routingError)
+})
+
+app.use((err,req,res,next)=>{
+    const code= err.statusCode || 500
+    res.status(code).send(err.message)
+})
 
 
 

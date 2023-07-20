@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { __dirname } from "../../utils.js";
+import { __dirname } from "../utils/utils.js";
 import passport from "../auth/passport.config.js"
 import initializePassport from "../auth/passportGithub.config.js";
 import { newToken, authToken} from "../auth/jwt.config.js";

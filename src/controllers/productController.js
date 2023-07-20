@@ -1,7 +1,9 @@
 import Product from "../services/productManagerDB.js";
 import MockProduct from "../services/productManagerMock.js";
 import productModel from "../models/dao/models/products.model.js";
-
+// import errorManager from "./src/services/errorManager.js";
+import errorManager from "../services/errorManager.js";
+import { dictionary } from "../utils/dictionary.js";
 //importar para usar FS en vez de DB
 // import Product from "../services/productManagerFS.js";
 
@@ -82,9 +84,10 @@ export const deleteProduct= async (req,res)=>{
 
 export const generateProductMock= (req,res)=> {
     try{
-        res.send(mockProduct.generateProduct(13))
+        res.send(mockProduct.generateProduct("caca"))
     }catch(err){
-        res.status(400).send(err)
+        console.log("catch")
+        res.status(400).send(err.message)
     }
 }
 
