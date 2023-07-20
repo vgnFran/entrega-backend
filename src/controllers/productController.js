@@ -1,4 +1,5 @@
 import Product from "../services/productManagerDB.js";
+import MockProduct from "../services/productManagerMock.js";
 import productModel from "../models/dao/models/products.model.js";
 
 //importar para usar FS en vez de DB
@@ -6,6 +7,7 @@ import productModel from "../models/dao/models/products.model.js";
 
 
 const product= new Product
+const mockProduct= new MockProduct
 
 export  const getProductsById= async (req,res)=>{
     try{
@@ -74,6 +76,14 @@ export const deleteProduct= async (req,res)=>{
         
     }catch(err){
         console.log("err")
+        res.status(400).send(err)
+    }
+}
+
+export const generateProductMock= (req,res)=> {
+    try{
+        res.send(mockProduct.generateProduct(13))
+    }catch(err){
         res.status(400).send(err)
     }
 }

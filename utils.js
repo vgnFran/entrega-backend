@@ -14,4 +14,6 @@ const compareHash= (user,pass)=>{
 
 
 
+
 export { __filename, __dirname, hashing, compareHash }; 
+

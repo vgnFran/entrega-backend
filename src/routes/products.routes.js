@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getProductsById, getProducts, productsViews, createProduct, updateProduct, deleteProduct } from "../controllers/productController.js";
+import { getProductsById, getProducts, productsViews, createProduct, updateProduct, deleteProduct, generateProductMock } from "../controllers/productController.js";
 import { isAdmin, isUser } from "../controllers/usersController.js";
 
 const router= Router()
@@ -28,7 +28,7 @@ const router= Router()
 
     router.delete("/products/:id",isAdmin, deleteProduct)
 
-   
+    router.get("/mockingproducts", generateProductMock)
 
 
 
