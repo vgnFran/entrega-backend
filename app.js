@@ -20,9 +20,11 @@ import { initPassport } from "./src/auth/passport.cookies.config.js";
 import { initPassportJwt } from "./src/auth/passport.jwtStrategy.config.js";
 import cors from "cors"
 import {} from 'dotenv/config'
-import config from "./src/config/config.js"
+import {config, options} from "./src/config/config.js"
 import errorManager from "./src/services/errorManager.js";
 import { dictionary } from "./src/utils/dictionary.js";
+import { addLogger } from "./src/services/logger.js";
+
 
 
 //CONGIF PRINCIPAL DEL SERVER
@@ -64,13 +66,17 @@ initPassport()
 initPassportJwt()
 app.use(passport.initialize())
 // app.use(passport.session())
+app.use(addLogger)
+// if(options.mode == "DEV"){
+//     app.use(addLogger)
+// } 
 
 
 
 
 //ROUTES
 app.use("/", usersRoutes(store))
-// app.use("/api",productsRoutes())
+// app.use("/api",productsRoutes()) 
 // app.use("/api",routerCart)
 app.use("/api",productRoutesDB)
 app.use("/api",cartsRoutesDB)
@@ -79,6 +85,7 @@ app.use(chatRouter(io))
 app.use("/public", express.static(`${__dirname}/src/public`))
 
 app.all("*",(req,res)=>{
+    req.logger.http(`${req.url} inexistente`)
     throw new errorManager(dictionary.routingError)
 })
 

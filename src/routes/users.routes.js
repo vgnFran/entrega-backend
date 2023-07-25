@@ -10,7 +10,7 @@ import { newPurchase } from "../controllers/ticketController.js";
 
 import nodemailer from "nodemailer"
 import twilio from "twilio"
-import config from "../config/config.js"
+import {config} from "../config/config.js"
 import cartModel from "../models/dao/models/cart.model.js";
 import productModel from "../models/dao/models/products.model.js";
 import Carts from "../services/cartsManagerDB.js";

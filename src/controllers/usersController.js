@@ -6,6 +6,7 @@ const User= new Users() //clase
 
 export const checkUser= async (req,res)=>{
     try{
+        req.logger.warn("cuidao")
         if( await User.checkUser(req,res) != null){
             const data= await User.checkUser(req,res)
             res.render("products",{products:data.products, user: data.user})

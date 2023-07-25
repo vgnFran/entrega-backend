@@ -14,7 +14,10 @@ const config = {
     VERSION: process.env.VERSION,
     SERVER_PORT: process.env.SERVER_PORT,
     MONGOOSE_URL: process.env.MONGOOSE_URL,
-    GOOGLEAPP: process.env.GOOGLEAPP
+    GOOGLEAPP: process.env.GOOGLEAPP,
+    MODE: process.env.MODE,
+    test: process.env.TEST
+
 }
 
-export default config;
+export {config, options }
