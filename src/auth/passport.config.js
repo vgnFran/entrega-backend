@@ -33,7 +33,6 @@ passport.deserializeUser(async (id,done)=>{
         done(null, user) 
 
     }catch(err){
-        console.log("aca")
         done(err.message)
     }
 })

@@ -23,7 +23,7 @@ import {} from 'dotenv/config'
 import {config, options} from "./src/config/config.js"
 import errorManager from "./src/services/errorManager.js";
 import { dictionary } from "./src/utils/dictionary.js";
-import { addLogger } from "./src/services/logger.js";
+import { addLogger } from "./src/utils/logger.js";
 
 
 
@@ -67,9 +67,6 @@ initPassportJwt()
 app.use(passport.initialize())
 // app.use(passport.session())
 app.use(addLogger)
-// if(options.mode == "DEV"){
-//     app.use(addLogger)
-// } 
 
 
 
@@ -98,10 +95,10 @@ app.use((err,req,res,next)=>{
 
 
 io.on("connection",(socket)=>{
-    console.log(`new client connected ${socket.id}`)
+    req.logger.info(`new client connected ${socket.id}`)
     
     socket.on("disconnect",(reason)=>{
-        console.log("client disconect")
+        req.logger.info("client disconect")
     })
 
     socket.emit("confirm","server message")

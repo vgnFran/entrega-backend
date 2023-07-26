@@ -15,21 +15,21 @@ class Users {
         try{
             return await user.findOne({email:userMail}).populate("cart")
         }catch(err){
+            req.logger.error(err)
             throw new errorManager(dictionary.notFound)
         }
     }
 
-    register= async (name,surName,password,email,age)=>{
+    register= async (name,surName,password,email,age,req,res)=>{
         const newUser= {name:name, email: email,surName: surName, password: hashing(password), rol:"usuario", age:age}
-        
-        console.log(newUser)
+        req.logger.info(newUser)
         if (name != undefined && email != undefined && password != undefined){
             await user.create(newUser)
             req.sessionStore.userValidated=true
             delete newUser.password
             req.sessionStore.user= newUser
             const token= newToken(newUser,"24h")
-            console.log(token)
+            req.logger.info(token)
             return newUser
         }else{
             throw new errorManager(dictionary.notFound)
@@ -46,7 +46,7 @@ class Users {
         const newUser= await this.validate(login_email, login_password)
         const { userName, password, name, rol, email, cart } = newUser
         const dataUser= {userName:email, password:password, name:name, rol:rol, cart:cart}
-        console.log(dataUser)
+        req.logger.info(dataUser)
         if(newUser === null){
             req.sessionStore.userValidated= false
             req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'Ingrese Usuario y Clave';

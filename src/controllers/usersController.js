@@ -6,6 +6,11 @@ const User= new Users() //clase
 
 export const checkUser= async (req,res)=>{
     try{
+        let a = true
+    if(a){
+        req.logger.info(`test warn`)
+    }
+
         if( await User.checkUser(req,res) != null){
             const data= await User.checkUser(req,res)
             res.render("products",{products:data.products, user: data.user})
@@ -14,6 +19,7 @@ export const checkUser= async (req,res)=>{
         }
 
     }catch(err){
+        req.logger.error(err)
         next(err)
     }
 }
@@ -25,6 +31,7 @@ export const login= async (req,res)=>{
         const userLogg= await User.login(login_email, login_password,req,res)
         res.redirect(`http://localhost:8080`)
     }catch(err){
+        req.logger.error(err)
         next(err)
     }
     
@@ -35,6 +42,7 @@ export const logout= async (req,res)=>{
         User.logout(req,res)
         res.redirect(`http://localhost:8080`)
     }catch(err){
+        req.logger.error(err)
         next(err)
     }
 }
@@ -43,6 +51,7 @@ export const registerRender= async (req,res)=>{
     try{
         res.render("register")
     }catch(err){
+        req.logger.error(err)
         next(err)
     }
 }
@@ -50,10 +59,11 @@ export const registerRender= async (req,res)=>{
 export const register= async (req,res)=>{
     try{
         const {name,surName, password, email, age} = req.body
-        const newUser= await User.register(name,surName,password,email,age)
-        console.log(newUser)
+        const newUser= await User.register(name,surName,password,email,age,req,res)
+        req.logger.info(newUser)
         res.send(newUser)
     }catch(err){
+        req.logger.error(err)
         next(err)
     }
 }
@@ -62,24 +72,27 @@ export const validateToken= async (req,res)=>{
     try{
         res.status(200).send(req.user)
     }catch(err){
+        req.logger.error(err)
         next(err)
     }
 }
 
 export const passportValidateToken= async (req,res)=>{
     try{
-        console.log("validacion por token ok")
+        req.logger.info("validacion por token ok")
         res.status(200).send(req.user)
     }catch(err){
+        req.logger.error(err)
         next(err)
     }
 }
 
 export const passportValidateCookies= async(req,res)=>{
     try{
-        console.log("validacion por cookies ok")
+        req.logger.info("validacion por cookies ok")
         res.status(200).send(req.user)
     }catch(err){
+        req.logger.error(err)
         next(err)
     }
 }
@@ -88,6 +101,7 @@ export const regFail= async (req,res)=>{
     try{
         res.render('registerError');
     }catch(err){
+        req.logger.error(err)
         next(err)
     }
 }

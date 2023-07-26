@@ -18,8 +18,8 @@ const authToken = (req, res, next) => {
     }
     const token = authHeader.split(' ')[1];
     jwt.verify(token, key, (err, credentials) => {
-        if (err) return res.status(403).send({ err: 'Se requiere autenticación' });
-        console.log(credentials)
+        if (err) return res.status(403).send({ err: 'Se requiere autenticación' });       
+        req.logger.info(credentials)
         req.user = credentials;
         next();
     });

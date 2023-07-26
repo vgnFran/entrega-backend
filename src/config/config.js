@@ -16,8 +16,6 @@ const config = {
     MONGOOSE_URL: process.env.MONGOOSE_URL,
     GOOGLEAPP: process.env.GOOGLEAPP,
     MODE: process.env.MODE,
-    test: process.env.TEST
-
 }
 
 export {config, options }

@@ -81,6 +81,7 @@ export const newPurchase = async (req,res)=>{
         }
     
     } catch(err){
+        req.logger.error(err)
         throw new errorManager(dictionary.notFound)
     }
     

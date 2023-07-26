@@ -17,6 +17,7 @@ export default class Product{
             const products= await productModel.find().lean()
             return  products
         }catch{
+            req.logger.error(err)
             throw new errorManager(dictionary.notFound)
         }
         
@@ -29,6 +30,7 @@ export default class Product{
         const product= await productModel.findById(id)
         return product
        }catch(err){
+        req.logger.error(err)
         throw new errorManager(dictionary.nonExistent)
        }
         
@@ -70,11 +72,12 @@ export default class Product{
 
     }
 
-    updateProduct= async (id,data) =>{
+    updateProduct= async (id,data,req,res) =>{
         try{
-            console.log(id)
+            req.logger.info(id)
             return await productModel.updateOne({"_id":new mongoose.Types.ObjectId(id)},data)     
         }catch(err){
+            req.logger.error(err)
             throw new errorManager(dictionary.nonExistent)
         }
     }
@@ -83,6 +86,7 @@ export default class Product{
         try{
             return await productModel.deleteOne({"_id":new mongoose.Types.ObjectId(id)})
         }catch(err){
+            req.logger.error(err)
             throw new errorManager(dictionary.nonExistent)
         }
     }

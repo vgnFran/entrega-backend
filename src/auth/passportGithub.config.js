@@ -13,7 +13,6 @@ const initializePassport= ()=>{
 
     const authGitHub= async(accesToken, refreshToken, profile, done)=>{
         try {
-            // console.log(profile);
             const user = await userModel.findOne({ userName: profile._json.email });
 
             if(!user){
@@ -24,7 +23,6 @@ const initializePassport= ()=>{
                     rol:"user"
                 }
                 const result= await userModel.create(newUser)
-                // console.log(result)
                 done(null,result)
             } else {
                 done(null, user);

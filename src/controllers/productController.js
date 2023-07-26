@@ -15,6 +15,7 @@ export  const getProductsById= async (req,res)=>{
     try{
         res.status(200).send(await product.getProductsById(req.params.id))
     }catch{
+        req.logger.error(err)
         next(err)
     }
 }
@@ -30,6 +31,7 @@ export const getProducts= async (req,res)=>{
             res.status(200).send(await product.getProducts())
         }                       
     }catch(err){
+        req.logger.error(err)
         next(err)
 
     } 
@@ -48,6 +50,7 @@ export const productsViews = async (req,res)=>{
             res.render("products",{products})
         }  
     }catch(err){
+        req.logger.error(err)
         next(err)
     }
 }
@@ -56,6 +59,7 @@ export const createProduct = async (req,res)=>{
         try{
             res.status(200).send(await product.createProduct(req.body))
        }catch(err){
+            req.logger.error(err)
             next(err)
        }
 }
@@ -64,9 +68,9 @@ export const updateProduct= async (req,res)=>{
         const {id}= req.params.id
         const {body}= req.body
         try{
-
-            res.status(200).send(await product.updateProduct(id,body))
+            res.status(200).send(await product.updateProduct(id,body,req,res))
         }catch(err){
+            req.logger.error(err)
             next(err)
         }
 }
@@ -77,6 +81,7 @@ export const deleteProduct= async (req,res)=>{
         res.status(200).send(deleted)
         
     }catch(err){
+        req.logger.error(err)
         next(err)
     }
 }
@@ -85,6 +90,7 @@ export const generateProductMock= (req,res,next)=> {
     try{
         res.send(mockProduct.generateProduct(20))
     }catch(err){
+        req.logger.error(err)
         next(err)
     }
 }
