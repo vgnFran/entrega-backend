@@ -6,11 +6,7 @@ const User= new Users() //clase
 
 export const checkUser= async (req,res)=>{
     try{
-        let a = true
-    if(a){
-        req.logger.info(`test warn`)
-    }
-
+       
         if( await User.checkUser(req,res) != null){
             const data= await User.checkUser(req,res)
             res.render("products",{products:data.products, user: data.user})
@@ -111,7 +107,7 @@ export const isAdmin= async (req,res, next)=>{
         if(await User.isAdmin(req) == "admin"){
             next()
         }
-    }catch(err){    
+    }catch(err){ 
         next(err)
     }
 }
@@ -122,6 +118,18 @@ export const isUser= async (req,res, next)=>{
             next()
         }
     }catch(err){    
+        next(err)
+    }
+}
+
+
+export const loggerTest= async (req,res)=>{
+    try{
+        req.logger.error("Test log (error), en consola en modo DEV, y en consola y archivo en modo PROD")
+        res.send({test:"test winston"})
+
+    }catch(err){
+        req.logger.error(err)
         next(err)
     }
 }

@@ -3,7 +3,7 @@ import { __dirname } from "../utils/utils.js";
 import passport from "../auth/passport.config.js"
 import initializePassport from "../auth/passportGithub.config.js";
 import { newToken, authToken} from "../auth/jwt.config.js";
-import { checkUser, login, logout, passportValidateCookies, passportValidateToken, regFail, register, registerRender, validateToken, isAdmin } from "../controllers/usersController.js";
+import { checkUser, login, logout, passportValidateCookies, passportValidateToken, regFail, register, registerRender, validateToken, isAdmin, loggerTest } from "../controllers/usersController.js";
 import Ticket from "../services/ticketManager.js";
 import { newPurchase } from "../controllers/ticketController.js";
 
@@ -70,7 +70,9 @@ const usersRoutes=()=>{
     // ingresar al endpoint /purchase (con un usuario ya logeado) y se realizara la compra 
     router.get("/purchase",newPurchase)
 
+    router.get("/loggerTest", loggerTest)
 
+    
 
 
 
