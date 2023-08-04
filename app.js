@@ -25,6 +25,8 @@ import errorManager from "./src/services/errorManager.js";
 import { dictionary } from "./src/utils/dictionary.js";
 import { addLogger } from "./src/utils/logger.js";
 
+import MongoSingleton from "./src/services/mongo.class.js";
+
 
 
 //CONGIF PRINCIPAL DEL SERVER
@@ -107,7 +109,7 @@ io.on("connection",(socket)=>{
 
 
 try{
-    await mongoose.connect(moongose_url)
+    await MongoSingleton.getInstance()
     app.listen(config.SERVER_PORT,()=>{
         console.log(`Server HTTP started on port ${config.SERVER_PORT}`)
     }) 
