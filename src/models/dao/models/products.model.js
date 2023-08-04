@@ -13,7 +13,8 @@ const schema = new Schema({
     status: Boolean,
     stock: { type: Number, required: [true, "number is required"] },
     category: { type: String, required: [true, "category is required"] },
-    thumbnail: String
+    thumbnail: String,
+    owner: { type: String, default: "admin" }
   });
   
 

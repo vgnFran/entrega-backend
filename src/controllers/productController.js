@@ -57,7 +57,7 @@ export const productsViews = async (req,res)=>{
 
 export const createProduct = async (req,res)=>{
         try{
-            res.status(200).send(await product.createProduct(req.body))
+            res.status(200).send(await product.createProduct(req.body,req.sessionStore.user))
        }catch(err){
             req.logger.error(err)
             next(err)
@@ -77,7 +77,7 @@ export const updateProduct= async (req,res)=>{
 
 export const deleteProduct= async (req,res)=>{
     try{
-        const deleted= await product.deleteProduct(req.params.id)
+        const deleted= await product.deleteProduct(req.params.id, req.sessionStore.user)
         res.status(200).send(deleted)
         
     }catch(err){

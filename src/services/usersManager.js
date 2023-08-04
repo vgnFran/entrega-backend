@@ -63,6 +63,7 @@ class Users {
                     httpOnly:true,
                     secure:false
                 })
+                console.log(req.session)
                 return dataUser
                 
             }else{
@@ -106,6 +107,33 @@ class Users {
             return user.rol
         }else{
             throw new errorManager(dictionary.unauthorized)
+        }
+    }
+
+    changeRol= async(req,res)=>{
+        const currentUser= req.session.user
+        console.log(currentUser)
+        if(currentUser.rol == "usuario"){
+            const updated= await user.findOneAndUpdate({email:currentUser.userName}, {rol: "premium"}, {new:true})
+            req.session.user= {
+                userName: updated.email,
+                name: updated.name,
+                rol: updated.rol,
+                cart: updated.cart
+            }
+            return req.session.user
+        }else if(currentUser.rol == "premium"){
+            const updated= await user.findOneAndUpdate({email:currentUser.userName}, {rol: "usuario"}, {new:true})
+            req.session.user= {
+                userName: updated.email,
+                name: updated.name,
+                rol: updated.rol,
+                cart: updated.cart
+            }
+            return req.session.user
+        }else{
+            console.log("error buscando user")
+            
         }
     }
 

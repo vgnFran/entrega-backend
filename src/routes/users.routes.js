@@ -3,7 +3,7 @@ import { __dirname } from "../utils/utils.js";
 import passport from "../auth/passport.config.js"
 import initializePassport from "../auth/passportGithub.config.js";
 import { newToken, authToken} from "../auth/jwt.config.js";
-import { checkUser, login, logout, passportValidateCookies, passportValidateToken, regFail, register, registerRender, validateToken, isAdmin, loggerTest } from "../controllers/usersController.js";
+import { checkUser, login, logout, passportValidateCookies, passportValidateToken, regFail, register, registerRender, validateToken, isAdmin, loggerTest, changeRol } from "../controllers/usersController.js";
 import Ticket from "../services/ticketManager.js";
 import { newPurchase } from "../controllers/ticketController.js";
 
@@ -170,21 +170,10 @@ const usersRoutes=()=>{
         
     })
 
-    
+    router.get("/users/premium", changeRol )
 
 
-    // const client= twilio("ACc907d0aeb1f86cf1d08376c3cabb011e","7039bd387ac0412dbd40d584e9799a7c")
 
-
-    // router.get("/sms", async (req,res)=>{
-    //     let result= await client.messages.create({
-    //         body:"hola  probando",
-    //         from:"+12058807562",
-    //         to: "+12058807562"   
-    //     })
-    //     res.send(result)
-    // })
-    
 
     return router
 

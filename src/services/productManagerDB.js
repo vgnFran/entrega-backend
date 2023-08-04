@@ -36,20 +36,26 @@ export default class Product{
         
     }
 
-    createProduct= async(data)=>{
+    createProduct= async(data,user)=>{
         const findID= await productModel.findOne()
         const newID= findID._id+1
-        const newProduct={
-            id:newID,
-            title:data.title,
-            description:data.description,
-            code:data.code,
-            price:data.price,
-            status:true,
-            stock:data.stock,
-            category:data.category,
-            thumbnail:data.thumbnail
+        if(user.owner == "premium"){
+            const newProduct={
+                id:newID,
+                title:data.title,
+                description:data.description,
+                code:data.code,
+                price:data.price,
+                status:true,
+                stock:data.stock,
+                category:data.category,
+                thumbnail:data.thumbnail,
+                owner: user.email
+            }
+        }else{
+            throw new errorManager(dictionary.unauthorized)
         }
+        
 
         const values = Object.values(newProduct)
         const completeImputs= values.map(val=>{
@@ -82,9 +88,16 @@ export default class Product{
         }
     }
 
-    deleteProduct= async(id)=>{
+    deleteProduct= async(id, user)=>{
         try{
-            return await productModel.deleteOne({"_id":new mongoose.Types.ObjectId(id)})
+            if(user.rol == "premium" && user.owner == user.email){
+                return await productModel.deleteOne({"_id":new mongoose.Types.ObjectId(id)})
+            }else if(user.rol == "admin"){
+                return await productModel.deleteOne({"_id":new mongoose.Types.ObjectId(id)})
+            }else{
+                throw new errorManager(dictionary.unauthorized) 
+            }
+            
         }catch(err){
             req.logger.error(err)
             throw new errorManager(dictionary.nonExistent)

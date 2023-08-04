@@ -105,7 +105,7 @@ export const regFail= async (req,res)=>{
 
 export const isAdmin= async (req,res, next)=>{
     try{
-        if(await User.isAdmin(req) == "admin"){
+        if(await User.isAdmin(req) == "admin" || await User.isAdmin(req) == "premium"){
             next()
         }
     }catch(err){ 
@@ -132,5 +132,15 @@ export const loggerTest= async (req,res)=>{
     }catch(err){
         req.logger.error(err)
         next(err)
+    }
+}
+
+
+export const changeRol= async (req,res)=>{
+    try{
+        const modifiedRole= await  User.changeRol(req,res)
+        res.send(modifiedRole)
+    }catch{
+        console.log("err")
     }
 }
