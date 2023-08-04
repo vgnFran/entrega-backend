@@ -112,7 +112,6 @@ class Users {
 
     changeRol= async(req,res)=>{
         const currentUser= req.session.user
-        console.log(currentUser)
         if(currentUser.rol == "usuario"){
             const updated= await user.findOneAndUpdate({email:currentUser.userName}, {rol: "premium"}, {new:true})
             req.session.user= {
@@ -132,8 +131,7 @@ class Users {
             }
             return req.session.user
         }else{
-            console.log("error buscando user")
-            
+            throw new errorManager(dictionary.notFound)         
         }
     }
 

@@ -140,7 +140,8 @@ export const changeRol= async (req,res)=>{
     try{
         const modifiedRole= await  User.changeRol(req,res)
         res.send(modifiedRole)
-    }catch{
-        console.log("err")
+    }catch(err){
+        req.logger.error(err)
+        next(err)
     }
 }
