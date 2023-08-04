@@ -5,6 +5,8 @@ export const dictionary={
     unauthorized: {code:403, message: "No autorizado"},
     incompleteField: {code: 400, message:"Datos incompletos"},
     alreadyExists: {code:400, message:"Contenido ya existente"},
-    nonExistent: {code:400, message:"Contenido inexistente"}
+    nonExistent: {code:400, message:"Contenido inexistente"},
+    wrongUser: {code:400, message:"Usuario incorrecto"},
+    repeatPass: {code:400, message:"No se puede utilizar la contraseña restaurada"}
 }
 

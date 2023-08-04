@@ -1,0 +1,35 @@
+<div class="row justify-content-md-center">
+    <div class="col-md-4 col-xs-12 mt-4">
+        <h2 class="mb-4"><b>Establecer nueva contraseña</b></h2>
+
+        <form class="p-4" action="http://localhost:8080/newpass" method="get">
+            <div class="form-group mb-4">
+                <label for="firstName">Email</label>
+                {{#if credentials.user.email}}
+                <input type="text" class="form-control" name="email" required="required" value="{{credentials.user.email}}" onmousedown="return false">
+                {{else}}
+                <input type="text" class="form-control" name="email" required="required" value="{{email}}" onmousedown="return false">
+                {{/if}}
+            </div>
+
+
+            <div class="form-group mb-4">
+                <label for="firstName">Nueva Contraseña</label>
+                <input type="password" class="form-control" name="pass" required="required" >
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="firstName">Confirmar Contraseña</label>
+                <input type="password" class="form-control" name="confirmedPass" required="required" >
+            </div>
+
+            {{#if sessionInfo.errorMessage }}
+                <div class="alert alert-danger mt-4" role="alert">{{sessionInfo.errorMessage}}</div>
+            {{/if}}
+
+            <button type="submit" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Cambiar contraseña</button>
+            
+           
+        </form>
+    </div>
+</div>
