@@ -1,7 +1,13 @@
 import Product from "../services/productManagerDB.js";
 import user from "../models/dao/models/users.model.js";
 import Users from "../services/usersManager.js";
-
+import errorManager from "../services/errorManager.js";
+import { dictionary } from "../utils/dictionary.js";
+import { newToken } from "../auth/jwt.config.js";
+import nodemailer from "nodemailer"
+import {config} from "../config/config.js"
+import jwt from "jsonwebtoken";
+import { compareHash, hashing } from "../utils/utils.js";
 const User= new Users() //clase
 
 export const checkUser= async (req,res)=>{
@@ -136,12 +142,79 @@ export const loggerTest= async (req,res)=>{
 }
 
 
-export const changeRol= async (req,res)=>{
+export const changeRol= async (req,res,next)=>{
     try{
         const modifiedRole= await  User.changeRol(req,res)
         res.send(modifiedRole)
     }catch(err){
         req.logger.error(err)
+        next(err)
+    }
+}
+
+
+export const restore= async(req,res,next)=>{
+    try{
+        res.render("restore")
+    }catch(err){
+        req.logger.error(err)
+        throw new errorManager(dictionary.notFound)
+    }
+}
+
+
+let token= ""
+export const rest= async(req,res,next)=>{
+    try{
+        const {login_email}= req.query
+        const findUser= await User.findUser(login_email)
+
+        if(findUser){
+            token= newToken({user:findUser.email},"5min")
+            User.mailToUser(login_email)
+
+        }else{
+            throw new errorManager(dictionary.notFound)    
+        }
+       
+    }catch(err){
+        next(err)
+    }
+}
+
+export const recovery= async (req,res,next)=>{
+    try{
+        jwt.verify(token,"abc123", (err,credentials)=>{
+            if(err){
+                req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'Tiempo de recuperacion expirado';
+                res.redirect(`http://localhost:8080`)
+            }else{
+                console.log(credentials)
+                res.render("newPass",{credentials}) 
+            }
+        })
+    }catch(err){
+        throw new errorManager(dictionary.notFound)
+    }
+}
+
+export const newPass= async (req,res,next)=>{
+    try{
+        const {pass, confirmedPass, email}= req.query
+        const currentPass= await user.findOne({email:email})
+        const passw= compareHash(currentPass,pass )
+
+        if( (pass == confirmedPass) && (passw != true) ){
+            User.newPass(pass,email,currentPass,req,res)
+            res.redirect("/")
+        }else if( passw == true ){
+            req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'No se puede utilizar la contraseña restaurada';
+            res.render("newPass",{sessionInfo: req.sessionStore, email:email})
+        } else if (pass != confirmedPass){
+            req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'Contraseñas no coinciden';
+            res.render("newPass",{sessionInfo: req.sessionStore, email:email})
+        }
+    }catch(err){
         next(err)
     }
 }

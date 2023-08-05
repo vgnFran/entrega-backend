@@ -5,8 +5,8 @@
         <form class="p-4" action="http://localhost:8080/newpass" method="get">
             <div class="form-group mb-4">
                 <label for="firstName">Email</label>
-                {{#if credentials.user.email}}
-                <input type="text" class="form-control" name="email" required="required" value="{{credentials.user.email}}" onmousedown="return false">
+                {{#if credentials.user}}
+                <input type="text" class="form-control" name="email" required="required" value="{{credentials.user}}" onmousedown="return false">
                 {{else}}
                 <input type="text" class="form-control" name="email" required="required" value="{{email}}" onmousedown="return false">
                 {{/if}}

@@ -4,6 +4,9 @@ import { newToken, authToken } from "../auth/jwt.config.js"
 import productModel from "../models/dao/models/products.model.js"
 import errorManager from "./errorManager.js"
 import { dictionary } from "../utils/dictionary.js"
+import nodemailer from "nodemailer"
+import {config} from "../config/config.js"
+import jwt from "jsonwebtoken";
 
 class Users {
 
@@ -135,9 +138,61 @@ class Users {
         }
     }
 
-    
-    
+    findUser= async (email)=>{
+        try{
+            return await user.findOne({email:email})
+        }catch{
+            throw new errorManager(dictionary.nonExistent)
+        }
+    }
 
+    mailToUser= async (email)=>{
+        try{
+            const trasport= nodemailer.createTransport({
+                service:"gmail",
+                port:587,
+                auth:{
+                    user:"vgnfran.dev@gmail.com",
+                    pass:config.GOOGLEAPP
+                }
+            })
+
+            const result = await trasport.sendMail({
+                from:"vgnfran.dev@gmail.com",
+                to:email,
+                subject:"Recuperacion de Contraseña",
+                html:`
+                <h1>Recuperacion de contraseña </h1>
+                <p>haga click en el siguiente link para recuperar su contraseña </p>
+                <a href="http://localhost:8080/recovery">RECUPERAR</a>.
+                `,
+            })
+        }catch{
+            throw new errorManager(dictionary.wrongUser)
+        }
+    }
+
+    newPass= async (pass,email,currentPass,req,res)=>{
+        try{
+            const newPassword = hashing(pass)
+            await user.findOneAndUpdate({email:email}, {password:newPassword})
+            const dataUser= {userName:currentPass.email, password:currentPass.password, name:currentPass.name, rol:currentPass.rol, cart:currentPass.cart}
+            req.sessionStore.userValidated=true
+            req.sessionStore.errorMessage = req.sessionStore.errorMessage = '';
+            delete dataUser.password
+            req.sessionStore.user= dataUser 
+            req.session.user=dataUser
+            const token = newToken(dataUser,"24h")
+            res.cookie("cookie",token,{
+                httpOnly:true,
+                secure:false
+            })
+            console.log(req.session.user)
+        }catch(err){
+            throw new errorManager(dictionary.notFound)
+        }
+    } 
+    
 
 
 
