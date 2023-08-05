@@ -66,7 +66,6 @@ class Users {
                     httpOnly:true,
                     secure:false
                 })
-                console.log(req.session)
                 return dataUser
                 
             }else{
@@ -187,7 +186,6 @@ class Users {
                 httpOnly:true,
                 secure:false
             })
-            console.log(req.session.user)
         }catch(err){
             throw new errorManager(dictionary.notFound)
         }

@@ -189,7 +189,6 @@ export const recovery= async (req,res,next)=>{
                 req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'Tiempo de recuperacion expirado';
                 res.redirect(`http://localhost:8080`)
             }else{
-                console.log(credentials)
                 res.render("newPass",{credentials}) 
             }
         })
