@@ -4,26 +4,7 @@ import passport from "../auth/passport.config.js"
 import initializePassport from "../auth/passportGithub.config.js";
 import { newToken, authToken} from "../auth/jwt.config.js";
 import { checkUser, login, logout, passportValidateCookies, passportValidateToken, regFail, register, registerRender, validateToken, isAdmin, loggerTest, changeRol, restore, rest, recovery, newPass } from "../controllers/usersController.js";
-import Ticket from "../services/ticketManager.js";
 import { newPurchase } from "../controllers/ticketController.js";
-
-
-import nodemailer from "nodemailer"
-import twilio from "twilio"
-import {config} from "../config/config.js"
-import cartModel from "../models/dao/models/cart.model.js";
-import productModel from "../models/dao/models/products.model.js";
-import Carts from "../services/cartsManagerDB.js";
-import ticketModel from "../models/dao/models/tickets.model.js";
-import jwt from "jsonwebtoken";
-
-import user from "../models/dao/models/users.model.js";
-import errorManager from "../services/errorManager.js";
-import { dictionary } from "../utils/dictionary.js";
-import { compareHash, hashing } from "../utils/utils.js";
-import { hash } from "bcrypt";
-
-
 
 
 initializePassport()

@@ -6,7 +6,6 @@ import errorManager from "./errorManager.js"
 import { dictionary } from "../utils/dictionary.js"
 import nodemailer from "nodemailer"
 import {config} from "../config/config.js"
-import jwt from "jsonwebtoken";
 
 class Users {
 

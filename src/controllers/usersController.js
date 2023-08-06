@@ -1,11 +1,8 @@
-import Product from "../services/productManagerDB.js";
 import user from "../models/dao/models/users.model.js";
 import Users from "../services/usersManager.js";
 import errorManager from "../services/errorManager.js";
 import { dictionary } from "../utils/dictionary.js";
 import { newToken } from "../auth/jwt.config.js";
-import nodemailer from "nodemailer"
-import {config} from "../config/config.js"
 import jwt from "jsonwebtoken";
 import { compareHash, hashing } from "../utils/utils.js";
 const User= new Users() //clase
