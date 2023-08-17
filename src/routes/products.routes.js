@@ -17,7 +17,7 @@ const router= Router()
    
    
     // CON EL ENDPOINT /productsViews renderizamos una plantilla con todos los productos, agrengando params podemos filtrar, ej: productsViews?category=iphone&limit=5&page=1&sort=-1, veremos solamente los productos categoria iphone, limite de 5, su primera pagina y ordenados por precio
-    router.get("/productsViews?",productsViews)
+    router.get("/productsviews?",productsViews)
 
     //con el middleware isAdmin verificamos si un usuario iniciado sesion es administrador, si no hay una sesion iniciada de administrador entonces no podra ingresar al endpoint
     router.post("/products",isAdmin, createProduct)

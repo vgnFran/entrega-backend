@@ -27,6 +27,9 @@ import { addLogger } from "./src/utils/logger.js";
 
 import MongoSingleton from "./src/services/mongo.class.js";
 
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
+
 
 
 //CONGIF PRINCIPAL DEL SERVER
@@ -70,7 +73,17 @@ app.use(passport.initialize())
 // app.use(passport.session())
 app.use(addLogger)
 
-
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: "Api documentation",
+            description: "Documentation on the use of api endpoints (ecommerce)"
+        }
+    },
+    apis: ['./src/docs/**/*.yaml']
+}
+const specs = swaggerJsdoc(swaggerOptions);
 
 
 //ROUTES
@@ -81,6 +94,7 @@ app.use("/api",productRoutesDB)
 app.use("/api",cartsRoutesDB)
 // app.use(viewsRouter(io))
 app.use(chatRouter(io))
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 app.use("/public", express.static(`${__dirname}/src/public`))
 
 app.all("*",(req,res)=>{

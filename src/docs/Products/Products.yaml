@@ -1,0 +1,140 @@
+paths:
+
+  /api/products:  
+    get:
+      summary: Retorna todos los productos disponibles en la DB
+      tags:
+        - Products
+      responses:
+        "200":
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+        "500":
+          description: 'ERROR'
+
+    post:
+      summary: Crea un nuevo producto
+      tags:
+        - Products
+      requestBody:
+        requiered: true
+        content:
+          application/json:
+            schema: "#/components/requestBodies/create"  
+      responses:
+        "200":
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+        "500":
+          description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object  
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"
+
+
+  /api/products/{id}:
+    get:
+      summary: Retorna el producto que coincida con el parametro id
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Products"  
+
+
+    put:
+    delete:
+
+  /api/productsviews:
+    get:
+
+  /api/mockingproducts:
+    get:
+
+components: 
+  schemas:
+    Products:
+      type: object
+      properties:
+        title:
+          type: string
+        _id:
+          type: object
+          description: Mongoose ObjectID
+        description: 
+          type: string
+        code: 
+          type: number
+        price: 
+          type: number
+        status:
+          type: boolean
+        stock: 
+          type: number
+        category: 
+          type: string
+        thumbnail:
+          type: string
+        owner: 
+          type: string
+
+      example:
+        title: Notebook Asus
+        _id: 638b8c323f3a4b3be6dc397e
+        description: Notebook Asus Ryzen5 16gb 1TB SSD
+        code: 5059
+        price: 1650
+        status: true
+        stock: 9
+        category: Notebook
+        thumbnail: notebook-asus.jpg
+        owner: admin
+
+  requestBodies:
+    create:
+      type: object
+      properties:
+        title:
+          type: string
+        description: 
+          type: string
+        code: 
+          type: number
+        price: 
+          type: number
+        status:
+          type: boolean
+        stock: 
+          type: number
+        category: 
+          type: string
+        thumbnail:
+          type: string
+        owner: 
+          type: string              
