@@ -11,7 +11,7 @@ export default class MongoSingleton{
     static getInstance(){
         if(!this.#instance){
             this.#instance = new MongoSingleton();
-            console.log('Conectado a instancia Mongo Singleton')
+            console.log('Connect to Mongo Singleton instance')
         }else{
         }
 

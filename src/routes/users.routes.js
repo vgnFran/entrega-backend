@@ -3,7 +3,7 @@ import { __dirname } from "../utils/utils.js";
 import passport from "../auth/passport.config.js"
 import initializePassport from "../auth/passportGithub.config.js";
 import { newToken, authToken} from "../auth/jwt.config.js";
-import { checkUser, login, logout, passportValidateCookies, passportValidateToken, regFail, register, registerRender, validateToken, isAdmin, loggerTest, changeRol, restore, rest, recovery, newPass } from "../controllers/usersController.js";
+import { checkUser, login, logout, passportValidateCookies, passportValidateToken, regFail, register, registerRender, validateToken, isAdmin, loggerTest, changeRol, restore, rest, recovery, newPass, changeRolUid } from "../controllers/usersController.js";
 import { newPurchase } from "../controllers/ticketController.js";
 
 
@@ -77,7 +77,9 @@ const usersRoutes=()=>{
 
     // endpoint para cambiar el rol del user
 
-    router.get("/users/premium", changeRol )
+    router.get("/users/premium", changeRol ) // cambia el rol del usuario que este haya iniciado sesion
+
+    router.get("/users/premium/:uid", changeRolUid) // cambia el rol del usuario que se proporcione por :uid
 
     return router
 

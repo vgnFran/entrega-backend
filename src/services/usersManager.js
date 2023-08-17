@@ -112,6 +112,8 @@ class Users {
     }
 
     changeRol= async(req,res)=>{
+        if(!req.session.user || !req.sessionStore.user) throw new errorManager(dictionary.unauthorized) 
+
         const currentUser= req.session.user
         if(currentUser.rol == "usuario"){
             const updated= await user.findOneAndUpdate({email:currentUser.userName}, {rol: "premium"}, {new:true})
@@ -133,6 +135,23 @@ class Users {
             return req.session.user
         }else{
             throw new errorManager(dictionary.notFound)         
+        }
+    }
+
+    changeRolUid= async(req,res)=>{
+        try{
+            const findUser= await user.findOne({_id:req.params.uid})
+            if(findUser.rol == "premium"){
+                const updated= await user.findOneAndUpdate({_id:req.params.uid}, {rol:"usuario"}, {new:true})
+                return updated
+            }else{
+                const updated= await user.findOneAndUpdate({_id:req.params.uid}, {rol:"premium"}, {new:true})
+                return updated
+            }
+
+
+        }catch(err){
+            throw new errorManager(dictionary.nonExistent)
         }
     }
 

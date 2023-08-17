@@ -149,6 +149,16 @@ export const changeRol= async (req,res,next)=>{
     }
 }
 
+export const changeRolUid= async(req,res,next)=>{
+    try{
+        const modifiedRole= await  User.changeRolUid(req,res)
+        res.send(modifiedRole)
+    }catch(err){
+        req.logger.error(err)
+        next(err)
+    }
+}
+
 
 export const restore= async(req,res,next)=>{
     try{
@@ -214,3 +224,4 @@ export const newPass= async (req,res,next)=>{
         next(err)
     }
 }
+
