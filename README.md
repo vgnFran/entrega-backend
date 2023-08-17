@@ -1,0 +1,2 @@
+Proyecto backend: 
+Api realizada en NodeJS, utilizando servidor Express, con distintos endpoints en los cuales utilizamos colecciones y modelos de MongoDB y opcionalmente guardando en archivos. Patron de diseño MVC, autorizacion y autenticacion a traves de passport y distintos middlewares. utiliza variables de entorno seleccionables mediante linea de comandos. En las vistas se utiliza el motor de plantillas handlebars y tambien cuenta con un chat realizado con socket.io. 
