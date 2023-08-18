@@ -16,6 +16,15 @@ paths:
                   $ref: '#/components/schemas/Products'
         "500":
           description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object  
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"
 
     post:
       summary: Crea un nuevo producto
@@ -25,7 +34,8 @@ paths:
         requiered: true
         content:
           application/json:
-            schema: "#/components/requestBodies/create"  
+            schema: 
+              $ref: "#/components/requestBodies/create"  
       responses:
         "200":
           description: 'OK'
@@ -66,10 +76,55 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Products"  
-
+        "500":
+          description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object  
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"
 
     put:
+      summary: Actualiza producto que coincida con el parametro id, segun el body
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          requiered: true
+      requestBody:
+        requiered: true
+        content:
+          application/json:
+            schema: 
+              $ref: "#/components/requestBodies/update"
+      responses:
+        "200":
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+        "500":
+          description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object  
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"             
+
     delete:
+      summary: 
 
   /api/productsviews:
     get:
@@ -137,4 +192,26 @@ components:
         thumbnail:
           type: string
         owner: 
-          type: string              
+          type: string
+
+    update:
+      type: object
+      properties:
+        title:
+          type: string
+        description: 
+          type: string
+        code: 
+          type: number
+        price: 
+          type: number
+        status:
+          type: boolean
+        stock: 
+          type: number
+        category: 
+          type: string
+        thumbnail:
+          type: string
+        owner: 
+          type: string                     
