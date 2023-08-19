@@ -108,7 +108,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
+                type: object
                 items:
                   $ref: '#/components/schemas/Products'
         "500":
@@ -124,13 +124,86 @@ paths:
                   message: "Error"             
 
     delete:
-      summary: 
+      summary: Elimina el producto que coincida con el parametro id
+      tags: 
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        "200":
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+        "500":
+          description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object  
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"
 
   /api/productsviews:
     get:
+      summary: Renderiza una plantilla con la lista de productos disponibles
+      tags: 
+        - Products
+      responses:
+        "200":
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+        "500":
+          description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object  
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"
 
   /api/mockingproducts:
     get:
+      summary: Genera un array de 20 productos inexistentes en la base de datos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Products'
+        "500":
+          description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object  
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"
+      
 
 components: 
   schemas:
