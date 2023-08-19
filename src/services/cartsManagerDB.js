@@ -16,7 +16,6 @@ export default class Carts{
             .find()
             .populate({path: "products.product"})
         } catch (err) {
-            req.logger.error(err)
             throw new errorManager(dictionary.notFound)
         }
       };
@@ -30,7 +29,6 @@ export default class Carts{
             return await cartModel.create({oneCart}) 
 
         }catch(err){
-            req.logger.error(err)
             throw new errorManager(dictionary.notFound)
         }
     }
@@ -40,7 +38,6 @@ export default class Carts{
             const search= await cartModel.findById(id)
             return search.products
         }catch(err){
-            req.logger.error(err)
            throw new errorManager(dictionary.nonExistent)
         }
     }
@@ -74,16 +71,15 @@ export default class Carts{
         } 
     }
 
-    deleteProductInCart= async ()=>{
+    deleteProductInCart= async (cid,pid)=>{
         try{
             const deleteProduct= await cartModel.findOneAndUpdate(
-                {_id:req.params.cid},
-                {$pull: {products: {_id:req.params.pid}}},
+                {_id:cid},
+                {$pull: {products: {_id:pid}}},
                 {new: true}
             )
             return deleteProduct
         }catch(err){
-            req.logger.error(err)
             throw new errorManager(dictionary.nonExistent)
         }
         
@@ -98,7 +94,6 @@ export default class Carts{
             )
             return updateQuantity
         }catch(err){
-            req.logger.error(err)
             throw new errorManager(dictionary.nonExistent)
         }
     }
@@ -113,7 +108,6 @@ export default class Carts{
             ) 
             return deleteProducts
         }catch(err){
-            req.logger.error(err)
             throw new errorManager(dictionary.nonExistent)
         }
     }
@@ -124,7 +118,6 @@ export default class Carts{
             const cart=carts.products
             return cart
         }catch(err){
-            req.logger.error(err)
             throw new errorManager(dictionary.nonExistent)
         }
     }

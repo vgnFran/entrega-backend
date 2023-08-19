@@ -33,7 +33,7 @@ router.put("/carts/:cid/products/:pid",updateQuantity)
 router.delete("/carts/:cid", deleteProducts)
 
 
-router.get("/cartsViews/:cid", cartViews)
+router.get("/cartsviews/:cid", cartViews)
       
      
 

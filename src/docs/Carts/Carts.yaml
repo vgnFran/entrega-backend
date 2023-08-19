@@ -1,0 +1,320 @@
+paths:
+
+  /api/carts:
+    get:
+      summary: Retorna todos los carritos disponibles en la DB
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        "500":
+          description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object  
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"
+      
+    post:
+      summary: Crea un carrito vacio nuevo
+      tags: 
+        - Carts
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NewCart"
+        "500":
+          description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object  
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"
+
+  /api/carts/{id}:
+    get:
+      summary: Retorna el carrito que coincida con el parametro id
+      tags: 
+        - Carts
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+        "500":
+          description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object  
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"     
+
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: En el carrito que coincida con el parametro cid, agrega el producto que coincida con el parametro pid, si el producto ya esta agregado le suma 1 a su cantidad
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+        - name: pid
+          in: path
+          required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+        "500":
+          description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"
+    
+    delete:
+      summary: Elimina el producto que coincida con el parametro pid, dentro del carrito que coincida con el parametro pid
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+        - name: pid
+          in: path
+          required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+        "500":
+          description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"
+
+  /api/carts/{cid}:
+    delete:
+      summary: Elimina el carrito que coincida con el parametro cid
+      tags: 
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+        "500":
+          description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object  
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"  
+
+  /api/cartsviews/{cid}:
+    get:
+      summary: Renderiza una plantilla con el carrito que coincida con el parametro cid
+      tags: 
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cart"
+        "500":
+          description: 'ERROR'
+          content:
+            application/json:
+              schema:
+                type: object  
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "Error"
+
+
+
+components:
+  schemas:
+
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Mongoose ObjectID
+        products:
+          type: array
+          description: Array de productos dentro del carrito
+          items: 
+            $ref: "#/components/schemas/CartProduct"
+      example: 
+        _id: "6462a52fdd5fc5d7c231bdac"
+        products:
+          - _id: "64e02f334fcb2f135c6897ae"
+            quantity: 2
+            product:
+              owner: "admin"
+              _id: "6461b1838c7c16ce6925cf94"
+              title: "Notebook Asus"
+              id: "2"
+              description: "Notebook Asus Ryzen 5"
+              code: 5080
+              price: 1650
+              status: true
+              stock: 56
+              category: "notebook"
+              thumbnail: "notebook-asus.jpg"
+    
+    CartProduct:
+      type: object
+      properties:
+        _id:
+          type: string 
+          description: Mongoose ObjectID
+        quantity:
+          type: number
+          description: Cantidad del producto dentro del carrito
+        product: 
+          $ref: "#/components/schemas/Product"
+      example: 
+        _id: "64e02f334fcb2f135c6897ae"
+        quantity: 2
+        product:
+          owner: "admin"
+          _id: "6461b1838c7c16ce6925cf94"
+          title: "Notebook Asus"
+          id: "2"
+          description: "Notebook Asus Ryzen 5"
+          code: 5080
+          price: 1650
+          status: true
+          stock: 56
+          category: "notebook"
+          thumbnail: "notebook-asus.jpg"
+
+    Product:
+      type: object
+      properties:
+        owner:
+          type: string
+        _id:
+          type: string
+          description: Mongoose ObjectID
+        title:
+          type: string
+        id:
+          type: string
+        description: 
+          type: string
+        code:
+          type: number
+        price: 
+          type: number
+        status:
+          type: boolean
+        stock: 
+          type: number
+        category:
+          type: string
+        thumbnail:
+          type: string 
+      example:
+        owner: "admin"
+        _id: "6461b1838c7c16ce6925cf94"
+        title: "Notebook Asus"
+        id: "2"
+        description: "Notebook Asus Ryzen 5"
+        code: 5080
+        price: 1650
+        status: true
+        stock: 56
+        category: "notebook"
+        thumbnail: "notebook-asus.jpg"
+
+    NewCart:
+      type: object
+      properties:
+        _id: 
+          type: object
+          description: Mongoose ObjectID
+        products:
+          type: array
+          description: Array donde se guardaran los productos agregados al carrito
+      example:
+        _id: "5245584asdd45w1ace2s533"
+        products: []

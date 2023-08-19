@@ -6,7 +6,7 @@ import { Router } from "express";
 
 const cart= new Carts
 
-export const getCarts= async (req,res)=>{
+export const getCarts= async (req,res,next)=>{
     try{
         res.status(200).send(await cart.getCarts())
     }catch(err){
@@ -15,7 +15,7 @@ export const getCarts= async (req,res)=>{
     }
 }
 
-export const newCart= async (req,res)=>{
+export const newCart= async (req,res,next)=>{
     try{
         res.status(200).send(await cart.newCart())
     }catch(err){
@@ -24,9 +24,10 @@ export const newCart= async (req,res)=>{
     }
 }
 
-export const cartProducts= async (req,res)=>{
+export const cartProducts= async (req,res,next)=>{
     try{
         res.status(200).send(await cart.cartProducts(req.params.id))
+        
     }catch(err){
         req.logger.error(err)
         next(err)
@@ -34,7 +35,7 @@ export const cartProducts= async (req,res)=>{
 }
 
 
-export const productsInCart= async (req,res)=>{
+export const productsInCart= async (req,res,next)=>{
     try{
         res.status(200).send(await cart.productsInCart(req.params.cid,req.params.pid))
     }catch(err){
@@ -46,16 +47,16 @@ export const productsInCart= async (req,res)=>{
 //funciones solo en db 
 
 
-export const deleteProductInCart= async (req,res)=>{
+export const deleteProductInCart= async (req,res,next)=>{
     try{
-        res.status(200).send(await cart.deleteProductInCart())
+        res.status(200).send(await cart.deleteProductInCart(req.params.cid,req.params.pid))
     }catch(err){
         req.logger.error(err)
         next(err)
     }
 }
 
-export const updateQuantity= async (req,res)=>{
+export const updateQuantity= async (req,res,next)=>{
     try{
         const { cid, pid } = req.params;
         const { quantity } = req.body;
@@ -66,7 +67,7 @@ export const updateQuantity= async (req,res)=>{
     }
 }
 
-export const deleteProducts= async(req,res)=>{
+export const deleteProducts= async(req,res,next)=>{
     try{
         const {cid} = req.params;
         res.status(200).send(await cart.deleteProducts(cid))
@@ -76,7 +77,7 @@ export const deleteProducts= async(req,res)=>{
     }
 }
 
-export const cartViews= async(req,res)=>{
+export const cartViews= async(req,res,next)=>{
     try{
     const cid = req.params.cid
     const response=  await cart.cartsViews(cid)
