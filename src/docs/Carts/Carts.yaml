@@ -2,7 +2,7 @@ paths:
 
   /api/carts:
     get:
-      summary: Retorna todos los carritos disponibles en la DB
+      summary: Returns all the carts avaiable in the DB
       tags:
         - Carts
       responses:
@@ -27,7 +27,7 @@ paths:
                   message: "Error"
       
     post:
-      summary: Crea un carrito vacio nuevo
+      summary: Creates a new cart
       tags: 
         - Carts
       responses:
@@ -53,7 +53,7 @@ paths:
 
   /api/carts/{id}:
     get:
-      summary: Retorna el carrito que coincida con el parametro id
+      summary: Returns the cart that matches the id parameter
       tags: 
         - Carts
       parameters:
@@ -83,7 +83,7 @@ paths:
 
   /api/carts/{cid}/products/{pid}:
     post:
-      summary: En el carrito que coincida con el parametro cid, agrega el producto que coincida con el parametro pid, si el producto ya esta agregado le suma 1 a su cantidad
+      summary: In the cart that matches the cid parameter, add the product that matches the pid parameter, if the product is already added, add 1 to its quantity
       tags:
         - Carts
       parameters:
@@ -115,7 +115,7 @@ paths:
                   message: "Error"
     
     delete:
-      summary: Elimina el producto que coincida con el parametro pid, dentro del carrito que coincida con el parametro pid
+      summary: Delete the product that matches the pid parameter, inside the cart that matches the pid parameter
       tags:
         - Carts
       parameters:
@@ -148,7 +148,7 @@ paths:
 
   /api/carts/{cid}:
     delete:
-      summary: Elimina el carrito que coincida con el parametro cid
+      summary: Delete the cart that matches the cid parameter
       tags: 
         - Carts
       parameters:
@@ -178,7 +178,7 @@ paths:
 
   /api/cartsviews/{cid}:
     get:
-      summary: Renderiza una plantilla con el carrito que coincida con el parametro cid
+      summary: Render a template with the cart that matches the cid parameter
       tags: 
         - Carts
       parameters:
@@ -219,7 +219,7 @@ components:
           description: Mongoose ObjectID
         products:
           type: array
-          description: Array de productos dentro del carrito
+          description: Array of products inside the cart
           items: 
             $ref: "#/components/schemas/CartProduct"
       example: 
@@ -248,7 +248,7 @@ components:
           description: Mongoose ObjectID
         quantity:
           type: number
-          description: Cantidad del producto dentro del carrito
+          description: Quantity of the product in the cart
         product: 
           $ref: "#/components/schemas/Product"
       example: 
@@ -314,7 +314,7 @@ components:
           description: Mongoose ObjectID
         products:
           type: array
-          description: Array donde se guardaran los productos agregados al carrito
+          description: Array where the products added to the cart will be stored
       example:
         _id: "5245584asdd45w1ace2s533"
         products: []

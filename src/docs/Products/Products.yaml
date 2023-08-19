@@ -2,7 +2,7 @@ paths:
 
   /api/products:  
     get:
-      summary: Retorna todos los productos disponibles en la DB
+      summary: Returns all the products available in the DB
       tags:
         - Products
       responses:
@@ -27,7 +27,7 @@ paths:
                   message: "Error"
 
     post:
-      summary: Crea un nuevo producto
+      summary: Create a new product
       tags:
         - Products
       requestBody:
@@ -60,7 +60,7 @@ paths:
 
   /api/products/{id}:
     get:
-      summary: Retorna el producto que coincida con el parametro id
+      summary: Returns the product that matches the id parameter
       tags:
         - Products
       parameters:
@@ -89,7 +89,7 @@ paths:
                   message: "Error"
 
     put:
-      summary: Actualiza producto que coincida con el parametro id, segun el body
+      summary: Update product that matches the id parameter, according to the body
       tags:
         - Products
       parameters:
@@ -124,7 +124,7 @@ paths:
                   message: "Error"             
 
     delete:
-      summary: Elimina el producto que coincida con el parametro id
+      summary: Delete the product that matches the id parameter
       tags: 
         - Products
       parameters:
@@ -154,7 +154,7 @@ paths:
 
   /api/productsviews:
     get:
-      summary: Renderiza una plantilla con la lista de productos disponibles
+      summary: Renders a template with the list of available products
       tags: 
         - Products
       responses:
@@ -180,7 +180,7 @@ paths:
 
   /api/mockingproducts:
     get:
-      summary: Genera un array de 20 productos inexistentes en la base de datos
+      summary: Generates an array of 20 non existent products in the database
       tags:
         - Products
       responses:
