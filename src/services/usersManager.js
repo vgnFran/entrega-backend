@@ -48,7 +48,7 @@ class Users {
         const newUser= await this.validate(login_email, login_password)
         const { userName, password, name, rol, email, cart } = newUser
         const dataUser= {userName:email, password:password, name:name, rol:rol, cart:cart}
-        req.logger.info(dataUser)
+        // req.logger.info(dataUser)
         if(newUser === null){
             req.sessionStore.userValidated= false
             req.sessionStore.errorMessage = req.sessionStore.errorMessage = 'Ingrese Usuario y Clave';

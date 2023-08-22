@@ -55,27 +55,29 @@ export const productsViews = async (req,res)=>{
     }
 }
 
-export const createProduct = async (req,res)=>{
+export const createProduct = async (req,res,next)=>{
         try{
-            res.status(200).send(await product.createProduct(req.body,req.sessionStore.user))
+            const newProduct= await product.createProduct(req.body,req.sessionStore.user)
+            res.status(200).send(newProduct)
        }catch(err){
+        console.log(err)
             req.logger.error(err)
             next(err)
        }
 }
 
-export const updateProduct= async (req,res)=>{
-        const {id}= req.params.id
-        const {body}= req.body
-        try{
-            res.status(200).send(await product.updateProduct(id,body,req,res))
+export const updateProduct= async (req,res,next)=>{
+        try{  
+            const id= req.params.id
+            const body= req.body   
+            res.status(200).send(await product.updateProduct(id,body,req))          
         }catch(err){
             req.logger.error(err)
             next(err)
         }
 }
 
-export const deleteProduct= async (req,res)=>{
+export const deleteProduct= async (req,res, next)=>{
     try{
         const deleted= await product.deleteProduct(req.params.id, req.sessionStore.user)
         res.status(200).send(deleted)

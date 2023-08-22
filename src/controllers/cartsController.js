@@ -58,9 +58,8 @@ export const deleteProductInCart= async (req,res,next)=>{
 
 export const updateQuantity= async (req,res,next)=>{
     try{
-        const { cid, pid } = req.params;
         const { quantity } = req.body;
-        res.status(200).send(await cart.updateQuantity(cid, pid, quantity))
+        res.status(200).send(await cart.updateQuantity(req.params.cid, req.params.pid, quantity))
     }catch(err){
         req.logger.error(err)
         next(err)
@@ -69,8 +68,7 @@ export const updateQuantity= async (req,res,next)=>{
 
 export const deleteProducts= async(req,res,next)=>{
     try{
-        const {cid} = req.params;
-        res.status(200).send(await cart.deleteProducts(cid))
+        res.status(200).send(await cart.deleteProducts(req.params.cid))
     }catch(err){
         req.logger.error(err)
         next(err)
@@ -79,8 +77,7 @@ export const deleteProducts= async(req,res,next)=>{
 
 export const cartViews= async(req,res,next)=>{
     try{
-    const cid = req.params.cid
-    const response=  await cart.cartsViews(cid)
+    const response=  await cart.cartsViews(req.params.cid)
     
     res.render("carts",{data:response})
    

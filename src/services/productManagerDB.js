@@ -37,50 +37,46 @@ export default class Product{
     }
 
     createProduct= async(data,user)=>{
-        const findID= await productModel.findOne()
-        const newID= findID._id+1
-        if(user.owner == "premium"){
+        console.log(user)
+        if(user.rol == "premium"){
             const newProduct={
-                id:newID,
                 title:data.title,
                 description:data.description,
                 code:data.code,
                 price:data.price,
                 status:true,
                 stock:data.stock,
-                category:data.category,
-                thumbnail:data.thumbnail,
-                owner: user.email
+                category:data.category
             }
+
+            const values = Object.values(newProduct)
+            const completeImputs= values.map(val=>{
+                return val== null
+            })
+            
+            const productsList= await productModel.find()
+            const repited= productsList.find(prod=>{
+                return prod.code == data.code
+            })
+    
+            if(completeImputs.includes(true)){
+                throw new errorManager(dictionary.incompleteField)
+            }else if(repited){
+                throw new errorManager(dictionary.alreadyExists)               
+            }else{
+                return await productModel.create(newProduct)
+            }
+
         }else{
+
             throw new errorManager(dictionary.unauthorized)
         }
-        
 
-        const values = Object.values(newProduct)
-        const completeImputs= values.map(val=>{
-            return val== null
-        })
-        
-        const productsList= await productModel.find()
-        const repited= productsList.find(prod=>{
-            return prod.code == data.code
-        })
-
-        if(completeImputs.includes(true)){
-            throw new errorManager(dictionary.incompleteField)
-        }else if(repited){
-            throw new errorManager(dictionary.alreadyExists)
-        }else{
-            await productModel.create(newProduct)
-
-        }
 
     }
 
-    updateProduct= async (id,data,req,res) =>{
+    updateProduct= async (id,data,req) =>{
         try{
-            req.logger.info(id)
             return await productModel.updateOne({"_id":new mongoose.Types.ObjectId(id)},data)     
         }catch(err){
             req.logger.error(err)

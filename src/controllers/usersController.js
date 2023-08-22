@@ -27,7 +27,6 @@ export const checkUser= async (req,res)=>{
 export const login= async (req,res)=>{
     try{
         const {login_email, login_password} = req.body
-        console.log(req.body)
         const userLogg= await User.login(login_email, login_password,req,res)
         res.redirect(`http://localhost:8080`)
     }catch(err){

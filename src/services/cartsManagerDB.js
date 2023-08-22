@@ -3,6 +3,7 @@ import cartModel from "../models/dao/models/cart.model.js";
 import productModel from "../models/dao/models/products.model.js";
 import errorManager from "./errorManager.js";
 import { dictionary } from "../utils/dictionary.js";
+import Product from "./productManagerDB.js";
 
 export default class Carts{
 
@@ -45,26 +46,19 @@ export default class Carts{
 
     productsInCart= async (cid,pid)=>{
         try{
-            const found= await cartModel.findOneAndUpdate(
-                {_id:cid, "products._id":pid },
-                {$inc: {"products.$.quantity": 1}},
-                {new: true}           
-            )
-            if(found){
-                return found
-            }else{
-                
-                const product= pid
-                product.toString()
-                const newProduct= {quantity:1, product:product}
-                const updateCart= await cartModel.findOneAndUpdate(
-                    {_id:cid},
-                    {$push: {products: newProduct} },
-                    {new: true}
-                )
-                return updateCart
-            }
+            const found= await cartModel.findById(cid)
+            const coincidence= found.products.find(prod =>{
+                return prod.product == pid
+            })
 
+            if(coincidence){
+                const increment= await cartModel.findOneAndUpdate({_id:cid, "products.product":pid }, {$inc: {"products.$.quantity": 1}}, {new:true})
+                return increment
+            }else{
+                const newProduct= {quantity:1, product:pid.toString()}
+                const create= await cartModel.findOneAndUpdate({_id:cid}, {$push: {products: newProduct} }, {new: true})
+                return create
+            }
         }catch(err){
             req.logger.error(err)
             throw new errorManager(dictionary.notFound)
@@ -75,9 +69,10 @@ export default class Carts{
         try{
             const deleteProduct= await cartModel.findOneAndUpdate(
                 {_id:cid},
-                {$pull: {products: {_id:pid}}},
+                {$pull: {products: {product:pid}}},
                 {new: true}
             )
+            console.log("hola")
             return deleteProduct
         }catch(err){
             throw new errorManager(dictionary.nonExistent)
@@ -88,7 +83,7 @@ export default class Carts{
     updateQuantity= async (cid, pid, quantity)=>{
         try{
             const updateQuantity= await cartModel.findOneAndUpdate(
-                {_id:cid, "products._id":pid },
+                {_id:cid, "products.product":pid },
                 {$set: {"products.$.quantity": quantity}},
                 {new:true}
             )

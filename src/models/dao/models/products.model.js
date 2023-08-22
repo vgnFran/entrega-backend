@@ -6,7 +6,6 @@ mongoose.pluralize(null)
 
 const schema = new Schema({
     title: { type: String, required: [true, "title is required"] },
-    id: { type: String },
     description: { type: String, required: [true, "description is required"] },
     code: { type: Number, required: [true, "code is required"] },
     price: { type: Number, required: [true, "price is required"] },

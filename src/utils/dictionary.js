@@ -7,6 +7,8 @@ export const dictionary={
     alreadyExists: {code:400, message:"Contenido ya existente"},
     nonExistent: {code:400, message:"Contenido inexistente"},
     wrongUser: {code:400, message:"Usuario incorrecto"},
-    repeatPass: {code:400, message:"No se puede utilizar la contraseña restaurada"}
+    repeatPass: {code:400, message:"No se puede utilizar la contraseña restaurada"},
+    connectionError: {code:400, message:"Error para conectar a la DB"},
+    disconnectError: {code:400, message:"Error para desconectar a la DB"}
 }
 
