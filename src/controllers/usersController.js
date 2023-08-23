@@ -9,9 +9,8 @@ const User= new Users() //clase
 
 export const checkUser= async (req,res)=>{
     try{
-       
         if( await User.checkUser(req,res) != null){
-            const data= await User.checkUser(req,res)
+            const data= await User.checkUser(req,res)           
             res.render("products",{products:data.products, user: data.user})
         }else{
             res.render("login",{sessionInfo: req.sessionStore})
@@ -25,22 +24,24 @@ export const checkUser= async (req,res)=>{
     
 
 export const login= async (req,res)=>{
-    try{
+    try{       
         const {login_email, login_password} = req.body
         const userLogg= await User.login(login_email, login_password,req,res)
         res.redirect(`http://localhost:8080`)
     }catch(err){
+
         req.logger.error(err)
         next(err)
     }
     
 }
 
-export const logout= async (req,res)=>{
+export const logout= async (req,res,next)=>{
     try{
-        User.logout(req,res)
+        await User.logout(req,res)
         res.redirect(`http://localhost:8080`)
     }catch(err){
+        console.log("error")
         req.logger.error(err)
         next(err)
     }
@@ -55,7 +56,7 @@ export const registerRender= async (req,res)=>{
     }
 }
 
-export const register= async (req,res)=>{
+export const register= async (req,res,next)=>{
     try{
         const {name,surName, password, email, age} = req.body
         const newUser= await User.register(name,surName,password,email,age,req,res)
@@ -143,6 +144,7 @@ export const changeRol= async (req,res,next)=>{
         const modifiedRole= await  User.changeRol(req,res)
         res.send(modifiedRole)
     }catch(err){
+        console.log(err)
         req.logger.error(err)
         next(err)
     }

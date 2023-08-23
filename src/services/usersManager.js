@@ -26,13 +26,13 @@ class Users {
         const newUser= {name:name, email: email,surName: surName, password: hashing(password), rol:"usuario", age:age}
         req.logger.info(newUser)
         if (name != undefined && email != undefined && password != undefined){
-            await user.create(newUser)
+            const registered = await user.create(newUser)
             req.sessionStore.userValidated=true
             delete newUser.password
             req.sessionStore.user= newUser
             const token= newToken(newUser,"24h")
             req.logger.info(token)
-            return newUser
+            return registered
         }else{
             throw new errorManager(dictionary.notFound)
         }
@@ -61,6 +61,7 @@ class Users {
                 req.sessionStore.user= dataUser 
                 req.session.user=dataUser
                 const token= newToken(dataUser,"24h")
+                console.log(token)
                 res.cookie("cookie",token,{
                     httpOnly:true,
                     secure:false

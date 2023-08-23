@@ -51,7 +51,7 @@ describe("Test general router API ecommerce", ()=>{
             const id="6461b1838c7c16ce6925cf94"
             const original= await requester.get(`/api/products/${id}`)
 
-            const {statusCode} =await requester.put(`/api/products/${id}`).send({price:1180})
+            const {statusCode} =await requester.put(`/api/products/${id}`).send({price:1150})
             expect(statusCode).to.be.eql(200)
 
             const modified= await requester.get(`/api/products/${id}`)
@@ -59,7 +59,7 @@ describe("Test general router API ecommerce", ()=>{
         })
 
         it("El DELETE /api/products/:id debe eliminar el producto que coincida con el :id", async ()=>{
-            const id="64e3f8a4d302231e9ed8e347"
+            const id="64e56e2b4bbb99d530d052e5"
             const {statusCode, body}= await requester.delete(`/api/products/${id}`)
             expect(statusCode).to.be.eql(200)
             expect(body.deletedCount).to.be.eql(1)
@@ -85,7 +85,6 @@ describe("Test general router API ecommerce", ()=>{
 
         it("el POST /api/carts debe crear un carrito nuevo", async()=>{
             const {body, statusCode} = await requester.post("/api/carts")
-            console.log(body)
             expect(statusCode).to.be.eql(200)
             expect(body.products).to.be.a("array")
         })
@@ -140,11 +139,33 @@ describe("Test general router API ecommerce", ()=>{
             expect(statusCode).to.be.eql(200)
             expect(body.products).to.have.lengthOf(0)
         })
+    })
 
 
+    describe("Test area Users", async ()=>{
+        it("El POST /login debe iniciar sesion correctamente", async ()=>{
+            const user= {login_email:"vgnfran.dev@gmail.com", login_password:"abc123"}
+            const {headers} = await requester.post("/login").send(user)
+            expect(headers["set-cookie"][0])
+        })
 
+        it("El POST /register debe registrar un usuario correctamente", async ()=>{
+            const user={name:"test", surName:"testing", password: "abc123",email:"test@testing.com", age:50 }
+            const {body, statusCode} = await requester.post("/register").send(user)
+            expect(body).to.be.an('object')
+            expect(body._id).to.not.be.undefined
+            expect(statusCode).to.be.eql(200)
+        })
+
+        it("El GET /logout debe cerrar sesion, por lo tanto debe devolver una cookie vacia",async ()=>{
+            const {headers, statusCode}= await requester.get("/logout")
+            const cookie= headers["set-cookie"][0].split(";")[0]
+            const value= cookie.slice(cookie.indexOf("=")+1)
+            expect(value).to.be.eql("")
+        })
 
     })
+
 
     after(async function(){
         try{

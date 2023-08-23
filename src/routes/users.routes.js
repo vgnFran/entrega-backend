@@ -24,9 +24,6 @@ const usersRoutes=()=>{
 
     router.post("/register", passport.authenticate("authRegister",{failureRedirect: "/regfail"}), register )
 
-    router.get("/test",isAdmin)
-
-
 
     //endpoints para validar usuario con jwt y headers
 
@@ -60,7 +57,6 @@ const usersRoutes=()=>{
     router.get("/purchase",newPurchase)
 
     router.get("/loggerTest", loggerTest)
-
 
 
     // endpoints para restablecer contraseñas
