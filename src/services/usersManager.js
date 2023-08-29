@@ -156,6 +156,8 @@ class Users {
             }else if(premium.length == 3){
                 const updated= await user.findOneAndUpdate({_id:req.params.uid}, {rol:"premium"}, {new:true})
                 return updated
+            }else{
+                throw new errorManager(dictionary.unauthorized)
             }
 
         }catch(err){

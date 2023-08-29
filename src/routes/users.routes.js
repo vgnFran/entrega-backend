@@ -91,14 +91,9 @@ const usersRoutes=()=>{
                 const info= req.body.documents
                 const updateDocument = { name: info, reference: file.path }
 
-                const updatedUser= await user.findOneAndUpdate({email:req.session.user.userName, "documents.name":info},  { $pull: { documents: { name: info } } }, {new:true})
-                if(updatedUser){
-                    await user.findOneAndUpdate({email:req.session.user.userName}, {$push: {documents: updateDocument}}, {new:true})
-                }else{
-                    await user.findOneAndUpdate({email:req.session.user.userName}, {$push: {documents: updateDocument}}, {new:true})
-                }
-
-                
+                const currentDocuments= await user.findOneAndUpdate({email:req.session.user.userName, "documents.name":info},  { $pull: { documents: { name: info } } }, {new:true})
+                const updatedUser = await user.findOneAndUpdate({email:req.session.user.userName}, {$push: {documents: updateDocument}}, {new:true}) 
+                if(updatedUser) res.redirect("http://localhost:8080")               
             }
         }catch(err){
             throw new errorManager(dictionary.uploadError)
