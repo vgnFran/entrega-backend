@@ -3,12 +3,12 @@ import { __dirname } from "../utils/utils.js";
 import passport from "../auth/passport.config.js"
 import initializePassport from "../auth/passportGithub.config.js";
 import { newToken, authToken} from "../auth/jwt.config.js";
-import { checkUser, login, logout, passportValidateCookies, passportValidateToken, regFail, register, registerRender, validateToken, isAdmin, loggerTest, changeRol, restore, rest, recovery, newPass, changeRolUid, updateProfile  } from "../controllers/usersController.js";
+import { checkUser, login, logout, passportValidateCookies, passportValidateToken, regFail, register, registerRender, validateToken, isAdmin, loggerTest, changeRol, restore, rest, recovery, newPass, changeRolUid, updateProfile, isUser  } from "../controllers/usersController.js";
 import { newPurchase } from "../controllers/ticketController.js";
-import multer from "multer";
-import path from "path"
-
-
+import upload from "../utils/uploader.js";
+import errorManager from "../services/errorManager.js";
+import { dictionary } from "../utils/dictionary.js";
+import user from "../models/dao/models/users.model.js";
 
 
 initializePassport()
@@ -58,20 +58,20 @@ const usersRoutes=()=>{
 
     
     // ingresar al endpoint /purchase (con un usuario ya logeado) y se realizara la compra 
-    router.get("/purchase",newPurchase)
+    router.get("/purchase",isUser ,newPurchase)
 
     router.get("/loggerTest", loggerTest)
 
 
     // endpoints para restablecer contraseñas
 
-    router.get("/restore", restore)
+    router.get("/restore",isUser, restore)
 
-    router.get("/rest", rest)
+    router.get("/rest",isUser, rest)
 
-    router.get("/recovery", recovery)
+    router.get("/recovery",isUser, recovery)
 
-    router.get("/newpass", newPass)
+    router.get("/newpass",isUser, newPass)
 
 
 
@@ -82,37 +82,35 @@ const usersRoutes=()=>{
     router.get("/users/premium/:uid", changeRolUid) // cambia el rol del usuario que se proporcione por :uid
 
 
-    const storage = multer.diskStorage({
-        destination: function (req,file,cb){
-            const destination = path.join('src/uploads', req.body.documents); 
-            cb(null, destination);
-        },
-        filename: function (req, file, cb) {
-            const extension = path.extname(file.originalname); 
-            const name= req.body.documents+"-"+req.session.user.userName + extension
-            cb(null, name); 
+    router.get("/updateProfile",isUser, updateProfile)    // render de plantilla para subir documentos o imagenes 
+
+    router.post("/documents",isUser, upload.single("file"), async(req,res)=>{
+        try{
+            const file= req.file
+            if(file){
+                const info= req.body.documents
+                const updateDocument = { name: info, reference: file.path }
+
+                const updatedUser= await user.findOneAndUpdate({email:req.session.user.userName, "documents.name":info},  { $pull: { documents: { name: info } } }, {new:true})
+                if(updatedUser){
+                    await user.findOneAndUpdate({email:req.session.user.userName}, {$push: {documents: updateDocument}}, {new:true})
+                }else{
+                    await user.findOneAndUpdate({email:req.session.user.userName}, {$push: {documents: updateDocument}}, {new:true})
+                }
+
+                
+            }
+        }catch(err){
+            throw new errorManager(dictionary.uploadError)
         }
-    });
-    const upload = multer({ storage: storage });
 
-    router.get("/updateProfile", updateProfile)
-
-    router.post("/documents",upload.single("file"), async(req,res)=>{
-        const file= req.file
-        console.log(file)
     })
-
-    router.post("/images",upload.single("file"), async(req,res)=>{
-        const file= req.file
-        console.log(file)
-    })
-
-
 
 
     return router
 
 }
+
 
 export default usersRoutes
 

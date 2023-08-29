@@ -9,6 +9,7 @@ export const dictionary={
     wrongUser: {code:400, message:"Usuario incorrecto"},
     repeatPass: {code:400, message:"No se puede utilizar la contraseña restaurada"},
     connectionError: {code:400, message:"Error para conectar a la DB"},
-    disconnectError: {code:400, message:"Error para desconectar a la DB"}
+    disconnectError: {code:400, message:"Error para desconectar a la DB"},
+    uploadError: {code:400, message:"Error de carga de archivo"}
 }
 

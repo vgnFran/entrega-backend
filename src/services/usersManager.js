@@ -145,14 +145,18 @@ class Users {
     changeRolUid= async(req,res)=>{
         try{
             const findUser= await user.findOne({_id:req.params.uid})
+
+            const premium= findUser.documents.filter(document=>{
+                return document.name == "comprobanteDomicilio" || document.name == "identificacion" || document.name == "comprobanteEstadoCuenta"
+            })
+
             if(findUser.rol == "premium"){
                 const updated= await user.findOneAndUpdate({_id:req.params.uid}, {rol:"usuario"}, {new:true})
                 return updated
-            }else{
+            }else if(premium.length == 3){
                 const updated= await user.findOneAndUpdate({_id:req.params.uid}, {rol:"premium"}, {new:true})
                 return updated
             }
-
 
         }catch(err){
             throw new errorManager(dictionary.nonExistent)
