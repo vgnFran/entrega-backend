@@ -23,7 +23,7 @@ export const checkUser= async (req,res)=>{
 }
     
 
-export const login= async (req,res)=>{
+export const login= async (req,res,next)=>{
     try{       
         const {login_email, login_password} = req.body
         const userLogg= await User.login(login_email, login_password,req,res)
@@ -226,3 +226,12 @@ export const newPass= async (req,res,next)=>{
     }
 }
 
+export const updateProfile= async (req,res,next)=>{
+    try{
+        const found=req.sessionStore.user.userName
+        const current= await user.findOne({email:found})
+        res.render("updateProfile",{user:current.email})
+    }catch(err){
+        next(err)
+    }
+}

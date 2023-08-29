@@ -1,0 +1,33 @@
+<div class="container-fluid">
+        <div class="row">
+            <header class="bg-success text-white p-3" style="height: 15vh;">
+                <h1 class="text-center "><b>Actualizar perfil</b></h1>
+                <h4 class="text-center">{{user}}</h4>
+            </header>
+        </div>
+
+    <div class="row justify-content-md-center">
+        <div class="col-md-4 col-xs-12 mt-4">
+
+            <form class="p-4" action="http://localhost:8080/test" method="POST" enctype="multipart/form-data">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Tipo de documentacion</label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" required="required" name="documents">
+                        <option value="identificacion">Identificación</option>
+                        <option value="comprobanteDomicilio">Comprobante de Domicilio</option>
+                        <option value="comprobanteEstadoCuenta">Comprobante de Estado de Cuenta</option>
+                    </select>
+
+                    <input type='file' name="file"/>
+
+
+                </div>
+
+
+
+                <button type="submit" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Enviar</button>
+            </form>
+    </div>
+</div>

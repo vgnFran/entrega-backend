@@ -11,6 +11,8 @@ const schema= new Schema({
     age: Number,
     rol: String,
     cart: {type: Schema.Types.ObjectId, ref:"carts"},
+    documents: {type:Array},
+    lastConnection:{tpye: Date}
 })
 const user= mongoose.model("users",schema)
 

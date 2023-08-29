@@ -11,6 +11,8 @@ class Users {
 
     constructor(){
         this.users=[]
+        this.date= new Date()
+        this.currentUser= ""
     }
 
     validate= async (userMail,pass)=>{
@@ -41,6 +43,7 @@ class Users {
         req.sessionStore.userValidated=false
         req.session.destroy()
         res.clearCookie("cookie")
+        await user.findOneAndUpdate({email:req.sessionStore.user.userName}, {lastConnection: this.date.toLocaleString()}, {new:true})
     }
 
     login= async (login_email, login_password,req,res)=>{
@@ -61,7 +64,7 @@ class Users {
                 req.sessionStore.user= dataUser 
                 req.session.user=dataUser
                 const token= newToken(dataUser,"24h")
-                console.log(token)
+                await user.findOneAndUpdate({email:dataUser.userName}, {lastConnection: this.date.toLocaleString()}, {new:true})
                 res.cookie("cookie",token,{
                     httpOnly:true,
                     secure:false
@@ -211,7 +214,9 @@ class Users {
     } 
     
 
-
+    documents= async()=>{
+       
+    }
 
 }
 
