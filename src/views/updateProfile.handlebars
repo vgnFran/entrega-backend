@@ -8,8 +8,8 @@
 
     <div class="row justify-content-md-center">
         <div class="col-md-4 col-xs-12 mt-4">
-
-            <form class="p-4" action="http://localhost:8080/test" method="POST" enctype="multipart/form-data">
+            <p class="h4 ml-3">Subir Documentos</p>
+            <form class="p-4" action="http://localhost:8080/documents" method="POST" enctype="multipart/form-data">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">Tipo de documentacion</label>
@@ -20,14 +20,31 @@
                         <option value="comprobanteEstadoCuenta">Comprobante de Estado de Cuenta</option>
                     </select>
 
-                    <input type='file' name="file"/>
-
+                    <input type='file' name="file" class="mt-3  input-group-text " required />
 
                 </div>
-
-
-
-                <button type="submit" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Enviar</button>
+                <button type="submit" class="btn btn-success ml-3"><i class="fas fa-sign-in-alt"></i> Enviar</button>
             </form>
     </div>
+
+    <div class="col-md-4 col-xs-12 mt-4">
+            <p class="h4 ml-3">Subir Imagenes</p>
+            <form class="p-4" action="http://localhost:8080/images" method="POST" enctype="multipart/form-data">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Tipo de Imagen</label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" required="required" name="documents">
+                        <option value="profiles">Imagen de Perfil</option>
+                        <option value="products">Imagen de Producto</option>
+                    </select>
+
+                    <input type='file' name="file" class="mt-3  input-group-text " required />
+
+                </div>
+                <button type="submit" class="btn btn-success ml-3"><i class="fas fa-sign-in-alt"></i> Enviar</button>
+            </form>
+    </div>
+
+
 </div>

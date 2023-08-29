@@ -82,11 +82,6 @@ const usersRoutes=()=>{
     router.get("/users/premium/:uid", changeRolUid) // cambia el rol del usuario que se proporcione por :uid
 
 
-    // const destination = (req, file, cb) => {
-    //     const destination = path.join('src/uploads', req.body.documents); // Utiliza el valor de req.body.documents como parte de la ruta de destino
-    //     cb(null, destination);
-    // };
-
     const storage = multer.diskStorage({
         destination: function (req,file,cb){
             const destination = path.join('src/uploads', req.body.documents); 
@@ -102,7 +97,12 @@ const usersRoutes=()=>{
 
     router.get("/updateProfile", updateProfile)
 
-    router.post("/test",upload.single("file"), async(req,res)=>{
+    router.post("/documents",upload.single("file"), async(req,res)=>{
+        const file= req.file
+        console.log(file)
+    })
+
+    router.post("/images",upload.single("file"), async(req,res)=>{
         const file= req.file
         console.log(file)
     })
