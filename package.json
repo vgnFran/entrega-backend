@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "node app.js",
     "test": "mocha src/test/routes.test.js"
   },
   "repository": {
