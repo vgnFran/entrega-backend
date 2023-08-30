@@ -40,7 +40,7 @@ const app= express();
 const httpServer= app.listen(wsPort,()=>{console.log("Server socket.io on")})
 const io= new Server(httpServer, {
     cors: {
-        origin: config.SERVER_PORT,
+        origin: "*", 
         methods: ["PUT", "GET", "POST", "DELETE", "OPTIONS"],
         credentials:false
     }
