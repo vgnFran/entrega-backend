@@ -133,4 +133,4 @@ try{
 
 
 
-console.log("desde notebook")
+console.log("desde pc")
