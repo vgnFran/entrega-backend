@@ -131,6 +131,3 @@ try{
 
 }
 
-
-
-console.log("desde pc")
