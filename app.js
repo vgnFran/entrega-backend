@@ -123,7 +123,7 @@ io.on("connection",(socket)=>{
 
 try{
     await MongoSingleton.getInstance()
-    app.listen(config.SERVER_PORT,()=>{
+    app.listen(config.SERVER_PORT || 3030,()=>{
         console.log(`Server HTTP started on port ${config.SERVER_PORT}`)
     }) 
 }catch(err){
