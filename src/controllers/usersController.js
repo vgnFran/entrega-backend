@@ -119,6 +119,7 @@ export const isAdmin= async (req,res, next)=>{
 export const isUser= async (req,res, next)=>{
     try{
         if(await User.isUser(req) == "usuario"){
+            console.log("es usuario")
             next()
         }
     }catch(err){    
@@ -231,6 +232,25 @@ export const updateProfile= async (req,res,next)=>{
         const found=req.sessionStore.user.userName
         const current= await user.findOne({email:found})
         res.render("updateProfile",{user:current.email})
+    }catch(err){
+        next(err)
+    }
+}
+
+export const getUsers= async (req,res,next)=>{
+    try{
+        const allUsers = await User.getUsers()
+        res.send(allUsers)
+    }catch(err){
+        next(err)
+    }
+}
+
+
+export const deleteInactiveUsers= async (req,res,next)=>{
+    try{
+        const deleteUsers = await User.deleteUsers()
+        res.send(deleteUsers)
     }catch(err){
         next(err)
     }

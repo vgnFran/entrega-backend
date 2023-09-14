@@ -8,7 +8,6 @@ import chatRouter from "./src/chat/chat.js";
 import { __dirname } from "./src/utils/utils.js";
 import { engine } from "express-handlebars";
 import { Server } from "socket.io";
-import mongoose from "mongoose";
 import session from "express-session";
 // import  FileStore  from "session-file-store";
 import MongoStore from "connect-mongo";

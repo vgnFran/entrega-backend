@@ -3,7 +3,7 @@ import { __dirname } from "../utils/utils.js";
 import passport from "../auth/passport.config.js"
 import initializePassport from "../auth/passportGithub.config.js";
 import { newToken, authToken} from "../auth/jwt.config.js";
-import { checkUser, login, logout, passportValidateCookies, passportValidateToken, regFail, register, registerRender, validateToken, isAdmin, loggerTest, changeRol, restore, rest, recovery, newPass, changeRolUid, updateProfile, isUser  } from "../controllers/usersController.js";
+import { checkUser, login, logout, passportValidateCookies, passportValidateToken, regFail, register, registerRender, validateToken, isAdmin, loggerTest, changeRol, restore, rest, recovery, newPass, changeRolUid, updateProfile, isUser, getUsers, deleteInactiveUsers  } from "../controllers/usersController.js";
 import { newPurchase } from "../controllers/ticketController.js";
 import upload from "../utils/uploader.js";
 import errorManager from "../services/errorManager.js";
@@ -93,6 +93,7 @@ const usersRoutes=()=>{
 
                 const currentDocuments= await user.findOneAndUpdate({email:req.session.user.userName, "documents.name":info},  { $pull: { documents: { name: info } } }, {new:true})
                 const updatedUser = await user.findOneAndUpdate({email:req.session.user.userName}, {$push: {documents: updateDocument}}, {new:true}) 
+                console.log(updatedUser)
                 if(updatedUser) res.redirect("http://localhost:8080")               
             }
         }catch(err){
@@ -100,6 +101,11 @@ const usersRoutes=()=>{
         }
 
     })
+
+
+    router.get("/api/users", getUsers)
+
+    // router.delete("/api/usersdelete", deleteInactiveUsers) queda comentado para no eliminar usuarios por error
 
 
     return router

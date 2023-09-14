@@ -11,7 +11,6 @@ class Users {
 
     constructor(){
         this.users=[]
-        this.date= new Date()
         this.currentUser= ""
     }
 
@@ -43,7 +42,8 @@ class Users {
         req.sessionStore.userValidated=false
         req.session.destroy()
         res.clearCookie("cookie")
-        await user.findOneAndUpdate({email:req.sessionStore.user.userName}, {lastConnection: this.date.toLocaleString()}, {new:true})
+        console.log()
+        // await user.findOneAndUpdate({email:req.sessionStore.user.userName}, {lastConnection: new Date()}, {new:true})
     }
 
     login= async (login_email, login_password,req,res)=>{
@@ -63,8 +63,8 @@ class Users {
                 delete dataUser.password
                 req.sessionStore.user= dataUser 
                 req.session.user=dataUser
-                const token= newToken(dataUser,"24h")
-                await user.findOneAndUpdate({email:dataUser.userName}, {lastConnection: this.date.toLocaleString()}, {new:true})
+                const token= newToken(dataUser,"24h")            
+                await user.findOneAndUpdate({email:dataUser.userName}, {lastConnection: new Date()}, {new:true})
                 res.cookie("cookie",token,{
                     httpOnly:true,
                     secure:false
@@ -108,6 +108,7 @@ class Users {
 
     isUser= async(req,res)=>{
         const user= req.session.user
+        console.log(user)
         if(user){            
             return user.rol
         }else{
@@ -220,9 +221,44 @@ class Users {
     } 
     
 
-    documents= async()=>{
-       
+    getUsers= async()=>{
+        try{
+            const allUsers= await user.find()
+            const newUsers = allUsers.map(user=>{
+                return {name:user.name, email:user.email, accountType: user.rol, lastConnection:user.lastConnection.toLocaleString()}
+            })
+            return newUsers
+        }catch(err){
+            throw new errorManager(dictionary.notFound)
+        }
     }
+
+    deleteUsers= async()=>{
+        try{
+
+            const horaActual = new Date()
+            const cutoffDate = new Date(horaActual)
+            cutoffDate.setDate(cutoffDate.getDate() - 2)
+            
+            const usuariosAEliminar = await user.find({
+                lastConnection: { $lt: cutoffDate }
+            })
+
+            if(usuariosAEliminar.length > 0){
+                await user.deleteMany({ _id: { $in: usuariosAEliminar.map(user => user._id) } })
+                console.log(`Se eliminaron ${usuariosAEliminar.length} usuarios`)
+            }else{
+                console.log("No hay usuarios para eliminar")
+            }
+
+            return usuariosAEliminar
+
+        }catch(err){
+            throw new errorManager(dictionary.notFound)
+        }
+    }
+
+
 
 }
 
