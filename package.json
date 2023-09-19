@@ -8,6 +8,9 @@
     "start": "node app.js",
     "test": "mocha src/test/routes.test.js"
   },
+  "engines": {
+    "node": "18.13.0" 
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vgnFran/entrega-backend.git"
