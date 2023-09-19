@@ -225,7 +225,7 @@ class Users {
         try{
             const allUsers= await user.find()
             const newUsers = allUsers.map(user=>{
-                return {name:user.name, email:user.email, accountType: user.rol, lastConnection:user.lastConnection.toLocaleString()}
+                return {name:user.name, email:user.email, accountType: user.rol}
             })
             return newUsers
         }catch(err){
